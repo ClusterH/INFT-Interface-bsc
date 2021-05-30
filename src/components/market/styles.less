@@ -1,47 +1,62 @@
+/* marketCard */
 .marketCard {
   display: flex;
   flex-direction: column;
   display: inline-block;
-  margin-right: 52px;
+  margin-right: 20px;
   margin-bottom: 68px;
-  padding: 0 10px;
+  padding-bottom: 12px;
+  box-shadow: 0px 0px 9px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+
+  .content {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .image {
+    width: 280px;
+    border-radius: 6px 6px 0px 0px;
+  }
+
+  .name {
+    font-size: 16px;
+    font-weight: 500;
+    color: #f57f18;
+    line-height: 22px;
+    margin: 13px 0;
+  }
+
+  .buyWrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .owner {
+    font-size: 12px;
+    font-weight: 400;
+    color: #9f9e9d;
+    letter-spacing: 1px;
+  }
+
+  .buyBtn {
+    width: 100px;
+    height: 26px;
+    background: #fed835;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+  }
 }
 
-.image {
-  width: 280px;
-}
-
-.name {
-  font-size: 16px;
-  font-weight: 500;
-  color: #f57f18;
-  line-height: 22px;
-  margin: 13px 0;
-}
-
-.buyWrap {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.owner {
-  font-size: 12px;
-  font-weight: 400;
-  color: #9f9e9d;
-  letter-spacing: 1px;
-}
-
-.buyBtn {
-  width: 100px;
-  height: 26px;
-  background: #fed835;
-  border-radius: 4px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #ffffff;
-  border: none;
-  cursor: pointer;
-  margin-left: auto;
+/* cardList */
+.cardList {
+  max-width: 960px;
+  margin: 0 auto;
 }
 
 // levelCheckbox
