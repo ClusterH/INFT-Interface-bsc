@@ -4,8 +4,14 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
-  routes: [
-    { path: '/', component: '@/pages/index' },
-  ],
+  alias: {
+    // inft: '@/components',
+  },
+  title: 'iNFT',
+  favicon: '/favicon.ico',
+  mode: 'site',
+  logo: '/favicon.ico',
+  description: '组件、工具等说明文档',
+  routes: [{ path: '/', component: '@/pages/index' }],
   fastRefresh: {},
 });
