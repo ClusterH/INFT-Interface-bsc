@@ -17,3 +17,17 @@ export default () => (
   />
 );
 ```
+
+## LevelCheckbox
+```jsx
+import React from 'react'; 
+import {LevelCheckbox} from '@/components/market' 
+
+export default () => (
+  <LevelCheckbox
+    onChange={(values) => {
+      console.log('onChange', values);
+    }}
+  />
+);
+```
