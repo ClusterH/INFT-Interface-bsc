@@ -12,6 +12,12 @@ export default defineConfig({
   mode: 'site',
   logo: '/favicon.ico',
   description: '组件、工具等说明文档',
-  routes: [{ path: '/', component: '@/pages/index' }],
+  routes: [
+    { path: '/', component: '@/pages/index' },
+    {
+      path: '/market',
+      component: '@/pages/market',
+    },
+  ],
   fastRefresh: {},
 });
