@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'umi';
-import Header from '@/components/header';
 import Banner from '@/components/banner';
 import Market from '@/components/market';
 import { queryItems } from '@/servers';
@@ -67,7 +66,6 @@ export default () => {
 
   return (
     <div>
-      <Header />
       <Banner />
       <Market.LevelCheckbox onChange={() => {}} />
 

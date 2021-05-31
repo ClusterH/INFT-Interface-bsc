@@ -16,19 +16,25 @@ export default defineConfig({
     // { path: '/', component: '@/pages/index' },
     {
       path: '/',
-      redirect: '/market',
-    },
-    {
-      path: '/market',
-      component: '@/pages/market',
-    },
-    {
-      path: '/market/:contract/:tokenId/:orderId',
-      component: '@/pages/market/[contract][token-id][order-id]',
-    },
-    {
-      path: '/account',
-      component: '@/pages/account',
+      component: '@/layouts/assets',
+      routes: [
+        {
+          path: '/',
+          redirect: '/market',
+        },
+        {
+          path: '/market',
+          component: '@/pages/market',
+        },
+        {
+          path: '/market/:contract/:tokenId/:orderId',
+          component: '@/pages/market/[contract][token-id][order-id]',
+        },
+        {
+          path: '/account',
+          component: '@/pages/account',
+        },
+      ],
     },
   ],
   fastRefresh: {},

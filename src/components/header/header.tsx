@@ -1,14 +1,27 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'umi';
 import { Menu } from 'antd';
+import { useWallet } from '@binance-chain/bsc-use-wallet';
 import logo from '@/assets/images/logo-inft.svg';
 import walletIcon from '@/assets/images/wallet.png';
 import { SearchInput } from '@/components/input';
 import styles from './styles.less';
 
 export default () => {
-  const [current, setCurrent] = useState('/market');
+  const wallet = useWallet();
   const handleClick = () => {};
+
+  const connectWallet = () => {
+    console.log(wallet);
+
+    if (wallet.status === 'disconnected') {
+      wallet.connect();
+    }
+  };
+
+  const formatAccount = (account: string): string => {
+    return `${account.substr(0, 5)}...${account.substr(-4)}`;
+  };
 
   return (
     <div className={styles.header}>
@@ -29,7 +42,17 @@ export default () => {
         </div>
 
         <div className={styles.wallet}>
-          <img src={walletIcon} alt="" className={styles.walletIcon} />
+          {wallet.status === 'connected' && (
+            <span className={styles.account}>
+              {formatAccount(wallet.account)}
+            </span>
+          )}
+          <img
+            src={walletIcon}
+            alt=""
+            className={styles.walletIcon}
+            onClick={connectWallet}
+          />
         </div>
       </div>
     </div>

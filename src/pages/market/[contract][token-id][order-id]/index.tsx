@@ -66,7 +66,6 @@ export default () => {
 
   return (
     <>
-      <Header />
       {!!detail && (
         <AssetInfo {...dataToDetailProps(detail)} onBuy={handleBuy} />
       )}
