@@ -1,1 +1,1 @@
-export { queryItems } from './treasureland';
+export { queryItems, queryDetail, queryOrder } from './treasureland';

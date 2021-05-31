@@ -7,23 +7,7 @@ import { queryItems } from '@/servers';
 import web3 from 'web3';
 import InfiniteScroll from 'react-infinite-scroller';
 import Spin from '@/components/spin';
-
-const transResource = (resource: string): string => {
-  return resource.startsWith('http')
-    ? resource
-    : `https://api.treasureland.market/v2/v1/resourceS3?uri=${resource}&size=500x0`;
-};
-
-const transListItem = (list: any[]): any[] => {
-  return list.map((item) => ({
-    tokenId: item.token_id,
-    image: transResource(item.resource),
-    name: item.name,
-    owner: item.marke,
-    price: web3.utils.fromWei(item.price),
-    showFooter: true,
-  }));
-};
+import { itemsToList } from '@/helpers/data-to-props';
 
 export default () => {
   const hitory = useHistory();
@@ -72,8 +56,13 @@ export default () => {
     }
   };
 
-  const handleClick = (tokenId: string) => {
-    hitory.push(`/market/${tokenId}`);
+  const handleClick = (params: {
+    contract: string;
+    tokenId: string;
+    orderId: string;
+  }): void => {
+    const { contract, tokenId, orderId } = params;
+    hitory.push(`/market/${contract}/${tokenId}/${orderId}`);
   };
 
   return (
@@ -93,7 +82,7 @@ export default () => {
           </div>
         }
       >
-        <Market.CardList data={transListItem(list)} onClick={handleClick} />
+        <Market.CardList data={itemsToList(list)} onClick={handleClick} />
       </InfiniteScroll>
     </div>
   );

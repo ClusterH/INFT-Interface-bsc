@@ -23,8 +23,8 @@ export default defineConfig({
       component: '@/pages/market',
     },
     {
-      path: '/market/:id',
-      component: '@/pages/market-detail',
+      path: '/market/:contract/:tokenId/:orderId',
+      component: '@/pages/market/[contract][token-id][order-id]',
     },
     {
       path: '/account',

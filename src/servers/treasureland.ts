@@ -13,8 +13,7 @@ axios.interceptors.response.use(
     if (code === 0) {
       return data;
     } else {
-      notification.error({ message });
-      return res;
+      return Promise.reject(res);
     }
   },
   function (error) {
@@ -24,20 +23,39 @@ axios.interceptors.response.use(
   },
 );
 
+const chainId = 56;
+const contract = '0x8a0c542ba7bbbab7cf3551ffcc546cdc5362d2a1';
+
 export interface IQueryItemsParams {
   pageNo: number;
   pageSize: number;
 }
 
+export interface IQueryDetailParams {
+  tokenId: string;
+}
+
 const queryItems = (params: IQueryItemsParams) =>
   axios.get('/nft/items', {
     params: {
-      chain_id: 56,
-      contract: '0x8a0c542ba7bbbab7cf3551ffcc546cdc5362d2a1',
+      chain_id: chainId,
+      contract: contract,
       sort_type: 1,
       page_no: params.pageNo,
       page_size: params.pageSize,
     },
   });
 
-export { queryItems };
+const queryDetail = (tokenId: string) =>
+  axios.get('/nft/detail', {
+    params: {
+      chain_id: chainId,
+      contract: contract,
+      token_id: tokenId,
+    },
+  });
+
+const queryOrder = (tokenId: string) =>
+  axios.get('/query/order', { params: { order_id: tokenId } });
+
+export { queryItems, queryDetail, queryOrder };

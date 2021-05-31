@@ -1,3 +1,3 @@
-import MarketDetail from './market-detail';
+// import MarketDetail from './market-detail';
 
-export default MarketDetail;
+// export default MarketDetail;

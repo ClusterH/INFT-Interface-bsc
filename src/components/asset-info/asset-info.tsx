@@ -26,7 +26,9 @@ export default (props: IAssetInfoProps) => {
 
   return (
     <div className={styles.assetInfo}>
-      <img src={img} alt="img" className={styles.img} />
+      <div className={styles.imgBox}>
+        <img src={img} alt="img" className={styles.img} />
+      </div>
       <div className={styles.content}>
         <div className={styles.name}>{name}</div>
 
