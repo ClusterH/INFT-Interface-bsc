@@ -22,7 +22,10 @@
   "dependencies": {
     "@ant-design/pro-layout": "^6.5.0",
     "@umijs/preset-react": "1.x",
-    "umi": "^3.4.23"
+    "axios": "^0.21.1",
+    "react-infinite-scroller": "^1.2.4",
+    "umi": "^3.4.23",
+    "web3": "^1.3.6"
   },
   "devDependencies": {
     "@types/react": "^17.0.0",

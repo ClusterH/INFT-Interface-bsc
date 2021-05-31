@@ -13,7 +13,11 @@ export default defineConfig({
   logo: '/favicon.ico',
   description: '组件、工具等说明文档',
   routes: [
-    { path: '/', component: '@/pages/index' },
+    // { path: '/', component: '@/pages/index' },
+    {
+      path: '/',
+      redirect: '/market',
+    },
     {
       path: '/market',
       component: '@/pages/market',

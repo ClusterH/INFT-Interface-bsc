@@ -14,7 +14,9 @@ export default (props: IMarketCardProps) => {
 
   return (
     <div className={styles.marketCard} onClick={onClick}>
-      <img src={image} alt="" className={styles.image} />
+      <div className={styles.imgBox}>
+        <img src={image} alt="" className={styles.image} />
+      </div>
 
       <div className={styles.content}>
         <div className={styles.name}>{name}</div>
