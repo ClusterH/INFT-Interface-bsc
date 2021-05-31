@@ -3,27 +3,30 @@ import styles from './styles.less';
 interface IMarketCardProps {
   image: string;
   name: string;
-  owner: string;
-  price: string;
-  onBuy: () => void;
+  owner?: string;
+  price?: string;
+  showFooter?: boolean;
+  onClick?: () => void;
 }
 
 export default (props: IMarketCardProps) => {
-  const { image, name, owner, price, onBuy } = props;
+  const { image, name, owner, price, showFooter, onClick } = props;
 
   return (
-    <div className={styles.marketCard}>
+    <div className={styles.marketCard} onClick={onClick}>
       <img src={image} alt="" className={styles.image} />
 
       <div className={styles.content}>
         <div className={styles.name}>{name}</div>
 
-        <div className={styles.buyWrap}>
-          <span className={styles.owner}>{owner}</span>
-          <button className={styles.buyBtn} onClick={onBuy}>
-            {price} BNB
-          </button>
-        </div>
+        {!!showFooter && (
+          <div className={styles.buyWrap}>
+            <span className={styles.owner}>{owner}</span>
+            <button className={styles.buyBtn} onClick={onClick}>
+              {price} BNB
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

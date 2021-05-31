@@ -52,7 +52,13 @@ export default (props: IAssetInfoProps) => {
             <span className={styles.priceSymbol}>{priceSymbol}</span>
           </div>
 
-          <Button type="primary" onClick={onBuy} block>
+          <Button
+            type="primary"
+            onClick={onBuy}
+            block
+            size="large"
+            className={styles.button}
+          >
             Buy
           </Button>
         </div>

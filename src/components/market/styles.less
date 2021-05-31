@@ -8,6 +8,7 @@
   padding-bottom: 12px;
   box-shadow: 0px 0px 9px 2px rgba(0, 0, 0, 0.1);
   border-radius: 6px;
+  cursor: pointer;
 
   .content {
     padding-left: 10px;
@@ -15,7 +16,8 @@
   }
 
   .image {
-    width: 280px;
+    width: 392px;
+    height: 392px;
     border-radius: 6px 6px 0px 0px;
   }
 
@@ -40,9 +42,9 @@
   }
 
   .buyBtn {
-    width: 100px;
-    height: 26px;
-    background: #fed835;
+    width: 140px;
+    height: 36px;
+    background: linear-gradient(270deg, #fcb43f 0%, #fed835 100%);
     border-radius: 4px;
     font-size: 13px;
     font-weight: 500;
@@ -55,7 +57,7 @@
 
 /* cardList */
 .cardList {
-  max-width: 960px;
+  max-width: 1280px;
   margin: 0 auto;
 }
 
@@ -87,11 +89,14 @@
     .ant-checkbox-checked::after {
       border-color: #fed835;
     }
+    .ant-checkbox-group-item {
+      margin-right: 54px;
+    }
   }
 
   .title {
     position: relative;
-    font-size: 23px;
+    font-size: 32px;
     font-weight: 500;
     color: #000000;
     letter-spacing: 1px;
@@ -99,13 +104,13 @@
     &::after {
       content: '';
       position: absolute;
-      bottom: -5px;
+      bottom: -6px;
       left: 50%;
       transform: translateX(-50%);
-      width: 80px;
-      height: 5px;
+      width: 113px;
+      height: 7px;
       background: #fed835;
-      border-radius: 2px;
+      border-radius: 4px;
     }
   }
 }

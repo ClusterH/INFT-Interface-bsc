@@ -5,5 +5,7 @@ interface IProps {
 }
 
 export default (props: IProps) => (
-  <Button type="primary">{props.children}</Button>
+  <Button type="primary" {...props}>
+    {props.children}
+  </Button>
 );

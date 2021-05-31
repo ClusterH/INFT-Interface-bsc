@@ -2,18 +2,20 @@ import styles from './styles.less';
 import Card from './card';
 
 interface ICardBaseProps {
+  tokenId: string;
   image: string;
   name: string;
   owner: string;
   price: string;
+  showFooter?: boolean;
 }
 export interface IMarketCardList {
   data: ICardBaseProps[];
-  onBuy: () => void;
+  onClick: (tokenId: string) => void;
 }
 
 export default (props: IMarketCardList) => {
-  const { data, onBuy } = props;
+  const { data, onClick } = props;
   return (
     <div className={styles.cardList}>
       {data.map((item, index) => (
@@ -23,7 +25,8 @@ export default (props: IMarketCardList) => {
           name={item.name}
           owner={item.owner}
           price={item.price}
-          onBuy={onBuy}
+          showFooter={item.showFooter}
+          onClick={() => onClick(item.tokenId)}
         />
       ))}
     </div>

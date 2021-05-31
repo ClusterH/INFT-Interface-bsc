@@ -15,12 +15,41 @@
   .logo {
     width: 111px;
     height: auto;
+    margin-right: 40px;
   }
   .inputSearch {
     width: 285px;
     margin-left: 11px;
   }
-  .wallet {
+  .nav {
     margin-left: auto;
+    a {
+      position: relative;
+      display: inline-block;
+      font-size: 16px;
+      font-weight: 500;
+      color: #ffffff;
+      line-height: 22px;
+      margin-right: 44px;
+      padding: 8px;
+    }
+    .activeLink {
+      color: #fed936;
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -16px;
+        left: 12px;
+        width: 36px;
+        height: 4px;
+        background: #fed936;
+        border-radius: 3px;
+      }
+    }
+  }
+  .walletIcon {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
   }
 }

@@ -22,6 +22,10 @@ export default defineConfig({
       path: '/market/:id',
       component: '@/pages/market-detail',
     },
+    {
+      path: '/account',
+      component: '@/pages/account',
+    },
   ],
   fastRefresh: {},
 });

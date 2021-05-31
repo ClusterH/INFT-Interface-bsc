@@ -11,9 +11,23 @@ export default () => (
     name="三上优亚盲盒"
     owner="0xsdfjkskd***sjdjfjsdfs"
     price="1"
-    onBuy={() => {
-      console.log('onBuy');
+    onClick={() => {
+      console.log('onClick');
     }}
+  />
+);
+```
+
+## MarketCard - 无底部信息
+```jsx
+import React from 'react'; 
+import {Card} from '@/components/market' 
+
+export default () => (
+  <Card
+    image="https://wx2.sinaimg.cn/large/005BaCAEly4ghple87niuj30mj0nvdhi.jpg"
+    name="三上优亚盲盒"
+    hideFooter={true}
   />
 );
 ```
@@ -68,5 +82,31 @@ const data = {
 
 export default () => (
   <AssetInfo {...data} />
+);
+```
+
+## OffersTable
+## AssetInfo
+```jsx
+import React from 'react'; 
+import OffersTable from '@/components/offers-table' 
+
+const dataSource = [
+  {
+    from: 'xxxxxxxxxxx1',
+    price: '0.03 BNB',
+    date: '2021-08-19 12:09',
+    operate: 'Sell',
+  },
+  {
+    from: 'xxxxxxxxxxx2',
+    price: '0.03 BNB',
+    date: '2021-08-19 12:09',
+    operate: 'Sell',
+  },
+];
+
+export default () => (
+  <OffersTable dataSource={dataSource} />
 );
 ```
