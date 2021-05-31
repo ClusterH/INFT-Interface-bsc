@@ -18,6 +18,10 @@ export default defineConfig({
       path: '/market',
       component: '@/pages/market',
     },
+    {
+      path: '/market/:id',
+      component: '@/pages/market-detail',
+    },
   ],
   fastRefresh: {},
 });
