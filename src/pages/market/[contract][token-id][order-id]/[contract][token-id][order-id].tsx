@@ -95,7 +95,7 @@ export default () => {
       setBuyLoading(false);
     } catch (error) {
       setBuyLoading(false);
-      notification.error({ message: error.message });
+      // notification.error({ message: error.message });
     }
   };
 

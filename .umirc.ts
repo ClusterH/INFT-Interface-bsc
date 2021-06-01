@@ -12,6 +12,9 @@ export default defineConfig({
   mode: 'site',
   logo: '/favicon.ico',
   description: '组件、工具等说明文档',
+  theme: {
+    '@primary-color': '#FED835',
+  },
   routes: [
     // { path: '/', component: '@/pages/index' },
     {
