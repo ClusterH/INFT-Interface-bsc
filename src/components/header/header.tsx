@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, NavLink } from 'umi';
 import { Menu } from 'antd';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
@@ -9,11 +9,8 @@ import styles from './styles.less';
 
 export default () => {
   const wallet = useWallet();
-  const handleClick = () => {};
 
   const connectWallet = () => {
-    console.log(wallet);
-
     if (wallet.status === 'disconnected') {
       wallet.connect();
     }

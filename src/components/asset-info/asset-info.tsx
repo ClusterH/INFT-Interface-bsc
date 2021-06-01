@@ -9,6 +9,7 @@ export interface IAssetInfoProps {
   blockchain: string;
   price: string;
   priceSymbol: string;
+  loading?: boolean;
   onBuy: () => void;
 }
 
@@ -21,6 +22,7 @@ export default (props: IAssetInfoProps) => {
     blockchain,
     price,
     priceSymbol,
+    loading,
     onBuy,
   } = props;
 
@@ -59,6 +61,7 @@ export default (props: IAssetInfoProps) => {
             onClick={onBuy}
             block
             size="large"
+            loading={loading}
             className={styles.button}
           >
             Buy
