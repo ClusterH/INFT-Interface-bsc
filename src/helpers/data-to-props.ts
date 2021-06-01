@@ -13,7 +13,7 @@ const itemsToList = (list: any[]): any[] => {
     orderId: item.order_id,
     image: transResource(item.resource),
     name: item.name,
-    owner: item.marke,
+    owner: `${item.maker.substr(0, 5)}***${item.maker.substr(-4)}`,
     price: web3.utils.fromWei(item.price),
     showFooter: true,
   }));
