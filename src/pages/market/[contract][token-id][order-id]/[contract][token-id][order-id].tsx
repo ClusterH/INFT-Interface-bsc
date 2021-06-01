@@ -5,7 +5,9 @@ import { useWallet } from '@binance-chain/bsc-use-wallet';
 import AssetInfo from '@/components/asset-info';
 import OffersTable from '@/components/offers-table';
 import { queryDetail, queryOrder, makeOrder } from '@/servers';
-import { dataToDetailProps } from '@/helpers/data-to-props';
+import { dataToDetailProps, transResource } from '@/helpers/data-to-props';
+import BuyConfirm from '@/components/buy-confirm';
+
 import {
   handleBuy as doBuy,
   handleSell as doSell,
@@ -31,6 +33,10 @@ export default () => {
   const [price, setPrice] = useState(0);
   const [isMyOrder, setIsMyOrder] = useState(false);
   const [isOnSale, setIsOnSale] = useState(false);
+  const [buyConfirm, setBuyConfirm] = useState({
+    visible: false,
+    loading: false,
+  });
 
   useEffect(() => {
     initDetailData(tokenId);
@@ -86,17 +92,11 @@ export default () => {
       return;
     }
 
-    setBuyLoading(true);
-    try {
-      const result = await doBuy(order, wallet.account, 1);
-      const { contract, token_id } = result;
-      history.push(`/market/${contract}/${tokenId}`);
-      notification.success({ message: '购买成功' });
-      setBuyLoading(false);
-    } catch (error) {
-      setBuyLoading(false);
-      // notification.error({ message: error.message });
-    }
+    // setBuyLoading(true);
+    setBuyConfirm({
+      ...buyConfirm,
+      visible: true,
+    });
   };
 
   const handleSend = async () => {};
@@ -207,6 +207,41 @@ export default () => {
     }
   };
 
+  const handleBuyConfirmOk = async () => {
+    setBuyConfirm({
+      ...buyConfirm,
+      loading: true,
+    });
+
+    try {
+      const result = await doBuy(order, wallet.account, 1);
+      const { contract, token_id } = result;
+      history.push(`/market/${contract}/${tokenId}`);
+      notification.success({ message: '购买成功' });
+      // setBuyLoading(false);
+      setBuyConfirm({
+        ...buyConfirm,
+        loading: false,
+        visible: false,
+      });
+    } catch (error) {
+      // setBuyLoading(false);
+      // notification.error({ message: error.message });
+      setBuyConfirm({
+        ...buyConfirm,
+        visible: false,
+        loading: false,
+      });
+    }
+  };
+
+  const handleBuyConfirmCancel = () => {
+    setBuyConfirm({
+      ...buyConfirm,
+      visible: false,
+    });
+  };
+
   return (
     <>
       {!!detail && (
@@ -232,6 +267,21 @@ export default () => {
         onCancel={handleCancel}
         priceSymbol="BNB"
       />
+
+      {!!detail && (
+        <BuyConfirm
+          visible={buyConfirm.visible}
+          onOk={handleBuyConfirmOk}
+          onCancel={handleBuyConfirmCancel}
+          name={detail.name}
+          title={detail.collect_name}
+          image={transResource(detail.image)}
+          volume={1}
+          amount={Web3.utils.fromWei(detail.price)}
+          symbol="BNB"
+          loading={buyConfirm.loading}
+        />
+      )}
     </>
   );
 };

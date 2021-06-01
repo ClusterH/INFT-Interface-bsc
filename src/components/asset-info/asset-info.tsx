@@ -1,5 +1,6 @@
 import { Button } from 'antd';
 import styles from './styles.less';
+import { useState } from 'react';
 
 export interface IAssetInfoProps {
   img: string;

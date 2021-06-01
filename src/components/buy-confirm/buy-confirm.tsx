@@ -34,7 +34,6 @@ export default (props: ICheckoutBuyProps) => {
       title={null}
       closable
       footer={null}
-      onOk={onOk}
       onCancel={onCancel}
       width={473}
       wrapClassName={styles.buyConfirm}
@@ -73,6 +72,7 @@ export default (props: ICheckoutBuyProps) => {
           size="large"
           className={styles.btn}
           loading={loading}
+          onClick={onOk}
         >
           Checkout
         </Button>
