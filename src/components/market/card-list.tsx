@@ -34,6 +34,8 @@ export default (props: IMarketCardList) => {
           name={item.name}
           owner={item.owner}
           price={item.price}
+          tokenId={item.tokenId}
+          contract={item.contract}
           showFooter={item.showFooter}
           onClick={() =>
             onClick({

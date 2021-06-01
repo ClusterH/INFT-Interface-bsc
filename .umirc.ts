@@ -31,6 +31,10 @@ export default defineConfig({
           component: '@/pages/market/[contract][token-id][order-id]',
         },
         {
+          path: '/market/:contract/:tokenId/',
+          component: '@/pages/market/[contract][token-id][order-id]',
+        },
+        {
           path: '/account',
           component: '@/pages/account',
         },

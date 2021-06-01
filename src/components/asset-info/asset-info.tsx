@@ -9,9 +9,69 @@ export interface IAssetInfoProps {
   blockchain: string;
   price: string;
   priceSymbol: string;
-  loading?: boolean;
+  buyLoading?: boolean;
+  sendLoading?: boolean;
+  sellLoading?: boolean;
+  isMyOrder: boolean;
   onBuy: () => void;
+  onSend: () => void;
+  onSell: () => void;
 }
+
+const BuyPanel = (props) => {
+  const { price, priceSymbol, onBuy, loading } = props;
+
+  return (
+    <div className={styles.buyPanel}>
+      <div className={styles.priceText}>Price:</div>
+      <div className={styles.priceWrap}>
+        <span className={styles.price}>{price}</span>
+        <span className={styles.priceSymbol}>{priceSymbol}</span>
+      </div>
+
+      <Button
+        type="primary"
+        onClick={onBuy}
+        block
+        size="large"
+        loading={loading}
+        className={styles.button}
+      >
+        Buy
+      </Button>
+    </div>
+  );
+};
+
+const SellPanel = (props) => {
+  const { sendLoading, sellLoading, onSend, onSell } = props;
+
+  return (
+    <div className={styles.sellPanel}>
+      <div className={styles.btnWrap}>
+        <Button
+          type="default"
+          onClick={onSend}
+          size="large"
+          loading={sendLoading}
+          className={styles.sendBtn}
+        >
+          Send
+        </Button>
+
+        <Button
+          type="primary"
+          onClick={onSell}
+          size="large"
+          loading={sellLoading}
+          className={styles.sellBtn}
+        >
+          Sell
+        </Button>
+      </div>
+    </div>
+  );
+};
 
 export default (props: IAssetInfoProps) => {
   const {
@@ -22,8 +82,13 @@ export default (props: IAssetInfoProps) => {
     blockchain,
     price,
     priceSymbol,
-    loading,
+    buyLoading,
+    sendLoading,
+    sellLoading,
+    isMyOrder,
     onBuy,
+    onSend,
+    onSell,
   } = props;
 
   return (
@@ -49,24 +114,23 @@ export default (props: IAssetInfoProps) => {
           </div>
         </div>
 
-        <div className={styles.priceBox}>
-          <div className={styles.priceText}>Price:</div>
-          <div className={styles.priceWrap}>
-            <span className={styles.price}>{price}</span>
-            <span className={styles.priceSymbol}>{priceSymbol}</span>
-          </div>
+        {!isMyOrder && (
+          <BuyPanel
+            price={price}
+            priceSymbol={priceSymbol}
+            onBuy={onBuy}
+            loading={buyLoading}
+          />
+        )}
 
-          <Button
-            type="primary"
-            onClick={onBuy}
-            block
-            size="large"
-            loading={loading}
-            className={styles.button}
-          >
-            Buy
-          </Button>
-        </div>
+        {isMyOrder && (
+          <SellPanel
+            sendLoading={sendLoading}
+            sellLoading={sellLoading}
+            onSend={onSend}
+            onSell={onSell}
+          />
+        )}
       </div>
     </div>
   );

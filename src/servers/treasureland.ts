@@ -58,4 +58,17 @@ const queryDetail = (tokenId: string) =>
 const queryOrder = (tokenId: string) =>
   axios.get('/query/order', { params: { order_id: tokenId } });
 
-export { queryItems, queryDetail, queryOrder };
+const queryAssets = (address: string) =>
+  axios.get('/account/assets', {
+    params: {
+      chain_id: chainId,
+      contract: null,
+      owner: address,
+      page_no: 1,
+      page_size: 9999,
+    },
+  });
+
+const makeOrder = (body) => axios.post('/make/order', body);
+
+export { queryItems, queryDetail, queryOrder, queryAssets, makeOrder };

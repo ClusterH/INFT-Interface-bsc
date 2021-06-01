@@ -5,6 +5,8 @@ interface IMarketCardProps {
   name: string;
   owner?: string;
   price?: string;
+  contract?: string;
+  tokenId?: string;
   showFooter?: boolean;
   onClick?: () => void;
 }

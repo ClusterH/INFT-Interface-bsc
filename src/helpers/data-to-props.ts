@@ -31,4 +31,4 @@ const dataToDetailProps = (data: any): any => {
   };
 };
 
-export { itemsToList, dataToDetailProps };
+export { transResource, itemsToList, dataToDetailProps };

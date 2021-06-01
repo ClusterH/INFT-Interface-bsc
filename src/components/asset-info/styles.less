@@ -70,21 +70,17 @@
     color: #333333;
     letter-spacing: 1px;
   }
+}
 
-  .priceBox {
-    width: 689px;
-    height: 218px;
-    background: #fbfbfb;
-    border-radius: 3px;
-    border: 1px solid #ebebeb;
-    padding: 21px 32px 12px 33px;
-  }
-  .priceText {
-    font-size: 14px;
-    font-weight: 400;
-    color: #333333;
-    letter-spacing: 1px;
-  }
+/* buyPanel */
+.buyPanel {
+  width: 689px;
+  height: 218px;
+  background: #fbfbfb;
+  border-radius: 3px;
+  border: 1px solid #ebebeb;
+  padding: 21px 32px 12px 33px;
+
   .priceWrap {
     display: flex;
     flex-direction: row;
@@ -92,6 +88,22 @@
     margin-top: 14px;
     margin-bottom: 21px;
   }
+
+  .priceText {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333333;
+    letter-spacing: 1px;
+  }
+
+  .priceWrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 14px;
+    margin-bottom: 21px;
+  }
+
   .price {
     font-size: 18px;
     font-weight: 500;
@@ -115,5 +127,44 @@
     letter-spacing: 1px;
     border-radius: 4px;
     margin-top: 33px;
+  }
+}
+
+/* sellPanel */
+.sellPanel {
+  width: 689px;
+  height: 218px;
+  background: #fbfbfb;
+  border-radius: 3px;
+  border: 1px solid #ebebeb;
+  padding: 21px 32px 12px 33px;
+
+  .btnWrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 96px;
+
+    :global {
+      .ant-btn-default {
+        color: #fed835;
+        border-color: #fed835;
+      }
+      .ant-btn:hover,
+      .ant-btn:focus {
+        color: #fed835;
+        border-color: #fed835;
+      }
+      .ant-btn-primary:hover,
+      .ant-btn-primary:focus {
+        color: #333333;
+      }
+    }
+  }
+  .sendBtn {
+    width: 295px;
+  }
+  .sellBtn {
+    width: 295px;
   }
 }
