@@ -12,10 +12,13 @@ export interface IAssetInfoProps {
   buyLoading?: boolean;
   sendLoading?: boolean;
   sellLoading?: boolean;
-  isMyOrder: boolean;
+  cancelSellLoading?: boolean;
+  isMyOrder?: boolean;
+  isOnSale?: boolean;
   onBuy: () => void;
   onSend: () => void;
   onSell: () => void;
+  onCancelSell: () => void;
 }
 
 const BuyPanel = (props) => {
@@ -44,7 +47,15 @@ const BuyPanel = (props) => {
 };
 
 const SellPanel = (props) => {
-  const { sendLoading, sellLoading, onSend, onSell } = props;
+  const {
+    sendLoading,
+    sellLoading,
+    cancelSellLoading,
+    isOnSale,
+    onSend,
+    onSell,
+    onCancelSell,
+  } = props;
 
   return (
     <div className={styles.sellPanel}>
@@ -59,15 +70,27 @@ const SellPanel = (props) => {
           Send
         </Button>
 
-        <Button
-          type="primary"
-          onClick={onSell}
-          size="large"
-          loading={sellLoading}
-          className={styles.sellBtn}
-        >
-          Sell
-        </Button>
+        {isOnSale ? (
+          <Button
+            type="primary"
+            onClick={onCancelSell}
+            size="large"
+            loading={cancelSellLoading}
+            className={styles.sellBtn}
+          >
+            Cancel
+          </Button>
+        ) : (
+          <Button
+            type="primary"
+            onClick={onSell}
+            size="large"
+            loading={sellLoading}
+            className={styles.sellBtn}
+          >
+            Sell
+          </Button>
+        )}
       </div>
     </div>
   );
@@ -85,10 +108,13 @@ export default (props: IAssetInfoProps) => {
     buyLoading,
     sendLoading,
     sellLoading,
+    cancelSellLoading,
     isMyOrder,
+    isOnSale,
     onBuy,
     onSend,
     onSell,
+    onCancelSell,
   } = props;
 
   return (
@@ -97,8 +123,9 @@ export default (props: IAssetInfoProps) => {
         <img src={img} alt="img" className={styles.img} />
       </div>
       <div className={styles.content}>
-        <div className={styles.name}>{name}</div>
-
+        <div className={styles.name}>
+          {name} --{isMyOrder.toString()}
+        </div>
         <div className={styles.textBox}>
           <div className={styles.infoItem}>
             <span className={styles.label}>Contract Address</span>
@@ -122,13 +149,15 @@ export default (props: IAssetInfoProps) => {
             loading={buyLoading}
           />
         )}
-
         {isMyOrder && (
           <SellPanel
+            isOnSale={isOnSale}
             sendLoading={sendLoading}
             sellLoading={sellLoading}
+            cancelSellLoading={cancelSellLoading}
             onSend={onSend}
             onSell={onSell}
+            onCancelSell={onCancelSell}
           />
         )}
       </div>

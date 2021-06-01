@@ -11,9 +11,11 @@ import {
   handleSell as doSell,
   buildE,
   buildBody,
+  buildInputDataForCancelSell,
 } from '@/helpers/treasureland';
 import SellConfirm from '@/components/sell-confirm';
 import Web3 from 'web3';
+import { cryptozContract, treasurelandContract } from '@/contracts';
 
 export default () => {
   const { contract, tokenId, orderId } = useParams();
@@ -24,8 +26,11 @@ export default () => {
   const [buyLoading, setBuyLoading] = useState(false);
   const [sendLoading, setSendLoading] = useState(false);
   const [sellLoading, setSellLoading] = useState(false);
+  const [cancelSellLoading, setCancelSellLoading] = useState(false);
   const [visible, setVisivle] = useState(false);
   const [price, setPrice] = useState(0);
+  const [isMyOrder, setIsMyOrder] = useState(false);
+  const [isOnSale, setIsOnSale] = useState(false);
 
   useEffect(() => {
     initDetailData(tokenId);
@@ -33,6 +38,29 @@ export default () => {
       initOrderData(orderId);
     }
   }, [tokenId]);
+
+  /** 是否是我的单子 */
+  useEffect(() => {
+    if (wallet.status === 'connected') {
+      cryptozContract.methods
+        .ownerOf(tokenId)
+        .call()
+        .then((owner) => {
+          console.log('owner', owner);
+          setIsMyOrder(owner === wallet.account);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [wallet.status]);
+
+  /** 是否在售 */
+  useEffect(() => {
+    if (orderId) {
+      setIsOnSale(true);
+    }
+  }, [orderId]);
 
   const initDetailData = async (id) => {
     try {
@@ -104,15 +132,79 @@ export default () => {
 
       history.push(`/market/${contract}/${tokenId}/${orderId}`);
     } catch (error) {
-      notification.error({
-        message: error.message,
-      });
+      const { code, message } = error;
+      // 1002 用户拒绝
+
+      if (code !== 1002) {
+        notification.error({
+          message,
+        });
+      }
+
       setSellLoading(false);
     }
   };
 
   const handleCancel = () => {
     setVisivle(false);
+  };
+
+  const handleCancelSell = async () => {
+    const n = buildInputDataForCancelSell(order);
+    const i = JSON.parse(order.sig);
+
+    setCancelSellLoading(true);
+    try {
+      const result = await treasurelandContract.methods
+        .cancelOrder_(
+          [
+            n.exchange,
+            n.maker,
+            n.taker,
+            n.feeRecipient,
+            n.target,
+            n.staticTarget,
+            n.paymentToken,
+          ],
+          [
+            n.makerRelayerFee,
+            n.takerRelayerFee,
+            n.makerProtocolFee,
+            n.takerProtocolFee,
+            n.basePrice,
+            n.extra,
+            n.listingTime,
+            n.expirationTime,
+            n.salt,
+          ],
+          n.feeMethod,
+          n.side,
+          n.saleKind,
+          n.howToCall,
+          n.calldata,
+          n.replacementPattern,
+          n.staticExtradata,
+          i.v,
+          i.r,
+          i.s,
+        )
+        .send({
+          from: n.maker,
+        })
+        .then((receipt) => {
+          // notification.success({
+          //   message: '取消出售',
+          // });
+          console.log('receipt', receipt);
+          setCancelSellLoading(false);
+          history.push(`/market/${contract}/${tokenId}`);
+        });
+
+      console.log('result', result);
+    } catch (error) {
+      console.error(error);
+      setCancelSellLoading(false);
+    }
   };
 
   return (
@@ -123,10 +215,13 @@ export default () => {
           buyLoading={buyLoading}
           sendLoading={sendLoading}
           sellLoading={sellLoading}
+          cancelSellLoading={cancelSellLoading}
+          isMyOrder={isMyOrder}
+          isOnSale={isOnSale}
           onBuy={handleBuy}
           onSend={handleSend}
           onSell={inputPrice}
-          isMyOrder={!orderId}
+          onCancelSell={handleCancelSell}
         />
       )}
       <OffersTable dataSource={[]} />
