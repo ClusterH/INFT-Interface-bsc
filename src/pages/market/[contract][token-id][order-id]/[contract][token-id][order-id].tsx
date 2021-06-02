@@ -35,7 +35,7 @@ export default () => {
   const [isOnSale, setIsOnSale] = useState(false);
   const [buyConfirm, setBuyConfirm] = useState({
     visible: false,
-    loading: false,
+    isCompleting: false,
   });
   /** send */
   const [sendAddress, setSendAddress] = useState({
@@ -230,7 +230,7 @@ export default () => {
   const handleBuyConfirmOk = async () => {
     setBuyConfirm({
       ...buyConfirm,
-      loading: true,
+      isCompleting: true,
     });
 
     try {
@@ -241,8 +241,8 @@ export default () => {
       // setBuyLoading(false);
       setBuyConfirm({
         ...buyConfirm,
-        loading: false,
         visible: false,
+        isCompleting: false,
       });
     } catch (error) {
       // setBuyLoading(false);
@@ -250,7 +250,7 @@ export default () => {
       setBuyConfirm({
         ...buyConfirm,
         visible: false,
-        loading: false,
+        isCompleting: false,
       });
     }
   };
@@ -314,7 +314,7 @@ export default () => {
       {!!detail && (
         <AssetInfo
           {...dataToDetailProps(detail)}
-          buyLoading={buyLoading}
+          buyLoading={buyConfirm.isCompleting}
           sendLoading={sendAddress.sendLoading}
           sellLoading={sellLoading}
           cancelSellLoading={cancelSellLoading}
@@ -347,6 +347,7 @@ export default () => {
           amount={Web3.utils.fromWei(detail.price)}
           symbol="BNB"
           loading={buyConfirm.loading}
+          isCompleting={buyConfirm.isCompleting}
         />
       )}
 

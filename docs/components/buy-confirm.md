@@ -8,9 +8,15 @@ import BuyConfirm from '@/components/buy-confirm';
 
 export default () => {
     const [visible, setVisivle] = useState(false);
+    const [isCompleting, setIsCompleting] = useState(false)
 
     const handleOk = () => {
-        setVisivle(false);
+        setIsCompleting(true)
+
+        setTimeout(() => {
+            setVisivle(false);
+            setIsCompleting(false)
+        }, 5000)
     };
 
     const handleCancel = () => {
@@ -22,6 +28,7 @@ export default () => {
 
         <BuyConfirm
             visible={visible}
+            isCompleting={isCompleting}
             onOk={handleOk}
             onCancel={handleCancel}
             name="Baby Cthulu #1209"
@@ -34,3 +41,4 @@ export default () => {
     </>
 }
 ```
+<Alert>注意，`visible`、`isCompleting` 关闭的顺序</Alert>
