@@ -23,26 +23,30 @@ export interface IAssetInfoProps {
 }
 
 const BuyPanel = (props) => {
-  const { price, priceSymbol, onBuy, loading } = props;
+  const { isOnSale, price, priceSymbol, onBuy, loading } = props;
 
   return (
     <div className={styles.buyPanel}>
-      <div className={styles.priceText}>Price:</div>
-      <div className={styles.priceWrap}>
-        <span className={styles.price}>{price}</span>
-        <span className={styles.priceSymbol}>{priceSymbol}</span>
-      </div>
+      {isOnSale ? (
+        <>
+          <div className={styles.priceText}>Price:</div>
+          <div className={styles.priceWrap}>
+            <span className={styles.price}>{price}</span>
+            <span className={styles.priceSymbol}>{priceSymbol}</span>
+          </div>
 
-      <Button
-        type="primary"
-        onClick={onBuy}
-        block
-        size="large"
-        loading={loading}
-        className={styles.button}
-      >
-        Buy
-      </Button>
+          <Button
+            type="primary"
+            onClick={onBuy}
+            block
+            size="large"
+            loading={loading}
+            className={styles.button}
+          >
+            Buy
+          </Button>
+        </>
+      ) : null}
     </div>
   );
 };
@@ -124,9 +128,7 @@ export default (props: IAssetInfoProps) => {
         <img src={img} alt="img" className={styles.img} />
       </div>
       <div className={styles.content}>
-        <div className={styles.name}>
-          {name} --{isMyOrder.toString()}
-        </div>
+        <div className={styles.name}>{name}</div>
         <div className={styles.textBox}>
           <div className={styles.infoItem}>
             <span className={styles.label}>Contract Address</span>
@@ -144,6 +146,7 @@ export default (props: IAssetInfoProps) => {
 
         {!isMyOrder && (
           <BuyPanel
+            isOnSale={isOnSale}
             price={price}
             priceSymbol={priceSymbol}
             onBuy={onBuy}

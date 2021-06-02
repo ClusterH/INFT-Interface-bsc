@@ -7,6 +7,7 @@ import OffersTable from '@/components/offers-table';
 import { queryDetail, queryOrder, makeOrder } from '@/servers';
 import { dataToDetailProps, transResource } from '@/helpers/data-to-props';
 import BuyConfirm from '@/components/buy-confirm';
+import SendAddress from '@/components/send-address';
 
 import {
   handleBuy as doBuy,
@@ -26,7 +27,6 @@ export default () => {
   const [detail, setDetail] = useState(null);
   const [order, setOrder] = useState(null);
   const [buyLoading, setBuyLoading] = useState(false);
-  const [sendLoading, setSendLoading] = useState(false);
   const [sellLoading, setSellLoading] = useState(false);
   const [cancelSellLoading, setCancelSellLoading] = useState(false);
   const [visible, setVisivle] = useState(false);
@@ -36,6 +36,12 @@ export default () => {
   const [buyConfirm, setBuyConfirm] = useState({
     visible: false,
     loading: false,
+  });
+  /** send */
+  const [sendAddress, setSendAddress] = useState({
+    visible: false,
+    address: '',
+    sendLoading: false,
   });
 
   useEffect(() => {
@@ -47,6 +53,17 @@ export default () => {
 
   /** 是否是我的单子 */
   useEffect(() => {
+    ownerOfme(tokenId);
+  }, [wallet.status]);
+
+  /** 是否在售 */
+  useEffect(() => {
+    if (orderId) {
+      setIsOnSale(true);
+    }
+  }, [orderId]);
+
+  const ownerOfme = (tokenId) => {
     if (wallet.status === 'connected') {
       cryptozContract.methods
         .ownerOf(tokenId)
@@ -59,14 +76,7 @@ export default () => {
           console.error(error);
         });
     }
-  }, [wallet.status]);
-
-  /** 是否在售 */
-  useEffect(() => {
-    if (orderId) {
-      setIsOnSale(true);
-    }
-  }, [orderId]);
+  };
 
   const initDetailData = async (id) => {
     try {
@@ -99,7 +109,17 @@ export default () => {
     });
   };
 
-  const handleSend = async () => {};
+  const inputSendAddress = async () => {
+    if (wallet.status === 'connected') {
+      setSendAddress({
+        ...sendAddress,
+        visible: true,
+        sendLoading: true,
+      });
+    } else {
+      notification.info({ message: '请先连接钱包' });
+    }
+  };
 
   const inputPrice = async () => {
     if (wallet.status !== 'connected') {
@@ -242,19 +262,66 @@ export default () => {
     });
   };
 
+  /** send */
+  const handleAddressChange = (address: string) =>
+    setSendAddress({
+      ...sendAddress,
+      address,
+    });
+
+  const handleSendAddressOk = async () => {
+    setSendAddress({
+      ...sendAddress,
+      visible: false,
+    });
+    // TODO sending
+    console.log(wallet.account, sendAddress.address, detail.token_id);
+    try {
+      const result = await cryptozContract.methods
+        .transferFrom(wallet.account, sendAddress.address, detail.token_id)
+        .send({
+          from: wallet.account,
+        });
+
+      setSendAddress({
+        ...sendAddress,
+        visible: false,
+        sendLoading: false,
+      });
+
+      console.log('result', result);
+      ownerOfme(tokenId);
+    } catch (error) {
+      setSendAddress({
+        ...sendAddress,
+        visible: false,
+        sendLoading: false,
+      });
+      console.error(error);
+    }
+  };
+
+  const handleSendAddressCancel = () => {
+    setSendAddress({
+      ...sendAddress,
+      visible: false,
+      sendLoading: false,
+    });
+  };
+
   return (
     <>
       {!!detail && (
         <AssetInfo
           {...dataToDetailProps(detail)}
           buyLoading={buyLoading}
-          sendLoading={sendLoading}
+          sendLoading={sendAddress.sendLoading}
           sellLoading={sellLoading}
           cancelSellLoading={cancelSellLoading}
           isMyOrder={isMyOrder}
           isOnSale={isOnSale}
           onBuy={handleBuy}
-          onSend={handleSend}
+          onSend={inputSendAddress}
           onSell={inputPrice}
           onCancelSell={handleCancelSell}
         />
@@ -282,6 +349,14 @@ export default () => {
           loading={buyConfirm.loading}
         />
       )}
+
+      <SendAddress
+        visible={sendAddress.visible}
+        address={sendAddress.address}
+        onChange={handleAddressChange}
+        onOk={handleSendAddressOk}
+        onCancel={handleSendAddressCancel}
+      ></SendAddress>
     </>
   );
 };
