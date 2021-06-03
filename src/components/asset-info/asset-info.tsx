@@ -1,10 +1,14 @@
 import { Button } from 'antd';
 import styles from './styles.less';
 import { useState } from 'react';
+import IconFont from '@/components/icon-font';
+import BscAddress from '@/components/bsc-address';
 
 export interface IAssetInfoProps {
   img: string;
   name: string;
+  owner: string;
+  collectName: string;
   contract: string;
   tokenId: string;
   blockchain: string;
@@ -104,6 +108,8 @@ const SellPanel = (props) => {
 export default (props: IAssetInfoProps) => {
   const {
     img,
+    collectName,
+    owner,
     name,
     contract,
     tokenId,
@@ -129,10 +135,25 @@ export default (props: IAssetInfoProps) => {
       </div>
       <div className={styles.content}>
         <div className={styles.name}>{name}</div>
+
+        <div className={styles.tagsWrap}>
+          <span className={styles.chainTag}>
+            <IconFont type="icon-bsc" />
+            BSC
+          </span>
+          <span className={styles.collectName}>#{collectName}#</span>
+        </div>
+
+        <div className={styles.ownerWrap}>
+          <span className={styles.text}>Owned by</span>
+          <BscAddress value={owner} short></BscAddress>
+        </div>
+
         <div className={styles.textBox}>
           <div className={styles.infoItem}>
             <span className={styles.label}>Contract Address</span>
-            <span className={styles.value}>{contract}</span>
+            {/* <span className={styles.value}>{contract}</span> */}
+            <BscAddress value={contract}></BscAddress>
           </div>
           <div className={styles.infoItem}>
             <span className={styles.label}>Token ID</span>

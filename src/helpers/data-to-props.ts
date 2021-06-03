@@ -23,6 +23,8 @@ const dataToDetailProps = (data: any): any => {
   return {
     img: transResource(data.image),
     name: data.name,
+    collectName: data.collect_name,
+    owner: data.seller,
     contract: data.contract,
     tokenId: data.token_id,
     blockchain: 'BSC',

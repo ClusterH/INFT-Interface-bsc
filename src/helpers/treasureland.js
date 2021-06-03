@@ -141,11 +141,7 @@ function getI(t) {
 
 export { getA, getR, getI };
 
-async function handleBuy(
-  orderData,
-  account = '0x8b7A9d07e34712F8473BeB95Cd85420ee25A600C',
-  amount = 1,
-) {
+async function handleBuy(orderData, account, amount = 1) {
   const a = getA(orderData, account, amount);
   const r = getR(orderData);
   const i = getI(orderData);
