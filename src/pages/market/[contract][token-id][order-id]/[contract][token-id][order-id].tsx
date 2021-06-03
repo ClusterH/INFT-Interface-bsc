@@ -4,29 +4,27 @@ import { notification } from 'antd';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import AssetInfo from '@/components/asset-info';
 import OffersTable from '@/components/offers-table';
-import { queryDetail, queryOrder, makeOrder } from '@/servers';
+import { queryDetail, queryOrder } from '@/servers';
 import { dataToDetailProps, transResource } from '@/helpers/data-to-props';
 import BuyConfirm from '@/components/buy-confirm';
 import SendAddress from '@/components/send-address';
 
 import {
-  handleBuy as doBuy,
-  handleSell as doSell,
-  buildE,
-  buildBody,
-  buildInputDataForCancelSell,
+  buyToken,
+  sendToken,
+  sellToken,
+  sellTokenCancel,
 } from '@/helpers/treasureland';
 import SellConfirm from '@/components/sell-confirm';
 import Web3 from 'web3';
-import { cryptozContract, treasurelandContract } from '@/contracts';
+import { cryptozContract } from '@/contracts';
 
 export default () => {
-  const { contract, tokenId, orderId } = useParams();
+  const { contract, tokenId, orderId } = useParams() as any;
   const wallet = useWallet();
   const history = useHistory();
   const [detail, setDetail] = useState(null);
   const [order, setOrder] = useState(null);
-  const [buyLoading, setBuyLoading] = useState(false);
   const [sellLoading, setSellLoading] = useState(false);
   const [cancelSellLoading, setCancelSellLoading] = useState(false);
   const [visible, setVisivle] = useState(false);
@@ -63,33 +61,32 @@ export default () => {
     }
   }, [orderId]);
 
-  const ownerOfme = (tokenId) => {
+  const ownerOfme = (tokenId: string) => {
     if (wallet.status === 'connected') {
       cryptozContract.methods
         .ownerOf(tokenId)
         .call()
-        .then((owner) => {
-          console.log('owner', owner);
+        .then((owner: string) => {
           setIsMyOrder(owner === wallet.account);
         })
-        .catch((error) => {
+        .catch((error: any) => {
           console.error(error);
         });
     }
   };
 
-  const initDetailData = async (id) => {
+  const initDetailData = async (id: string) => {
     try {
-      const data = await queryDetail(id);
+      const data: any = await queryDetail(id);
       setDetail(data);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const initOrderData = async (id) => {
+  const initOrderData = async (id: string) => {
     try {
-      const data = await queryOrder(id);
+      const data: any = await queryOrder(id);
       setOrder(data);
     } catch (error) {
       console.error(error);
@@ -129,33 +126,26 @@ export default () => {
     }
   };
 
-  const handleSell = async ({ maker, tokenId, amount = 1 }) => {
-    console.log({ maker, tokenId, amount });
-  };
-
   const handleOk = async () => {
     setVisivle(false);
 
     setSellLoading(true);
-    try {
-      const maker = wallet.account;
-      const basePrice = Web3.utils.toWei(String(price));
-      const tokenId = detail.token_id;
-      const amount = 1;
 
-      const e = await buildE({ maker, basePrice, tokenId, amount });
-      const body = await buildBody(e, { tokenId, maker, amount });
-      const res = await makeOrder(body);
+    try {
+      const maker = wallet.account || '';
+      const tokenId = detail.token_id;
+
+      const res = await sellToken({ maker, price, tokenId, amount: 1 });
+
       console.log('res', res);
       const orderId = res.ID;
-      setSellLoading(false);
 
+      setSellLoading(false);
       history.push(`/market/${contract}/${tokenId}/${orderId}`);
     } catch (error) {
       const { code, message } = error;
-      // 1002 用户拒绝
-
-      if (code !== 1002) {
+      // 4001 用户拒绝
+      if (code !== 4001) {
         notification.error({
           message,
         });
@@ -170,57 +160,12 @@ export default () => {
   };
 
   const handleCancelSell = async () => {
-    const n = buildInputDataForCancelSell(order);
-    const i = JSON.parse(order.sig);
-
     setCancelSellLoading(true);
-    try {
-      const result = await treasurelandContract.methods
-        .cancelOrder_(
-          [
-            n.exchange,
-            n.maker,
-            n.taker,
-            n.feeRecipient,
-            n.target,
-            n.staticTarget,
-            n.paymentToken,
-          ],
-          [
-            n.makerRelayerFee,
-            n.takerRelayerFee,
-            n.makerProtocolFee,
-            n.takerProtocolFee,
-            n.basePrice,
-            n.extra,
-            n.listingTime,
-            n.expirationTime,
-            n.salt,
-          ],
-          n.feeMethod,
-          n.side,
-          n.saleKind,
-          n.howToCall,
-          n.calldata,
-          n.replacementPattern,
-          n.staticExtradata,
-          i.v,
-          i.r,
-          i.s,
-        )
-        .send({
-          from: n.maker,
-        })
-        .then((receipt) => {
-          // notification.success({
-          //   message: '取消出售',
-          // });
-          console.log('receipt', receipt);
-          setCancelSellLoading(false);
-          history.push(`/market/${contract}/${tokenId}`);
-        });
 
-      console.log('result', result);
+    try {
+      await sellTokenCancel(order);
+      setCancelSellLoading(false);
+      history.push(`/market/${contract}/${tokenId}`);
     } catch (error) {
       console.error(error);
       setCancelSellLoading(false);
@@ -234,19 +179,18 @@ export default () => {
     });
 
     try {
-      const result = await doBuy(order, wallet.account, 1);
+      const result = await buyToken(order, wallet.account as string, 1);
       const { contract, token_id } = result;
-      history.push(`/market/${contract}/${tokenId}`);
+
       notification.success({ message: '购买成功' });
-      // setBuyLoading(false);
+      history.push(`/market/${contract}/${token_id}`);
+
       setBuyConfirm({
         ...buyConfirm,
         visible: false,
         isCompleting: false,
       });
     } catch (error) {
-      // setBuyLoading(false);
-      // notification.error({ message: error.message });
       setBuyConfirm({
         ...buyConfirm,
         visible: false,
@@ -274,14 +218,16 @@ export default () => {
       ...sendAddress,
       visible: false,
     });
-    // TODO sending
-    console.log(wallet.account, sendAddress.address, detail.token_id);
+
+    if (!detail || !wallet.account) return;
+
     try {
-      const result = await cryptozContract.methods
-        .transferFrom(wallet.account, sendAddress.address, detail.token_id)
-        .send({
-          from: wallet.account,
-        });
+      const result = await sendToken(
+        wallet.account,
+        sendAddress.address,
+        detail.token_id,
+      );
+      console.log('result', result);
 
       setSendAddress({
         ...sendAddress,
@@ -289,7 +235,6 @@ export default () => {
         sendLoading: false,
       });
 
-      console.log('result', result);
       ownerOfme(tokenId);
     } catch (error) {
       setSendAddress({
