@@ -1,0 +1,44 @@
+.filterCollection {
+  :global {
+    .ant-collapse-item {
+      border-top: 1px solid #d9d9d9;
+    }
+  }
+}
+
+.input {
+  margin-bottom: 16px;
+  border-radius: 20px;
+}
+
+.collectionsWrap {
+  height: 214px;
+  overflow-y: auto;
+
+  .collectItem {
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .collectionIcon {
+    width: 33px;
+    height: 33px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+
+  .title {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333333;
+    display: inline-block;
+    width: calc(100% - 38px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: 33px;
+  }
+}

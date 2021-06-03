@@ -20,13 +20,16 @@ export interface IHandleBuyParams {
 
 export interface IMarketCardList {
   data: ICardBaseProps[];
+  total: number;
   onClick: (params: IHandleBuyParams) => void;
 }
 
 export default (props: IMarketCardList) => {
-  const { data, onClick } = props;
+  const { data, total, onClick } = props;
   return (
     <div className={styles.cardList}>
+      <div className={styles.total}>{total} Results</div>
+
       {data.map((item, index) => (
         <Card
           key={index}

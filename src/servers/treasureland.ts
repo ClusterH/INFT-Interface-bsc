@@ -29,6 +29,8 @@ const contract = '0x8a0c542ba7bbbab7cf3551ffcc546cdc5362d2a1';
 export interface IQueryItemsParams {
   pageNo: number;
   pageSize: number;
+  sortType: number;
+  contract?: string;
 }
 
 export interface IQueryDetailParams {
@@ -39,8 +41,8 @@ const queryItems = (params: IQueryItemsParams) =>
   axios.get('/nft/items', {
     params: {
       chain_id: chainId,
-      contract: contract,
-      sort_type: 1,
+      contract: params.contract,
+      sort_type: params.sortType,
       page_no: params.pageNo,
       page_size: params.pageSize,
     },
@@ -69,6 +71,21 @@ const queryAssets = (address: string) =>
     },
   });
 
-const makeOrder = (body) => axios.post('/make/order', body);
+const makeOrder = (body: any) => axios.post('/make/order', body);
 
-export { queryItems, queryDetail, queryOrder, queryAssets, makeOrder };
+const queryCollections = (chainId: string | number, catId: string | number) =>
+  axios.get('/category/collection', {
+    params: {
+      chain_id: chainId,
+      cat_id: catId,
+    },
+  });
+
+export {
+  queryItems,
+  queryDetail,
+  queryOrder,
+  queryAssets,
+  makeOrder,
+  queryCollections,
+};

@@ -1,55 +1,99 @@
 import { useEffect, useState } from 'react';
-import { useHistory } from 'umi';
+import { useHistory, useLocation } from 'umi';
 import Banner from '@/components/banner';
 import Market from '@/components/market';
-import { queryItems } from '@/servers';
-import web3 from 'web3';
+import { queryItems, queryCollections } from '@/servers';
 import InfiniteScroll from 'react-infinite-scroller';
 import Spin from '@/components/spin';
 import { itemsToList } from '@/helpers/data-to-props';
+import SidebarFilter from '@/components/sidebar-filter';
+import styles from './styles.less';
 
 export default () => {
-  const hitory = useHistory();
+  const history = useHistory();
+  const { query }: any = useLocation();
 
-  const [pagination, setPagination] = useState({
+  const [queryParams, setQueryParams] = useState({
     dataCount: 0,
     pageNo: 0,
     pageSize: 18,
+    sortType: 1,
     hasMore: true,
   });
-  const [list, setList] = useState([]);
 
+  const [collections, setCollections] = useState([]);
+
+  // 初始化assets
   useEffect(() => {
-    queryAssets(pagination.pageNo);
+    if (query && query.contract) {
+      queryAssets({
+        pageNo: queryParams.pageNo,
+        pageSize: queryParams.pageSize,
+        sortType: queryParams.sortType,
+        contract: query.contract,
+      });
+    } else {
+      // 请求推荐items
+      queryAssets({
+        pageNo: queryParams.pageNo,
+        pageSize: queryParams.pageSize,
+        sortType: queryParams.sortType,
+      });
+    }
+  }, [query.contract]);
+
+  // 初始化 collections
+  useEffect(() => {
+    initCollections();
   }, []);
 
+  const [list, setList] = useState([]);
+
+  const initCollections = async () => {
+    const res: any = await queryCollections(56, 0);
+    setCollections(res.items);
+  };
+
   const autoLoadAssets = (): void => {
-    const currentPageNo = pagination.pageNo;
+    const currentPageNo = queryParams.pageNo;
     const nextPageNo = currentPageNo + 1;
 
-    queryAssets(nextPageNo);
+    queryAssets({
+      pageNo: queryParams.pageNo,
+      pageSize: queryParams.pageSize,
+      sortType: queryParams.sortType,
+      contract: query ? query.contract : null,
+    });
   };
 
   /** 查询列表 */
-  const queryAssets = async (page: number) => {
+  const queryAssets = async ({
+    pageNo,
+    pageSize,
+    sortType,
+    contract,
+  }: {
+    pageNo: number;
+    pageSize: number;
+    sortType: number;
+    contract?: string;
+  }) => {
     try {
-      const {
-        list: newList,
-        dataCount,
-        pageNo,
-        pageSize,
-      }: any = await queryItems({
-        pageNo: page,
-        pageSize: pagination.pageSize,
-      });
+      const res = await queryItems({ pageNo, pageSize, sortType, contract });
+      const newList = res.list;
+      // 重置列表 或 追加数据
+      if (list.length && list[0].contract === newList[0].contract) {
+        setList([...list, ...newList]);
+      } else {
+        setList([...newList]);
+      }
 
-      setPagination({
-        dataCount,
-        pageNo,
-        pageSize,
-        hasMore: (pageNo + 1) * pageSize <= dataCount,
+      setQueryParams({
+        dataCount: res.dataCount,
+        pageNo: res.pageNo,
+        pageSize: res.pageSize,
+        hasMore: (pageNo + 1) * pageSize <= res.dataCount,
       });
-      setList([...list, ...newList]);
     } catch (error) {
       console.error(error);
     }
@@ -61,26 +105,40 @@ export default () => {
     orderId: string;
   }): void => {
     const { contract, tokenId, orderId } = params;
-    hitory.push(`/market/${contract}/${tokenId}/${orderId}`);
+    history.push(`/market/${contract}/${tokenId}/${orderId}`);
+  };
+
+  const onChangeCollection = (item: any) => {
+    history.push(`/market?contract=${item.address}`);
   };
 
   return (
     <div>
       <Banner />
-      <Market.LevelCheckbox onChange={() => {}} />
+      <Market.LevelCheckbox />
 
       <InfiniteScroll
         initialLoad={false}
         loadMore={autoLoadAssets}
         useWindow={true}
-        hasMore={pagination.hasMore}
+        hasMore={queryParams.hasMore}
         loader={
-          <div key={pagination.pageNo} style={{ textAlign: 'center' }}>
+          <div key={queryParams.pageNo} style={{ textAlign: 'center' }}>
             <Spin />
           </div>
         }
       >
-        <Market.CardList data={itemsToList(list)} onClick={handleClick} />
+        <div className={styles.content}>
+          <SidebarFilter
+            collections={collections}
+            onChangeCollection={onChangeCollection}
+          />
+          <Market.CardList
+            data={itemsToList(list)}
+            total={queryParams.dataCount}
+            onClick={handleClick}
+          />
+        </div>
       </InfiniteScroll>
     </div>
   );

@@ -1,5 +1,7 @@
 /* marketCard */
 .marketCard {
+  width: 313px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   display: inline-block;
@@ -16,13 +18,13 @@
   }
 
   .imgBox {
-    width: 392px;
-    height: 392px;
+    width: 313px;
+    height: 313px;
     text-align: center;
   }
   .image {
     max-height: 100%;
-    height: auto;
+    max-width: 100%;
     border-radius: 6px 6px 0px 0px;
   }
 
@@ -62,42 +64,51 @@
 
 /* cardList */
 .cardList {
-  max-width: 1280px;
+  max-width: 1000px;
   margin: 0 auto;
+
+  .total {
+    font-size: 15px;
+    font-weight: 400;
+    color: #9a9898;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
 }
 
 // levelCheckbox
 .levelCheckbox {
-  padding-top: 30px;
-  padding-bottom: 36px;
+  padding-top: 32px;
+  padding-bottom: 49px;
   text-align: center;
+  background: #fbfbfb;
 
-  :global {
-    .ant-checkbox-checked .ant-checkbox-inner {
-      background-color: #fed835;
-      border-color: #fed835;
-    }
-    .ant-checkbox-wrapper {
-      color: #ccc9cb;
-    }
-    .ant-checkbox-wrapper-checked {
-      color: #fed835;
-    }
-    .ant-checkbox-wrapper:hover .ant-checkbox-inner,
-    .ant-checkbox:hover .ant-checkbox-inner,
-    .ant-checkbox-input:focus + .ant-checkbox-inner {
-      border-color: #fed835;
-    }
-    .ant-checkbox-wrapper:hover {
-      color: #fed835;
-    }
-    .ant-checkbox-checked::after {
-      border-color: #fed835;
-    }
-    .ant-checkbox-group-item {
-      margin-right: 54px;
-    }
-  }
+  // :global {
+  //   .ant-checkbox-checked .ant-checkbox-inner {
+  //     background-color: #fed835;
+  //     border-color: #fed835;
+  //   }
+  //   .ant-checkbox-wrapper {
+  //     color: #ccc9cb;
+  //   }
+  //   .ant-checkbox-wrapper-checked {
+  //     color: #fed835;
+  //   }
+  //   .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+  //   .ant-checkbox:hover .ant-checkbox-inner,
+  //   .ant-checkbox-input:focus + .ant-checkbox-inner {
+  //     border-color: #fed835;
+  //   }
+  //   .ant-checkbox-wrapper:hover {
+  //     color: #fed835;
+  //   }
+  //   .ant-checkbox-checked::after {
+  //     border-color: #fed835;
+  //   }
+  //   .ant-checkbox-group-item {
+  //     margin-right: 54px;
+  //   }
+  // }
 
   .title {
     position: relative;
@@ -105,7 +116,7 @@
     font-weight: 500;
     color: #000000;
     letter-spacing: 1px;
-    margin-bottom: 55px;
+    // margin-bottom: 55px;
     &::after {
       content: '';
       position: absolute;

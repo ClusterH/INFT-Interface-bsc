@@ -4,4 +4,5 @@ export {
   queryOrder,
   queryAssets,
   makeOrder,
+  queryCollections,
 } from './treasureland';
