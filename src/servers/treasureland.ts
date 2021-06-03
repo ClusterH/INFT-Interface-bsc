@@ -46,7 +46,7 @@ const queryItems = (params: IQueryItemsParams) =>
     },
   });
 
-const queryDetail = (tokenId: string) =>
+const queryDetail = (tokenId: string, contract: string) =>
   axios.get('/nft/detail', {
     params: {
       chain_id: chainId,

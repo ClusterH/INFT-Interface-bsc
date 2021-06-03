@@ -43,7 +43,7 @@ export default () => {
   });
 
   useEffect(() => {
-    initDetailData(tokenId);
+    initDetailData(tokenId, contract);
     if (orderId) {
       initOrderData(orderId);
     }
@@ -75,9 +75,9 @@ export default () => {
     }
   };
 
-  const initDetailData = async (id: string) => {
+  const initDetailData = async (id: string, contract: string) => {
     try {
-      const data: any = await queryDetail(id);
+      const data: any = await queryDetail(id, contract);
       setDetail(data);
     } catch (error) {
       console.error(error);
@@ -134,8 +134,9 @@ export default () => {
     try {
       const maker = wallet.account || '';
       const tokenId = detail.token_id;
+      const target = detail.contract;
 
-      const res = await sellToken({ maker, price, tokenId, amount: 1 });
+      const res = await sellToken({ maker, price, tokenId, amount: 1, target });
 
       console.log('res', res);
       const orderId = res.ID;

@@ -6,13 +6,17 @@ export interface IGetBodyParams {
   tokenId: string;
   maker: string;
   amount: number;
+  target: string;
 }
 
 const exchange = '0x76265575B884F2F7b26B6071e26Ce17235184053';
 const feeRecipient = '0x4c9f5e85Dd88cd06015d791479a6a478c3D27B6B';
-const cryptozContractAddress = '0x8a0c542ba7bbbab7cf3551ffcc546cdc5362d2a1';
+// const cryptozContractAddress = '0x8a0c542ba7bbbab7cf3551ffcc546cdc5362d2a1';
 
-async function getBody(e: any, { tokenId, maker, amount }: IGetBodyParams) {
+async function getBody(
+  e: any,
+  { tokenId, maker, amount, target }: IGetBodyParams,
+) {
   const body: any = {
     chain_id: 56,
     //   token_id: "49708",
@@ -30,7 +34,8 @@ async function getBody(e: any, { tokenId, maker, amount }: IGetBodyParams) {
     fee_method: 1, // 固定
     side: 1, // 固定
     sale_kind: 0, // ？暂时认为固定
-    target: cryptozContractAddress, // erc721地址 nft地址
+    // target: cryptozContractAddress, // erc721地址 nft地址
+    target: target,
     how_to_call: 0, // 固定
     // ？不确定 => 已解决
     //   calldata:

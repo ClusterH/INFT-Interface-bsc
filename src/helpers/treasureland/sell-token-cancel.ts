@@ -46,7 +46,7 @@ const sellTokenCancel = async (order: any) => {
     //     console.log('receipt', receipt);
     //   });
 
-    console.log('result', result);
+    console.log('sell token cancel result', result);
     return result;
   } catch (error) {
     throw error;

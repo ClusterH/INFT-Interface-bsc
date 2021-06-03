@@ -5,15 +5,16 @@ export interface IGetEParam {
   basePrice: string;
   tokenId: string;
   amount: number;
+  target: string;
 }
 
 // TODO 这里硬编码，后期作为参数传入
-const cryptozContractAddress = '0x8a0c542ba7bbbab7cf3551ffcc546cdc5362d2a1';
+// const cryptozContractAddress = '0x8a0c542ba7bbbab7cf3551ffcc546cdc5362d2a1';
 const treasurelandContractAddress =
   '0x76265575B884F2F7b26B6071e26Ce17235184053';
 const feeRecipient = '0x4c9f5e85Dd88cd06015d791479a6a478c3D27B6B'; // 接收手续费的地址
 
-function getE({ maker, basePrice, tokenId, amount }: IGetEParam): any {
+function getE({ maker, basePrice, tokenId, amount, target }: IGetEParam): any {
   const e: any = {
     //   basePrice: "1000000000000000000", // ？
     //   calldata:
@@ -39,7 +40,8 @@ function getE({ maker, basePrice, tokenId, amount }: IGetEParam): any {
     taker: '0x0000000000000000000000000000000000000000',
     takerProtocolFee: 0,
     takerRelayerFee: 0,
-    target: cryptozContractAddress,
+    // target: cryptozContractAddress,
+    target: target, // 集合合约地址
   };
 
   e.basePrice = basePrice;
