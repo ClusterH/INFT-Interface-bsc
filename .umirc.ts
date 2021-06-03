@@ -7,11 +7,22 @@ export default defineConfig({
   alias: {
     // inft: '@/components',
   },
+
+  define: {
+    // Mainnet
+    'process.env.chainId': 56,
+    'process.env.rpcURL': 'https://bsc-dataseed1.binance.org/',
+    // Testnet
+    // 'process.env.chainId': 97,
+    // 'process.env.rpcURL': 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+  },
+
   title: 'iNFT',
   favicon: '/favicon.ico',
   mode: 'site',
   logo: '/favicon.ico',
   description: '组件、工具等说明文档',
+
   theme: {
     '@primary-color': '#FED835',
   },
