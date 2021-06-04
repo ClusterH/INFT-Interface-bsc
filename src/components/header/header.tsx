@@ -27,7 +27,7 @@ export default () => {
           <img src={logo} alt="iNFT" className={styles.logo} />
         </Link>
 
-        <SearchInput placeholder="请输入NFT名称" />
+        {/* <SearchInput placeholder="请输入NFT名称" /> */}
 
         <div className={styles.nav}>
           <NavLink to="/market" activeClassName={styles.activeLink}>

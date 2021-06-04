@@ -32,9 +32,9 @@ export default (props: IMarketCardList) => {
     <div className={styles.cardList}>
       <div className={styles.total}>{total} Results</div>
 
-      {data.map((item, index) => (
+      {data.map((item) => (
         <Card
-          key={index}
+          key={item.tokenId}
           image={item.image}
           name={item.name}
           owner={item.owner}
