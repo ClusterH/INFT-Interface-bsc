@@ -39,7 +39,11 @@ export default (props: IMarketCardProps) => {
 
   return (
     <div className={styles.marketCard} onClick={handleClick}>
-      <div className={styles.imgBox}>
+      <div
+        className={[styles.imgBox, onSale ? styles.imageBoxOnSale : null].join(
+          ' ',
+        )}
+      >
         <img src={image} alt="" className={styles.image} />
       </div>
 

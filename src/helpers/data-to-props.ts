@@ -6,17 +6,23 @@ const transResource = (resource: string): string => {
     : `https://api.treasureland.market/v2/v1/resourceS3?uri=${resource}&size=500x0`;
 };
 
-const itemsToList = (list: any[]): any[] => {
-  return list.map((item) => ({
-    contract: item.contract,
-    tokenId: item.token_id,
-    orderId: item.order_id,
-    image: transResource(item.resource),
-    name: item.name,
-    owner: `${item.maker.substr(0, 5)}***${item.maker.substr(-4)}`,
-    price: web3.utils.fromWei(item.price),
-    showFooter: true,
-  }));
+const itemsToList = (list: any[], wallet?: any): any[] => {
+  const account =
+    wallet.status === 'connected' ? wallet.account.toLowerCase() : null;
+
+  return list.map((item) => {
+    return {
+      contract: item.contract,
+      tokenId: item.token_id,
+      orderId: item.order_id,
+      image: transResource(item.resource),
+      name: item.name,
+      owner: `${item.maker.substr(0, 5)}***${item.maker.substr(-4)}`,
+      price: web3.utils.fromWei(item.price),
+      showFooter: true,
+      onSale: !!account && account === item.maker.toLowerCase(),
+    };
+  });
 };
 
 const dataToDetailProps = (data: any): any => {

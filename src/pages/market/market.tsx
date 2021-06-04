@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'umi';
+import { useWallet } from '@binance-chain/bsc-use-wallet';
 import Banner from '@/components/banner';
 import Market from '@/components/market';
 import { queryItems, queryCollections } from '@/servers';
@@ -12,6 +13,7 @@ import styles from './styles.less';
 export default () => {
   const history = useHistory();
   const { query }: any = useLocation();
+  const wallet = useWallet();
 
   const [queryParams, setQueryParams] = useState({
     dataCount: 0,
@@ -138,7 +140,7 @@ export default () => {
             onChangeCollection={onChangeCollection}
           />
           <Market.CardList
-            data={itemsToList(list)}
+            data={itemsToList(list, wallet)}
             total={queryParams.dataCount}
             onClick={handleClick}
           />

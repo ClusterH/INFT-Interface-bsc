@@ -1,6 +1,6 @@
 import getOrderHash from './get-order-hash';
 import getSig from './get-sig';
-import getOrderHashSign from './get-order-hash';
+import getOrderHashSign from './get-order-hash-sign';
 
 export interface IGetBodyParams {
   tokenId: string;
