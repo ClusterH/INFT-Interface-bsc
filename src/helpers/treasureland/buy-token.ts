@@ -4,7 +4,7 @@ import getI from './get-i';
 import { treasurelandContract } from '@/contracts';
 
 async function buyToken(orderData: any, account: string, amount: number) {
-  const a = getA(orderData, account, amount);
+  const a = await getA(orderData, account, amount);
   const r = getR(orderData);
   const i = getI(orderData);
 

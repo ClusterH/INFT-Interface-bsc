@@ -80,9 +80,13 @@ export default () => {
   }) => {
     try {
       const res = await queryItems({ pageNo, pageSize, sortType, contract });
-      const newList = res.list;
+      const newList = res.list || [];
       // 重置列表 或 追加数据
-      if (list.length && list[0].contract === newList[0].contract) {
+      if (
+        list.length &&
+        newList.length &&
+        list[0].contract === newList[0].contract
+      ) {
         setList([...list, ...newList]);
       } else {
         setList([...newList]);

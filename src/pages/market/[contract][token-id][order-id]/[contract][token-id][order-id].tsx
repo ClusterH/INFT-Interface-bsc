@@ -17,7 +17,7 @@ import {
 } from '@/helpers/treasureland';
 import SellConfirm from '@/components/sell-confirm';
 import Web3 from 'web3';
-import { cryptozContract } from '@/contracts';
+import contractFactory from '@/contracts';
 
 export default () => {
   const { contract, tokenId, orderId } = useParams() as any;
@@ -61,9 +61,11 @@ export default () => {
     }
   }, [orderId]);
 
-  const ownerOfme = (tokenId: string) => {
+  const ownerOfme = async (tokenId: string) => {
     if (wallet.status === 'connected') {
-      cryptozContract.methods
+      console.log('ownerOfme tokenId: ', tokenId);
+      const contractObj = await contractFactory(contract);
+      contractObj.methods
         .ownerOf(tokenId)
         .call()
         .then((owner: string) => {
@@ -181,10 +183,11 @@ export default () => {
 
     try {
       const result = await buyToken(order, wallet.account as string, 1);
-      const { contract, token_id } = result;
+      // const { contract, token_id } = result;
+      console.log('buyToken result: ', result);
 
       notification.success({ message: '购买成功' });
-      history.push(`/market/${contract}/${token_id}`);
+      history.push(`/market/${contract}/${tokenId}`);
 
       setBuyConfirm({
         ...buyConfirm,

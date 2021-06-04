@@ -23,7 +23,9 @@ const sellToken = async ({
 
     const e = await getE({ maker, basePrice, tokenId, amount, target });
     const body = await getBody(e, { tokenId, maker, amount, target });
-    const res = await makeOrder(body);
+    // const res = await makeOrder(body);
+    console.log(e);
+    console.log(body);
 
     return res;
   } catch (error) {

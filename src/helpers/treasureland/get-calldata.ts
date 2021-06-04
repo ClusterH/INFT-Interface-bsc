@@ -1,6 +1,5 @@
-import cryptozABI from '@/abis/cryptoz.json';
+// import cryptozABI from '@/abis/cryptoz.json';
 const ethers = require('ethers');
-console.log(ethers);
 
 /**
  * @desc 计算 calldata
@@ -9,10 +8,18 @@ console.log(ethers);
  * @param {string} n 固定 0x0000000000000000000000000000000000000000
  * @param {string} r tokenId
  * @param {int}    a 固定 amount 当前项目固定为 1
+ * @param {array} o 系列合约ABI
  * @returns
  */
-function getCalldata(e: string, t: string, n: string, r: string, a: number) {
-  let o = cryptozABI;
+function getCalldata(
+  e: string,
+  t: string,
+  n: string,
+  r: string,
+  a: number,
+  o: any[],
+) {
+  // let o = cryptozABI;
   let s = new ethers.utils.Interface(o);
 
   let l = s.encodeFunctionData('transferFrom(address,address,uint256)', [

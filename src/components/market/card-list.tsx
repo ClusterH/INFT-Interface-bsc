@@ -9,6 +9,7 @@ export interface ICardBaseProps {
   name: string;
   owner: string;
   price: string;
+  onSale?: boolean;
   showFooter?: boolean;
 }
 
@@ -16,6 +17,7 @@ export interface IHandleBuyParams {
   contract: string;
   tokenId: string;
   orderId: string;
+  onSale: boolean;
 }
 
 export interface IMarketCardList {
@@ -38,15 +40,11 @@ export default (props: IMarketCardList) => {
           owner={item.owner}
           price={item.price}
           tokenId={item.tokenId}
+          orderId={item.orderId}
+          onSale={item.onSale}
           contract={item.contract}
           showFooter={item.showFooter}
-          onClick={() =>
-            onClick({
-              contract: item.contract,
-              tokenId: item.tokenId,
-              orderId: item.orderId,
-            })
-          }
+          onClick={onClick}
         />
       ))}
     </div>

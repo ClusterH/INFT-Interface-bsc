@@ -12,6 +12,8 @@ const transItems = (list: any[]): any[] => {
     name: item.name,
     contract: item.contract,
     tokenId: item.token_id,
+    orderId: item.order_id,
+    onSale: item.on_sale,
     showFooter: false,
   }));
 };
@@ -36,15 +38,23 @@ export default () => {
     }
   };
 
-  const showDetail = ({ contract, tokenId }) => {
-    history.push(`/market/${contract}/${tokenId}`);
+  const showDetail = ({ contract, tokenId, orderId, onSale }: any) => {
+    if (onSale) {
+      history.push(`/market/${contract}/${tokenId}/${orderId}`);
+    } else {
+      history.push(`/market/${contract}/${tokenId}`);
+    }
   };
 
   return (
     <div>
       <div style={{ marginTop: '48px' }}></div>
       {!!assets.length && (
-        <CardList data={transItems(assets)} onClick={showDetail} />
+        <CardList
+          data={transItems(assets)}
+          onClick={showDetail}
+          total={assets.length}
+        />
       )}
     </div>
   );

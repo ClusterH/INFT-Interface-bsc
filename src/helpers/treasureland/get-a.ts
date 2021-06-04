@@ -1,4 +1,5 @@
 import getCalldata from './get-calldata';
+import { bscscan } from '@/servers';
 
 /**
  * @desc origin: https://d1iep3ievzy2jq.cloudfront.net/p__NFTDetailV2.a703051f.async.js:formatted
@@ -8,13 +9,16 @@ import getCalldata from './get-calldata';
  * @param {number} r  购买数量
  * @returns
  */
-function getA(t: any, n: string, r: number): any {
+async function getA(t: any, n: string, r: number) {
   const it_a = '0x0000000000000000000000000000000000000000';
   const e = 'erc721';
   const zt_e =
     '0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
   const zt_c =
     '0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
+
+  const o = await bscscan({ address: t.target });
+  console.log('bscscan o', typeof o, o);
   return {
     exchange: null === t || void 0 === t ? void 0 : t.exchange,
     maker: n,
@@ -45,6 +49,7 @@ function getA(t: any, n: string, r: number): any {
       n,
       null === t || void 0 === t ? void 0 : t.token_id,
       r,
+      o,
     ),
 
     // replacementPattern: 'erc721' === e ? zt['e'] : zt['c'],

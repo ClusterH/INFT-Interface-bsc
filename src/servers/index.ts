@@ -6,3 +6,4 @@ export {
   makeOrder,
   queryCollections,
 } from './treasureland';
+export { bscscan } from './bscscan';

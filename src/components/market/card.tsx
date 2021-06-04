@@ -7,15 +7,38 @@ interface IMarketCardProps {
   price?: string;
   contract?: string;
   tokenId?: string;
+  orderId?: string;
+  onSale?: boolean;
   showFooter?: boolean;
-  onClick?: () => void;
+  onClick?: (data: any) => void;
 }
 
 export default (props: IMarketCardProps) => {
-  const { image, name, owner, price, showFooter, onClick } = props;
+  const {
+    tokenId,
+    orderId,
+    onSale,
+    contract,
+    image,
+    name,
+    owner,
+    price,
+    showFooter,
+    onClick,
+  } = props;
+
+  const handleClick = () => {
+    onClick &&
+      onClick({
+        contract,
+        tokenId,
+        orderId,
+        onSale,
+      });
+  };
 
   return (
-    <div className={styles.marketCard} onClick={onClick}>
+    <div className={styles.marketCard} onClick={handleClick}>
       <div className={styles.imgBox}>
         <img src={image} alt="" className={styles.image} />
       </div>
@@ -26,7 +49,7 @@ export default (props: IMarketCardProps) => {
         {!!showFooter && (
           <div className={styles.buyWrap}>
             <span className={styles.owner}>{owner}</span>
-            <button className={styles.buyBtn} onClick={onClick}>
+            <button className={styles.buyBtn} onClick={handleClick}>
               {price} BNB
             </button>
           </div>

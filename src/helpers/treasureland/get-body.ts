@@ -6,7 +6,7 @@ export interface IGetBodyParams {
   tokenId: string;
   maker: string;
   amount: number;
-  target: string;
+  target: string; // 系列合约地址
 }
 
 const exchange = '0x76265575B884F2F7b26B6071e26Ce17235184053';

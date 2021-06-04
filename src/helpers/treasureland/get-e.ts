@@ -1,11 +1,12 @@
 import getCalldata from './get-calldata';
+import { bscscan } from '@/servers';
 
 export interface IGetEParam {
   maker: string;
   basePrice: string;
   tokenId: string;
   amount: number;
-  target: string;
+  target: string; // 系列合约地址
 }
 
 // TODO 这里硬编码，后期作为参数传入
@@ -14,7 +15,10 @@ const treasurelandContractAddress =
   '0x76265575B884F2F7b26B6071e26Ce17235184053';
 const feeRecipient = '0x4c9f5e85Dd88cd06015d791479a6a478c3D27B6B'; // 接收手续费的地址
 
-function getE({ maker, basePrice, tokenId, amount, target }: IGetEParam): any {
+async function getE({ maker, basePrice, tokenId, amount, target }: IGetEParam) {
+  const o = await bscscan({ address: target });
+  console.log('getE o', typeof o, o);
+
   const e: any = {
     //   basePrice: "1000000000000000000", // ？
     //   calldata:
@@ -51,6 +55,7 @@ function getE({ maker, basePrice, tokenId, amount, target }: IGetEParam): any {
     '0x0000000000000000000000000000000000000000', // 固定
     tokenId, // token ID
     amount, // amount 认为固定
+    o,
   );
   e.maker = maker;
   e.listingTime = Math.floor(Date.now() / 1e3);

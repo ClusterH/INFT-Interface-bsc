@@ -41,6 +41,7 @@ const sellTokenCancel = async (order: any) => {
       )
       .send({
         from: n.maker,
+        gas: 300000,
       });
     //   .then((receipt: any) => {
     //     console.log('receipt', receipt);
