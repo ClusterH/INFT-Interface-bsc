@@ -10,13 +10,26 @@ import styles from './styles.less';
 export default () => {
   const wallet = useWallet();
 
+  useEffect(() => {
+    const connected = sessionStorage.getItem('metamask-connected');
+    if (connected) {
+      if (wallet.status !== 'connected') {
+        console.log('connected');
+        wallet.connect();
+        sessionStorage.setItem('metamask-connected', 'true');
+      }
+    }
+  }, []);
+
   const connectWallet = () => {
     if (wallet.status === 'disconnected') {
       wallet.connect();
+      sessionStorage.setItem('metamask-connected', 'true');
     }
   };
 
   const formatAccount = (account: string): string => {
+    if (!account) return '';
     return `${account.substr(0, 5)}...${account.substr(-4)}`;
   };
 
