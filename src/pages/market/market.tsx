@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'umi';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import Banner from '@/components/banner';
 import Market from '@/components/market';
-import { queryItems, queryCollections } from '@/servers';
+import { itemsRecommend, queryItems, queryCollections } from '@/servers';
 import InfiniteScroll from 'react-infinite-scroller';
 import Spin from '@/components/spin';
 import { itemsToList } from '@/helpers/data-to-props';
@@ -15,94 +15,133 @@ export default () => {
   const { query }: any = useLocation();
   const wallet = useWallet();
 
-  const [queryParams, setQueryParams] = useState({
+  const [assets, setAssets] = useState({
     dataCount: 0,
-    pageNo: 0,
+    hasMore: true,
+    list: [],
+  });
+
+  const [queryParam, setQueryParam] = useState({
+    pageNo: 1,
     pageSize: 18,
     sortType: 1,
-    hasMore: true,
   });
 
   const [collections, setCollections] = useState([]);
 
-  // 初始化assets
+  // 初始化
   useEffect(() => {
-    if (query && query.contract) {
-      queryAssets({
-        pageNo: queryParams.pageNo,
-        pageSize: queryParams.pageSize,
-        sortType: queryParams.sortType,
-        contract: query.contract,
-      });
-    } else {
-      // 请求推荐items
-      queryAssets({
-        pageNo: queryParams.pageNo,
-        pageSize: queryParams.pageSize,
-        sortType: queryParams.sortType,
-      });
+    initCollections();
+    loadItems();
+  }, []);
+
+  useEffect(() => {
+    if (query.contract) {
+      loadItems();
     }
   }, [query.contract]);
 
-  // 初始化 collections
-  useEffect(() => {
-    initCollections();
-  }, []);
-
-  const [list, setList] = useState([]);
-
-  const initCollections = async () => {
-    const res: any = await queryCollections(56, 0);
-    setCollections(res.items);
+  const loadItems = (append?: boolean) => {
+    if (query && query.contract) {
+      loadCollectionItems(
+        {
+          contract: query.contract,
+          sortType: queryParam.sortType,
+          pageNo: queryParam.pageNo,
+          pageSize: queryParam.pageSize,
+        },
+        append,
+      );
+    } else {
+      // loadContractItems()
+      loadRecommendItems(
+        {
+          pageNo: queryParam.pageNo,
+          pageSize: queryParam.pageSize,
+          sortType: 1,
+        },
+        append,
+      );
+    }
   };
 
-  const autoLoadAssets = (): void => {
-    const currentPageNo = queryParams.pageNo;
-    const nextPageNo = currentPageNo + 1;
-
-    queryAssets({
-      pageNo: queryParams.pageNo,
-      pageSize: queryParams.pageSize,
-      sortType: queryParams.sortType,
-      contract: query ? query.contract : null,
-    });
-  };
-
-  /** 查询列表 */
-  const queryAssets = async ({
-    pageNo,
-    pageSize,
-    sortType,
-    contract,
-  }: {
-    pageNo: number;
-    pageSize: number;
-    sortType: number;
-    contract?: string;
-  }) => {
+  /** 获取推荐列表 */
+  const loadRecommendItems = async (params: any, append?: boolean) => {
     try {
-      const res = await queryItems({ pageNo, pageSize, sortType, contract });
-      const newList = res.list || [];
-      // 重置列表 或 追加数据
-      if (
-        list.length &&
-        newList.length &&
-        list[0].contract === newList[0].contract
-      ) {
-        setList([...list, ...newList]);
+      const {
+        list: newList,
+        dataCount,
+        pageNo,
+        pageSize,
+      }: any = await itemsRecommend(params);
+
+      if (append) {
+        // setList([...list, ...newList]);
+        setAssets({
+          dataCount: dataCount,
+          hasMore: pageSize * pageNo <= dataCount,
+          list: [...assets.list, ...newList],
+        });
       } else {
-        setList([...newList]);
+        setAssets({
+          dataCount: dataCount,
+          hasMore: pageSize * pageNo <= dataCount,
+          list: [...newList],
+        });
       }
 
-      setQueryParams({
-        dataCount: res.dataCount,
-        pageNo: res.pageNo,
-        pageSize: res.pageSize,
-        hasMore: (pageNo + 1) * pageSize <= res.dataCount,
+      setQueryParam({
+        ...queryParam,
+        pageNo: pageNo + 1,
+        pageSize: pageSize,
+        sortType: 1,
       });
     } catch (error) {
       console.error(error);
     }
+  };
+
+  /** 获取系列列表 */
+  const loadCollectionItems = async (params: any, append?: boolean) => {
+    try {
+      const {
+        list: newList,
+        dataCount,
+        pageNo,
+        pageSize,
+      }: any = await queryItems(params);
+
+      if (append) {
+        setAssets({
+          dataCount: dataCount,
+          hasMore: pageSize * pageNo <= dataCount,
+          list: [...assets.list, ...newList],
+        });
+      } else {
+        console.log('hasMore', pageSize * pageNo <= dataCount);
+
+        setAssets({
+          dataCount: dataCount,
+          hasMore: pageSize * pageNo <= dataCount,
+          list: newList ? [...newList] : [],
+        });
+      }
+
+      setQueryParam({
+        ...queryParam,
+        pageNo: pageNo + 1,
+        pageSize: pageSize,
+        sortType: 1,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  /** 初始化collections */
+  const initCollections = async () => {
+    const res: any = await queryCollections(56, 0);
+    setCollections(res.items);
   };
 
   const handleClick = (params: {
@@ -115,7 +154,16 @@ export default () => {
   };
 
   const onChangeCollection = (item: any) => {
+    resetQueryParam();
     history.push(`/market?contract=${item.address}`);
+  };
+
+  const resetQueryParam = () => {
+    setQueryParam({
+      pageNo: 1,
+      pageSize: 18,
+      sortType: 1,
+    });
   };
 
   return (
@@ -123,29 +171,34 @@ export default () => {
       <Banner />
       <Market.LevelCheckbox />
 
-      <InfiniteScroll
-        initialLoad={false}
-        loadMore={autoLoadAssets}
-        useWindow={true}
-        hasMore={queryParams.hasMore}
-        loader={
-          <div key={queryParams.pageNo} style={{ textAlign: 'center' }}>
-            <Spin />
-          </div>
-        }
-      >
-        <div className={styles.content}>
-          <SidebarFilter
-            collections={collections}
-            onChangeCollection={onChangeCollection}
-          />
-          <Market.CardList
-            data={itemsToList(list, wallet)}
-            total={queryParams.dataCount}
-            onClick={handleClick}
-          />
-        </div>
-      </InfiniteScroll>
+      <div className={styles.content}>
+        <SidebarFilter
+          collections={collections}
+          onChangeCollection={onChangeCollection}
+        />
+
+        {!!assets.list.length && (
+          <InfiniteScroll
+            initialLoad={false}
+            loadMore={() => loadItems(true)}
+            useWindow={true}
+            hasMore={assets.hasMore}
+            loader={
+              <div key={queryParam.pageNo} style={{ textAlign: 'center' }}>
+                <Spin />
+              </div>
+            }
+          >
+            <div style={{ paddingLeft: 30 }}>
+              <Market.CardList
+                data={itemsToList(assets.list, wallet)}
+                total={assets.dataCount}
+                onClick={handleClick}
+              />
+            </div>
+          </InfiniteScroll>
+        )}
+      </div>
     </div>
   );
 };

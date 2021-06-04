@@ -37,17 +37,6 @@ export interface IQueryDetailParams {
   tokenId: string;
 }
 
-const queryItems = (params: IQueryItemsParams) =>
-  axios.get('/nft/items', {
-    params: {
-      chain_id: chainId,
-      contract: params.contract,
-      sort_type: params.sortType,
-      page_no: params.pageNo,
-      page_size: params.pageSize,
-    },
-  });
-
 const queryDetail = (tokenId: string, contract: string) =>
   axios.get('/nft/detail', {
     params: {
@@ -81,7 +70,29 @@ const queryCollections = (chainId: string | number, catId: string | number) =>
     },
   });
 
+const itemsRecommend = ({ pageNo, pageSize, sortType }: any) =>
+  axios.get('/nft/items_recommend', {
+    params: {
+      chain_id: chainId,
+      page_no: pageNo,
+      page_size: pageSize,
+      sort_type: sortType,
+    },
+  });
+
+const queryItems = (params: IQueryItemsParams) =>
+  axios.get('/nft/items', {
+    params: {
+      chain_id: chainId,
+      contract: params.contract,
+      sort_type: params.sortType,
+      page_no: params.pageNo,
+      page_size: params.pageSize,
+    },
+  });
+
 export {
+  itemsRecommend,
   queryItems,
   queryDetail,
   queryOrder,
