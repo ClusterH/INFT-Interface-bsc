@@ -27,7 +27,10 @@ export default defineConfig({
     '@primary-color': '#FED835',
   },
   routes: [
-    // { path: '/', component: '@/pages/index' },
+    {
+      path: '/idolbox',
+      component: '@/pages/idolbox',
+    },
     {
       path: '/',
       component: '@/layouts/assets',
