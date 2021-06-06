@@ -15,7 +15,11 @@ export default () => {
   const { query }: any = useLocation();
   const wallet = useWallet();
 
-  const [assets, setAssets] = useState({
+  const [assets, setAssets] = useState<{
+    dataCount: number;
+    hasMore: boolean;
+    list: any[];
+  }>({
     dataCount: 0,
     hasMore: true,
     list: [],

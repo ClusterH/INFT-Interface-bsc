@@ -6,7 +6,7 @@ export interface ICheckoutBuyProps {
   title: string;
   image: string;
   volume: number;
-  amount: number;
+  amount: number | string;
   symbol: string;
   visible: boolean;
   isCompleting: boolean;

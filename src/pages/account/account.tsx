@@ -1,5 +1,5 @@
 import { Spin, Empty, Button } from 'antd';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'umi';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import { notification } from 'antd';
@@ -33,12 +33,12 @@ const transItems = (list: any[]): any[] => {
 export default () => {
   const wallet = useWallet();
   const history = useHistory();
-  const [assets, setAssets] = useState([]);
+  const [assets, setAssets] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (wallet.status === 'connected') {
-      initAssets(wallet.account);
+      wallet.account && initAssets(wallet.account);
     }
   }, [wallet.status]);
 

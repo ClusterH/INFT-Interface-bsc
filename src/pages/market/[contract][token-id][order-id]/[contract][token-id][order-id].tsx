@@ -23,7 +23,7 @@ export default () => {
   const { contract, tokenId, orderId } = useParams() as any;
   const wallet = useWallet();
   const history = useHistory();
-  const [detail, setDetail] = useState(null);
+  const [detail, setDetail] = useState<any>(null);
   const [order, setOrder] = useState(null);
   const [sellLoading, setSellLoading] = useState(false);
   const [cancelSellLoading, setCancelSellLoading] = useState(false);
@@ -295,7 +295,6 @@ export default () => {
           volume={1}
           amount={Web3.utils.fromWei(detail.price)}
           symbol="BNB"
-          loading={buyConfirm.loading}
           isCompleting={buyConfirm.isCompleting}
         />
       )}

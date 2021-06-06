@@ -15,7 +15,7 @@ export default () => {
     if (connected) {
       if (wallet.status !== 'connected') {
         console.log('connected');
-        wallet.connect();
+        wallet.connect('injected');
         sessionStorage.setItem('metamask-connected', 'true');
       }
     }
@@ -23,7 +23,7 @@ export default () => {
 
   const connectWallet = () => {
     if (wallet.status === 'disconnected') {
-      wallet.connect();
+      wallet.connect('injected');
       sessionStorage.setItem('metamask-connected', 'true');
     }
   };
@@ -54,7 +54,7 @@ export default () => {
         <div className={styles.wallet}>
           {wallet.status === 'connected' && (
             <span className={styles.account}>
-              {formatAccount(wallet.account)}
+              {formatAccount(wallet.account as string)}
             </span>
           )}
           <img

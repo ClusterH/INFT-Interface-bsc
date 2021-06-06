@@ -49,7 +49,7 @@ const queryDetail = (tokenId: string, contract: string) =>
 const queryOrder = (tokenId: string) =>
   axios.get('/query/order', { params: { order_id: tokenId } });
 
-const queryAssets = (address: string) =>
+const queryAssets = (address: string): Promise<{ list: any[] }> =>
   axios.get('/account/assets', {
     params: {
       chain_id: chainId,
