@@ -17,3 +17,4 @@ import BscAddress from '@/components/bsc-address'
 
 export default () => <BscAddress value="0x8b7A9d07e34712F8473BeB95Cd85420ee25A600C" short />
 ```
+<API src="../../src/components/bsc-address/bsc-address.tsx"></API>

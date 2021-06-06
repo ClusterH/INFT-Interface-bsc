@@ -42,3 +42,5 @@ export default () => {
 }
 ```
 <Alert>注意，`visible`、`isCompleting` 关闭的顺序</Alert>
+
+<API src="../../src/components/buy-confirm/index.tsx"></API>

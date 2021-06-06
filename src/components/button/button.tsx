@@ -1,10 +1,7 @@
 import { Button } from 'antd';
+import React from 'react';
 
-interface IProps {
-  children: string;
-}
-
-export default (props: IProps) => (
+export default (props: React.PropsWithChildren<any>) => (
   <Button type="primary" {...props}>
     {props.children}
   </Button>

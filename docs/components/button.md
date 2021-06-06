@@ -8,3 +8,4 @@ import Button from '@/components/button/button.tsx' // 可以在 .umirc.ts配置
 
 export default () => <Button>I 按钮</Button>
 ```
+

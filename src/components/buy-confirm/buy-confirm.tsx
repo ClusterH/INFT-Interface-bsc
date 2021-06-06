@@ -2,15 +2,25 @@ import { Modal, Button } from 'antd';
 import styles from './styles.less';
 
 export interface ICheckoutBuyProps {
+  /** token 名称 */
   name: string;
+  /** 系列名称 */
   title: string;
+  /** 图片 */
   image: string;
+  /** 购买数量 */
   volume: number;
+  /** 购买总额 */
   amount: number | string;
+  /** 标的符号 */
   symbol: string;
+  /** 确认框是否可见 */
   visible: boolean;
+  /** 是否在处理中 */
   isCompleting: boolean;
+  /** 点击确认后回调 */
   onOk: () => void;
+  /** 关闭弹窗 */
   onCancel: () => void;
 }
 

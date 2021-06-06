@@ -1,11 +1,14 @@
+import React from 'react';
 import styles from './styles.less';
 
 export interface IBscAddressProps {
+  /** 钱包/合约地址 */
   value: string;
+  /** 是否脱敏 */
   short?: boolean;
 }
 
-export default (props: IBscAddressProps) => {
+const BscAddress: React.FC<IBscAddressProps> = (props) => {
   const { value, short } = props;
 
   const onClick = () => {
@@ -18,3 +21,5 @@ export default (props: IBscAddressProps) => {
     </span>
   );
 };
+
+export default BscAddress;
