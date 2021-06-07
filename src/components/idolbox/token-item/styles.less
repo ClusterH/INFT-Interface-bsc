@@ -1,13 +1,17 @@
 .tokenItem {
-  width: 165px;
-  height: 211px;
-  background: #fdf1f7;
-  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.07);
-  border-radius: 6px;
+  display: inline-block;
+  width: 219px;
+  height: 289px;
+  background: #ffffff;
+  box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.07);
+  border-radius: 8px;
+  margin-right: 30px;
+  margin-bottom: 35px;
 
   .image {
-    width: 165px;
-    height: 165px;
+    width: 219px;
+    height: 219px;
+    border-radius: 8px 8px 0px 0px;
   }
 
   .footer {
@@ -15,31 +19,34 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 46px;
+    height: 70px;
+    width: 100%;
   }
 
   .showBtn {
     display: inline-block;
-    width: 67px;
-    height: 23px;
-    background: rgba(147, 138, 255, 0.15);
-    border-radius: 15px 0px 0px 15px;
-    font-size: 10px;
+    width: 92px;
+    height: 32px;
+    line-height: 32px;
+    background: rgba(147, 138, 255, 0.2);
+    border-radius: 21px 0px 0px 21px;
+    font-size: 15px;
     font-weight: 400;
-    color: rgb(147, 138, 255);
-    line-height: 14px;
+    color: #746aea;
     text-align: center;
+    cursor: pointer;
   }
   .sellBtn {
     display: inline-block;
-    width: 59px;
-    height: 21px;
+    width: 92px;
+    height: 32px;
+    line-height: 32px;
     background: linear-gradient(270deg, #fe9cd7 0%, #fc63ae 100%);
-    border-radius: 14px 0px 0px 14px;
-    font-size: 10px;
+    border-radius: 0 21px 21px 0;
+    font-size: 15px;
     font-weight: 400;
     color: #ffffff;
-    line-height: 14px;
     text-align: center;
+    cursor: pointer;
   }
 }

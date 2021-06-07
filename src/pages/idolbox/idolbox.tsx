@@ -4,6 +4,7 @@ import { Card, Button, Space, Input, notification } from 'antd';
 import Web3 from 'web3';
 import abi from '@/abis/idolbox.json';
 import subscribeLogEvent from './subscribe';
+import Idolbox from '@/components/idolbox/idolbox';
 
 const web3 = new Web3(Web3.givenProvider);
 // const idolboxContract = new web3.eth.Contract(
@@ -149,77 +150,7 @@ const App = () => {
     }
   };
 
-  return (
-    <div>
-      <Card title="第一步 连接钱包">
-        {wallet.status === 'connected' ? (
-          <div>
-            <div>钱包地址: {wallet.account} </div>
-            <div>钱包余额: {wallet.balance}</div>
-            <div>链ID: {wallet.chainId}</div>
-            <div>状态: {wallet.status}</div>
-
-            <Button onClick={handleDisconnect}>Disconnect</Button>
-          </div>
-        ) : (
-          <Space>
-            <Button onClick={handleConnect}>Connect</Button>
-          </Space>
-        )}
-      </Card>
-
-      <Card title="Idolbox">
-        <Space direction="vertical">
-          <div>
-            <Space>
-              <Button onClick={getPrice}>获取当前价格</Button>
-              <span>{Web3.utils.fromWei(data.price)} BNB</span>
-            </Space>
-          </div>
-
-          <div>
-            {wallet.status === 'connected' && (
-              <Space>
-                <Input
-                  placeholder="购买金额"
-                  value={data.buyAmount}
-                  defaultValue={data.price}
-                  onChange={handleAmountChange}
-                />
-                <Button onClick={handleBuyToken}>购买Token</Button>
-              </Space>
-            )}
-          </div>
-
-          <div>
-            <Space>
-              {eventLog.map((item) => (
-                <span>
-                  用户：{item.buyer} 买了：{item.count} 个
-                </span>
-              ))}
-            </Space>
-          </div>
-        </Space>
-      </Card>
-
-      <Card title="我的NFT">
-        <Space direction="vertical">
-          <Button onClick={balanceOf}>我的NFT</Button>
-          <span>NFT数量：{data.tokenBalance}</span>
-        </Space>
-      </Card>
-
-      <Card title="设置合约地址">
-        <Input
-          placeholder="设置合约地址"
-          onChange={handleChangeContractAddress}
-          defaultValue={idolbox.address}
-        />
-        <Button onClick={initIdolbox}>设置合约地址</Button>
-      </Card>
-    </div>
-  );
+  return <Idolbox />;
 };
 
 export default () => {

@@ -6,11 +6,15 @@ export default () => {
   return (
     <div className={styles.header}>
       <div className={styles.content}>
-        <Link to="/">
-          <img src={logo} alt="iNFT" className={styles.logo} />
-        </Link>
+        <div className={styles.wrapLogo}>
+          <Link to="/">
+            <img src={logo} alt="iNFT" className={styles.logo} />
+          </Link>
+        </div>
 
-        <span>English</span>
+        <div className={styles.wrapLanguage}>
+          <span className={styles.language}>English</span>
+        </div>
       </div>
     </div>
   );

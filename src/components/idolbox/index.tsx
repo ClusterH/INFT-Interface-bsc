@@ -1,10 +1,6 @@
 import Header from './header/header';
 import Banner from './banner/banner';
 import TokenItem from './token-item/token-item';
+import TokenList from './token-list/token-list';
 
-const Idolbox = {
-  Header,
-  Banner,
-  TokenItem,
-};
-export default Idolbox;
+export { Header, Banner, TokenItem, TokenList };
