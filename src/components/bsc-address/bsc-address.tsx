@@ -15,6 +15,8 @@ const BscAddress: React.FC<IBscAddressProps> = (props) => {
     window.open(`https://bscscan.com/address/${value}`, '_blank');
   };
 
+  if (!value) return null;
+
   return (
     <span className={styles.bscAddress} onClick={onClick}>
       {short ? value.substr(0, 5) + '...' + value.substr(-4) : value}

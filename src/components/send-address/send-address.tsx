@@ -1,4 +1,5 @@
-import { Modal, Input, Button } from 'antd';
+import { Modal, Button } from 'antd';
+import Input from '@/components/input';
 import styles from './styles.less';
 
 export interface ISendAddressProps {
