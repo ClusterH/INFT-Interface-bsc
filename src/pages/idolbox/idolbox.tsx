@@ -12,8 +12,8 @@ const web3 = new Web3(Web3.givenProvider);
 //   '0x12afF846ce762D5632Db36F2161a08fB2bdA5a8C',
 // );
 
-const chainId = process.env.chainId as unknown as number; // taste-frontend-farms
-const rpcUrl = process.env.rpcURL as string;
+const chainId = 97; // taste-frontend-farms
+const rpcUrl = 'https://data-seed-prebsc-1-s1.binance.org:8545/';
 
 const defaultContractAddress =
   localStorage.getItem('contract-address') ||
