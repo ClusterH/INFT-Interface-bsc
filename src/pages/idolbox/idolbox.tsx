@@ -32,13 +32,19 @@ const App = () => {
     contract: defaultContract,
   });
 
-  const [data, setData] = useState({
+  const [data, setData] = useState<{
+    price: string;
+    buyAmount: string;
+    tokenBalance: number;
+  }>({
     price: '',
     buyAmount: '',
     tokenBalance: 0,
   });
 
   const [eventLog, setEventLog] = useState([]);
+
+  const [tokens, setTokens] = useState([]);
 
   useEffect(() => {
     if (defaultContract) {
@@ -48,9 +54,14 @@ const App = () => {
 
   useEffect(() => {
     if (wallet.status === 'connected') {
-      console.log('wallet connected');
+      console.log('wallet connected', wallet.balance);
+      balanceOf();
     }
   }, [wallet.status]);
+
+  useEffect(() => {
+    getOwnerTokens(data.tokenBalance);
+  }, [data.tokenBalance]);
 
   const handleEventLog = (name: string, e: any): void => {
     console.log(name, e);
@@ -93,6 +104,20 @@ const App = () => {
   };
 
   const handleBuyToken = async () => {
+    if (wallet.status !== 'connected') {
+      notification.info({
+        message: '请先连接钱包',
+      });
+      return;
+    }
+
+    if (!data.buyAmount) {
+      notification.info({
+        message: '请输入购买金额',
+      });
+      return;
+    }
+
     try {
       console.log(wallet.account, data.buyAmount);
       const ret = await idolbox.contract.methods.buyBox().send(
@@ -103,12 +128,21 @@ const App = () => {
         (sendRes: any) => {
           console.log('sendRes: ', sendRes);
           console.log('交易已发出');
+          notification.info({
+            message: '交易已发出',
+          });
         },
       );
 
       console.log('交易完成', ret);
+      notification.success({
+        message: '交易完成',
+      });
     } catch (error) {
       console.log('交易失败：', error);
+      notification.error({
+        message: '交易失败：',
+      });
     }
   };
 
@@ -150,7 +184,58 @@ const App = () => {
     }
   };
 
-  return <Idolbox />;
+  const handleChangeAmount = (val: string) => {
+    setData({
+      ...data,
+      buyAmount: val,
+    });
+  };
+
+  const tokenByIndex = async (index: string | number) => {
+    return await idolbox.contract.methods.tokenByIndex(index).call();
+  };
+
+  const tokenURI = async (tokenId: string) => {
+    return await idolbox.contract.methods.tokenURI(tokenId).call();
+  };
+
+  const getOwnerTokens = async (balance: number) => {
+    if (!balance) return;
+
+    const images = [
+      'https://api.treasureland.market/v2/v1/resourceS3?uri=images/bsc/0xc25286ef3bae3f6fe2d6d0a6e2acad0301af97b8/5003e5e94eb281945e870869bc259b96&size=500x0',
+      'https://wx2.sinaimg.cn/large/005BaCAEly4ghple87niuj30mj0nvdhi.jpg',
+    ];
+
+    const newTokens = [];
+
+    for (let i = 0; i < balance; i++) {
+      const id = await tokenByIndex(i);
+      const uri = await tokenURI(id);
+      console.log('id', id);
+      console.log('uri', uri);
+
+      newTokens.push({
+        id,
+        image: images[Math.round(Math.random())],
+      });
+    }
+
+    setTokens(newTokens);
+  };
+
+  return (
+    <Idolbox
+      balance={
+        wallet.status === 'connected' ? web3.utils.fromWei(wallet.balance) : ''
+      }
+      amount={data.buyAmount}
+      onConnect={handleConnect}
+      onChange={handleChangeAmount}
+      onBuy={handleBuyToken}
+      tokens={tokens}
+    />
+  );
 };
 
 export default () => {

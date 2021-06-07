@@ -18,7 +18,7 @@ export interface IBannerProps {
   /** 关联钱包 */
   onConnect: () => void;
   /** 更新购买金额 */
-  onChange: () => void;
+  onChange: (val: string) => void;
   /** 抢购 */
   onBuy: () => void;
 }
@@ -26,6 +26,7 @@ export interface IBannerProps {
 export default (props: IBannerProps) => {
   const { title, image, balance, amount, percent, onConnect, onChange, onBuy } =
     props;
+
   return (
     <div className={styles.bannerWrap}>
       <div className={styles.content}>
@@ -53,18 +54,24 @@ export default (props: IBannerProps) => {
         </div>
 
         <div className={styles.wrapAction}>
-          <span className={styles.btnConnect}>关联钱包</span>
+          <span className={styles.btnConnect} onClick={onConnect}>
+            关联钱包
+          </span>
 
           <div className={styles.wrapBalance}>
-            <span>余额：{balance}</span>
+            <span>余额：{balance ? balance : '-'} BNB</span>
             <Link to="/market">去购买BNB</Link>
           </div>
 
           <div className={styles.wrapInput}>
-            <input type="text" className={styles.input} />
+            <input
+              type="number"
+              className={styles.input}
+              onChange={(e) => onChange(e.target.value)}
+            />
           </div>
 
-          <div className={styles.btnBuy}></div>
+          <div className={styles.btnBuy} onClick={onBuy}></div>
         </div>
       </div>
     </div>
