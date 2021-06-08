@@ -1,0 +1,33 @@
+.filterAttr {
+  :global {
+    .ant-collapse
+      > .ant-collapse-item
+      > .ant-collapse-header
+      .ant-collapse-arrow,
+    .ant-collapse-header {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .ant-checkbox-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ant-checkbox + span {
+      width: 100%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+}
+
+.wrapAttrs {
+  height: 214px;
+  overflow-y: auto;
+
+  label {
+    margin-bottom: 10px;
+  }
+}

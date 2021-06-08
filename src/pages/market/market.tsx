@@ -3,7 +3,12 @@ import { useHistory, useLocation } from 'umi';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import Banner from '@/components/banner';
 import Market from '@/components/market';
-import { itemsRecommend, queryItems, queryCollections } from '@/servers';
+import {
+  itemsRecommend,
+  queryItems,
+  queryCollections,
+  queryCollectAttrs,
+} from '@/servers';
 import InfiniteScroll from 'react-infinite-scroller';
 import Spin from '@/components/spin';
 import { itemsToList } from '@/helpers/data-to-props';
@@ -24,18 +29,30 @@ export default () => {
     hasMore: true,
     list: [],
   });
-
   const [queryParam, setQueryParam] = useState({
     pageNo: 1,
     pageSize: 18,
     sortType: 1,
   });
-
   const [collections, setCollections] = useState([]);
+  const [collectAttrParams, setCollectAttrParams] = useState({
+    chainId: 56,
+    contract: query ? query.contract || '' : '',
+  });
+  /** 当前系列的属性集 */
+  const [collectAttrs, setCollectAttrs] = useState([]);
+  /** 选中的属性集 */
+  const [selectedAttrs, setSelectedAttrs] = useState({
+    // someAttr: []
+  });
 
   // 初始化
   useEffect(() => {
     initCollections();
+    initCollectAttrs({
+      chainId: collectAttrParams.chainId,
+      contract: collectAttrParams.contract,
+    });
     loadItems();
   }, []);
 
@@ -44,6 +61,20 @@ export default () => {
       loadItems();
     }
   }, [query.contract]);
+
+  // 相应属性过滤
+  useEffect(() => {
+    if (Object.keys(selectedAttrs).length) {
+      console.log('effect selectedAttrs');
+      loadCollectionItems({
+        contract: query.contract,
+        sortType: queryParam.sortType,
+        pageNo: queryParam.pageNo,
+        pageSize: queryParam.pageSize,
+        pros: setPropsParam(selectedAttrs),
+      });
+    }
+  }, [selectedAttrs]);
 
   const loadItems = (append?: boolean) => {
     if (query && query.contract) {
@@ -145,6 +176,7 @@ export default () => {
   /** 初始化collections */
   const initCollections = async () => {
     const res: any = await queryCollections(56, 0);
+    console.log('--', res);
     setCollections(res.items);
   };
 
@@ -159,6 +191,15 @@ export default () => {
 
   const onChangeCollection = (item: any) => {
     resetQueryParam();
+    setSelectedAttrs({});
+    setCollectAttrParams({
+      chainId: item.chain_id,
+      contract: item.contract,
+    });
+    initCollectAttrs({
+      chainId: item.chain_id,
+      contract: item.address,
+    });
     history.push(`/market?contract=${item.address}`);
   };
 
@@ -170,6 +211,46 @@ export default () => {
     });
   };
 
+  const initCollectAttrs = async (params: any) => {
+    if (!params.contract) return;
+
+    const res = await queryCollectAttrs(params);
+    setCollectAttrs(res as any);
+  };
+
+  const setPropsParam = (attrsObj: any) => {
+    const keys = Object.keys(attrsObj);
+    let props = '';
+    for (const key of keys) {
+      if (!props) {
+        props = attrsObj[key].length ? `${key}=${attrsObj[key].join(',')}` : '';
+      } else {
+        props = attrsObj[key].length
+          ? props + `|${key}=` + attrsObj[key].join(',')
+          : props;
+      }
+    }
+
+    return props;
+  };
+
+  const onAttrsChange = (attr: string, values: string[]) => {
+    // 重置列表
+    setAssets({
+      dataCount: 0,
+      hasMore: true,
+      list: [],
+    });
+    // 重置请求参数
+    resetQueryParam();
+
+    // 设置属性
+    setSelectedAttrs({
+      ...selectedAttrs,
+      [attr]: values,
+    });
+  };
+
   return (
     <div>
       <Banner />
@@ -178,7 +259,9 @@ export default () => {
       <div className={styles.content}>
         <SidebarFilter
           collections={collections}
+          attrs={collectAttrs}
           onChangeCollection={onChangeCollection}
+          onAttrsChange={onAttrsChange}
         />
 
         {!!assets.list.length && (

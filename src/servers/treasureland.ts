@@ -31,6 +31,7 @@ export interface IQueryItemsParams {
   pageSize: number;
   sortType: number;
   contract?: string;
+  pros?: string;
 }
 
 export interface IQueryDetailParams {
@@ -88,6 +89,18 @@ const queryItems = (params: IQueryItemsParams) =>
       sort_type: params.sortType,
       page_no: params.pageNo,
       page_size: params.pageSize,
+      pros: params.pros,
+    },
+  });
+
+const queryCollectAttrs = (params: {
+  chainId: number | string;
+  contract: string;
+}) =>
+  axios.get('/nft/collect_attrs', {
+    params: {
+      chain_id: params.chainId,
+      contract: params.contract,
     },
   });
 
@@ -99,4 +112,5 @@ export {
   queryAssets,
   makeOrder,
   queryCollections,
+  queryCollectAttrs,
 };

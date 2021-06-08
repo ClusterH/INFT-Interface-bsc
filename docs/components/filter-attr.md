@@ -1,3 +1,6 @@
+# FilterAttr
+
+```jsx
 import React from 'react';
 import FilterAttr from '@/components/filter-attr';
 
@@ -77,10 +80,12 @@ const values = [
   '12900652',
 ];
 
-const handleClick = (val) => {
-  console.log(val);
+const onChange = (attr, values) => {
+  console.log(attr, values.join(','));
 };
 
 export default () => (
-  <FilterAttr header={header} values={values} onClick={handleClick} />
+  <FilterAttr header={header} values={values} onChange={onChange} />
 );
+
+```

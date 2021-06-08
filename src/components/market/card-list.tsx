@@ -34,7 +34,7 @@ export default (props: IMarketCardList) => {
 
       {data.map((item) => (
         <Card
-          key={item.tokenId}
+          key={item.contract + item.tokenId}
           image={item.image}
           name={item.name}
           owner={item.owner}
