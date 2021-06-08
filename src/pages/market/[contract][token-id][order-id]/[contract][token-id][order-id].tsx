@@ -19,6 +19,8 @@ import SellConfirm from '@/components/sell-confirm';
 import Web3 from 'web3';
 import contractFactory from '@/contracts';
 
+const approvedAddress = '0x2011e906491500a69c8f83ebe0cbebf4126bb536';
+
 export default () => {
   const { contract, tokenId, orderId } = useParams() as any;
   const wallet = useWallet();
@@ -117,14 +119,6 @@ export default () => {
       });
     } else {
       notification.info({ message: '请先连接钱包' });
-    }
-  };
-
-  const inputPrice = async () => {
-    if (wallet.status !== 'connected') {
-      notification.info({ message: '请先连接钱包' });
-    } else {
-      setVisivle(true);
     }
   };
 
@@ -258,6 +252,25 @@ export default () => {
     });
   };
 
+  const handleCheck = async () => {
+    if (wallet.status !== 'connected') {
+      notification.info({ message: '请先连接钱包' });
+    } else {
+      console.log(wallet.account, approvedAddress);
+      const contractObj = await contractFactory(contract);
+      const isApproved = await contractObj.methods
+        .isApprovedForAll(wallet.account, approvedAddress)
+        .call();
+      if (isApproved) {
+        setVisivle(true);
+      } else {
+        contractObj.methods.setApprovalForAll(approvedAddress, true).send({
+          from: wallet.account,
+        });
+      }
+    }
+  };
+
   return (
     <>
       {!!detail && (
@@ -271,7 +284,7 @@ export default () => {
           isOnSale={isOnSale}
           onBuy={handleBuy}
           onSend={inputSendAddress}
-          onSell={inputPrice}
+          onSell={handleCheck}
           onCancelSell={handleCancelSell}
         />
       )}

@@ -53,8 +53,23 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    console.log(wallet);
+
+    if (wallet.status === 'error') {
+      notification.error({
+        message: '钱包关联失败',
+        description: `ChainId: ${wallet.chainId}, Network: ${
+          wallet.chainId === 56 ? 'Testnet' : 'Mainnet'
+        }`,
+      });
+    }
+
     if (wallet.status === 'connected') {
-      console.log('wallet connected', wallet.balance);
+      console.log('ChainId: ', wallet.chainId);
+      console.log(
+        'Network: ',
+        wallet.chainId === 56 ? 'BSC Testnet' : 'BSC Mainnet',
+      );
       balanceOf();
     }
   }, [wallet.status]);

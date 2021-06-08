@@ -10,6 +10,17 @@ import styles from './styles.less';
 export default () => {
   const wallet = useWallet();
 
+  /** log wallet status */
+  useEffect(() => {
+    if (wallet.status === 'connected') {
+      console.log('ChainId: ', wallet.chainId);
+      console.log(
+        'Network: ',
+        wallet.chainId === 56 ? 'BSC Mainnet' : 'BSC Testnet',
+      );
+    }
+  }, [wallet.status]);
+
   useEffect(() => {
     const connected = sessionStorage.getItem('metamask-connected');
     if (connected) {
@@ -43,7 +54,7 @@ export default () => {
         {/* <SearchInput placeholder="请输入NFT名称" /> */}
 
         <div className={styles.nav}>
-          <NavLink to="/market" activeClassName={styles.activeLink}>
+          <NavLink exact to="/market" activeClassName={styles.activeLink}>
             Home
           </NavLink>
           <NavLink to="/account" activeClassName={styles.activeLink}>
