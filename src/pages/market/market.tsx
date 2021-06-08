@@ -14,6 +14,7 @@ import Spin from '@/components/spin';
 import { itemsToList } from '@/helpers/data-to-props';
 import SidebarFilter from '@/components/sidebar-filter';
 import styles from './styles.less';
+import { StickyContainer, Sticky } from 'react-sticky';
 
 export default () => {
   const history = useHistory();
@@ -257,15 +258,24 @@ export default () => {
       <Market.LevelCheckbox />
 
       <div className={styles.content}>
-        <SidebarFilter
-          collections={collections}
-          attrs={collectAttrs}
-          onChangeCollection={onChangeCollection}
-          onAttrsChange={onAttrsChange}
-        />
+        <StickyContainer>
+          <Sticky>
+            {({ style }) => (
+              <div style={style}>
+                <SidebarFilter
+                  collections={collections}
+                  attrs={collectAttrs}
+                  onChangeCollection={onChangeCollection}
+                  onAttrsChange={onAttrsChange}
+                />
+              </div>
+            )}
+          </Sticky>
+        </StickyContainer>
 
         {!!assets.list.length && (
           <InfiniteScroll
+            className={styles.scrollWrapList}
             initialLoad={false}
             loadMore={() => loadItems(true)}
             useWindow={true}
