@@ -18,15 +18,32 @@ import { StickyContainer, Sticky } from 'react-sticky';
 import useNFTItems from '@/hooks/useNFTItems';
 import useCollections from '@/hooks/useCollections';
 import useCollectAttrs from '@/hooks/useCollectAttrs';
+import useItems from '@/hooks/useItems';
+import useCollectPros from '@/hooks/useCollectPros';
 
 export default () => {
   const history = useHistory();
   const wallet = useWallet();
-  const { dataCount, items, params, loadMoreItems, changePropsObj } =
-    useNFTItems(queryItems);
 
   const collections = useCollections(queryCollections);
   const collectAttrs = useCollectAttrs(queryCollectAttrs);
+  const {
+    params,
+    dataCount,
+    items,
+    onInit,
+    onLoadMore,
+    setPros,
+    onChangePros,
+  } = useItems({
+    fetchCollectItems: queryItems,
+  });
+  const { pros, propsObj, setPropsObj } = useCollectPros();
+
+  useEffect(() => {
+    onChangePros(pros);
+    console.log('onChangePros', pros);
+  }, [pros]);
 
   const handleClickCard = (params: {
     contract: string;
@@ -42,13 +59,9 @@ export default () => {
   };
 
   const onAttrsChange = (attr: string, values: string[]) => {
-    changePropsObj(attr, values);
-  };
-
-  const handleLoadMore = () => {
-    loadMoreItems({
-      ...params,
-      pageNo: params.pageNo + 1,
+    setPropsObj({
+      ...propsObj,
+      [attr]: values,
     });
   };
 
@@ -77,7 +90,7 @@ export default () => {
           <InfiniteScroll
             className={styles.scrollWrapList}
             initialLoad={false}
-            loadMore={handleLoadMore}
+            loadMore={onLoadMore}
             useWindow={true}
             hasMore={items.length < dataCount}
             loader={
