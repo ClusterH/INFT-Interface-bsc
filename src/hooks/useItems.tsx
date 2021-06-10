@@ -41,8 +41,14 @@ function useItems({ fetchCollectItems, fetchRecommendItems }: any) {
       setDataCount(dataCount);
       setItems(list || []);
     } else {
-      // TODO
-      // fetchRecommendItems()
+      const { dataCount, list, pageNo, pageSize } = await fetchRecommendItems({
+        pageNo: params.pageNo,
+        pageSize: params.pageSize,
+        sortType: params.sortType,
+      });
+
+      setDataCount(dataCount);
+      setItems(list || []);
     }
   };
 
@@ -65,8 +71,22 @@ function useItems({ fetchCollectItems, fetchRecommendItems }: any) {
         setItems([...items, ...list]);
       }
     } else {
-      // TODO
-      // fetchRecommendItems()
+      const { dataCount, list, pageNo, pageSize } = await fetchRecommendItems({
+        pageNo: params.pageNo + 1,
+        pageSize: params.pageSize,
+        sortType: params.sortType,
+      });
+
+      setParams({
+        ...params,
+        pageNo: params.pageNo + 1,
+      });
+
+      setDataCount(dataCount);
+
+      if (list) {
+        setItems([...items, ...list]);
+      }
     }
   };
 
@@ -90,9 +110,6 @@ function useItems({ fetchCollectItems, fetchRecommendItems }: any) {
 
       setDataCount(dataCount);
       setItems(list || []);
-    } else {
-      // TODO
-      // fetchRecommendItems()
     }
   };
 

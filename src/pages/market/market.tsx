@@ -37,6 +37,7 @@ export default () => {
     onChangePros,
   } = useItems({
     fetchCollectItems: queryItems,
+    fetchRecommendItems: itemsRecommend,
   });
   const { pros, propsObj, setPropsObj } = useCollectPros();
 
