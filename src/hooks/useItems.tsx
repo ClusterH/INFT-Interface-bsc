@@ -5,7 +5,7 @@ const defaultParams = {
   chainId: 56,
   pageNo: 1,
   pageSize: 18,
-  sortType: 1,
+  sortType: '1',
   pros: '',
   contract: '',
 };
@@ -27,6 +27,7 @@ function useItems({ fetchCollectItems, fetchRecommendItems }: any) {
   const onInit = async () => {
     setParams({
       ...defaultParams,
+      sortType: params.sortType || '1',
       contract: query.contract,
     });
     setItems([]);
@@ -90,8 +91,6 @@ function useItems({ fetchCollectItems, fetchRecommendItems }: any) {
     }
   };
 
-  const setPros = () => {};
-
   const onChangePros = async (pros: string) => {
     setParams({
       ...defaultParams,
@@ -113,6 +112,27 @@ function useItems({ fetchCollectItems, fetchRecommendItems }: any) {
     }
   };
 
+  const onChangeSortType = async (sortType: string) => {
+    setDataCount(0);
+    setItems([]);
+    setParams({
+      ...params,
+      pageNo: 1,
+      sortType,
+    });
+
+    if (query.contract) {
+      const { dataCount, list, pageNo, pageSize } = await fetchCollectItems({
+        ...params,
+        pageNo: 1,
+        sortType,
+      });
+
+      setDataCount(dataCount);
+      setItems(list || []);
+    }
+  };
+
   return {
     params,
     dataCount,
@@ -120,7 +140,7 @@ function useItems({ fetchCollectItems, fetchRecommendItems }: any) {
     onInit,
     onLoadMore,
     onChangePros,
-    setPros,
+    onChangeSortType,
   };
 }
 

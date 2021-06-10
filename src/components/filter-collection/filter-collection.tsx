@@ -52,7 +52,6 @@ export default (props: IFilterCollectionProps) => {
           <Input
             allowClear
             suffix={<SearchOutlined />}
-            size="large"
             placeholder="Search collections"
             className={styles.input}
             onChange={(e) => setInput(e.target.value)}

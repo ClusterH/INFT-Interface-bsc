@@ -15,7 +15,8 @@ import { itemsToList } from '@/helpers/data-to-props';
 import SidebarFilter from '@/components/sidebar-filter';
 import styles from './styles.less';
 import { StickyContainer, Sticky } from 'react-sticky';
-import useNFTItems from '@/hooks/useNFTItems';
+import SelectSortType from '@/components/select-sort-type/select-sort-type';
+
 import useCollections from '@/hooks/useCollections';
 import useCollectAttrs from '@/hooks/useCollectAttrs';
 import useItems from '@/hooks/useItems';
@@ -31,10 +32,9 @@ export default () => {
     params,
     dataCount,
     items,
-    onInit,
     onLoadMore,
-    setPros,
     onChangePros,
+    onChangeSortType,
   } = useItems({
     fetchCollectItems: queryItems,
     fetchRecommendItems: itemsRecommend,
@@ -66,6 +66,11 @@ export default () => {
     });
   };
 
+  const changedSortType = (type: string) => {
+    console.log('changedSortType', type);
+    onChangeSortType(type);
+  };
+
   return (
     <div>
       <Banner />
@@ -76,6 +81,10 @@ export default () => {
           <Sticky>
             {({ style }) => (
               <div style={style}>
+                <div style={{ marginLeft: 14 }}>
+                  <SelectSortType onChange={changedSortType} />
+                </div>
+
                 <SidebarFilter
                   collections={collections}
                   attrs={collectAttrs}
