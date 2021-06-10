@@ -5,6 +5,8 @@ import Web3 from 'web3';
 import abi from '@/abis/idolbox.json';
 import subscribeLogEvent from './subscribe';
 import Idolbox from '@/components/idolbox/idolbox';
+import demoSan1 from '@/assets/images/demo-san.jpeg';
+import demoSan2 from '@/assets/images/demo-san2.png';
 
 const web3 = new Web3(Web3.givenProvider);
 // const idolboxContract = new web3.eth.Contract(
@@ -217,10 +219,7 @@ const App = () => {
   const getOwnerTokens = async (balance: number) => {
     if (!balance) return;
 
-    const images = [
-      'https://api.treasureland.market/v2/v1/resourceS3?uri=images/bsc/0xc25286ef3bae3f6fe2d6d0a6e2acad0301af97b8/5003e5e94eb281945e870869bc259b96&size=500x0',
-      'https://wx2.sinaimg.cn/large/005BaCAEly4ghple87niuj30mj0nvdhi.jpg',
-    ];
+    const images = [demoSan1, demoSan2];
 
     const newTokens = [];
 
