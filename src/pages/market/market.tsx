@@ -71,6 +71,10 @@ export default () => {
     onChangeSortType(type);
   };
 
+  const onCancelSellect = () => {
+    history.push('/market');
+  };
+
   return (
     <div>
       <Banner />
@@ -90,6 +94,7 @@ export default () => {
                   attrs={collectAttrs}
                   onChangeCollection={onChangeCollection}
                   onAttrsChange={onAttrsChange}
+                  onCancel={onCancelSellect}
                 />
               </div>
             )}

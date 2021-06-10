@@ -1,5 +1,9 @@
 import styles from './styles.less';
 import Card from './card';
+import { Empty, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+
+const antIcon = <LoadingOutlined style={{ fontSize: 32 }} spin />;
 
 export interface ICardBaseProps {
   contract: string;
@@ -21,13 +25,32 @@ export interface IHandleBuyParams {
 }
 
 export interface IMarketCardList {
+  loading?: boolean;
   data: ICardBaseProps[];
   total: number;
   onClick: (params: IHandleBuyParams) => void;
 }
 
 export default (props: IMarketCardList) => {
-  const { data, total, onClick } = props;
+  const { loading, data, total, onClick } = props;
+
+  if (loading) {
+    return (
+      <div className={styles.wrapSpin}>
+        <Spin indicator={antIcon} size="large" className={styles.loading} />
+      </div>
+    );
+  }
+
+  if (!data.length)
+    return (
+      <Empty
+        image={Empty.PRESENTED_IMAGE_SIMPLE}
+        description={<span>No Data</span>}
+        style={{ marginTop: 248, width: '100%' }}
+      />
+    );
+
   return (
     <div className={styles.cardList}>
       <div className={styles.total}>{total} Results</div>

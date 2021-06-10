@@ -4,19 +4,15 @@ import { useHistory } from 'umi';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import { notification } from 'antd';
 import { CardList } from '@/components/market';
-import { queryAssets } from '@/servers';
+import { queryAssets, queryCollections } from '@/servers';
 import { transResource } from '@/helpers/data-to-props';
 import { LoadingOutlined } from '@ant-design/icons';
-const antIcon = <LoadingOutlined style={{ fontSize: 32 }} spin />;
+import { StickyContainer, Sticky } from 'react-sticky';
+import FilterCollection from '@/components/filter-collection';
+import useCollections from '@/hooks/useCollections';
+import styles from './styles.less';
 
-const styles = {
-  loading: {
-    position: 'absolute',
-    left: '50%',
-    top: ' 248px',
-    transform: 'translateX(-50%)',
-  },
-};
+const antIcon = <LoadingOutlined style={{ fontSize: 32 }} spin />;
 
 const transItems = (list: any[]): any[] => {
   return list.map((item) => ({
@@ -35,6 +31,7 @@ export default () => {
   const history = useHistory();
   const [assets, setAssets] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const collections = useCollections(queryCollections);
 
   useEffect(() => {
     if (wallet.status === 'connected') {
@@ -45,7 +42,7 @@ export default () => {
   const initAssets = async (account: string) => {
     setLoading(true);
     try {
-      const { list } = await queryAssets(account);
+      const { list } = await queryAssets(account, null);
       setAssets(list);
       setLoading(false);
     } catch (error) {
@@ -62,30 +59,61 @@ export default () => {
     }
   };
 
-  if (loading)
-    return <Spin indicator={antIcon} size="large" style={styles.loading} />;
+  const onChangeCollection = async (item: any) => {
+    if (wallet.status !== 'connected') return;
+
+    setLoading(true);
+    setAssets([]);
+    try {
+      const { list } = await queryAssets(
+        wallet.account as string,
+        item.address,
+      );
+      setAssets(list || []);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+  const onCancelFilter = async () => {
+    if (wallet.status !== 'connected') return;
+
+    setLoading(true);
+    setAssets([]);
+    try {
+      const { list } = await queryAssets(wallet.account as string, null);
+      setAssets(list || []);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
       <div style={{ marginTop: '48px' }}></div>
-      {!assets.length && (
-        <Empty
-          image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={
-            <span>
-              {wallet.status === 'connected' ? 'No Data' : 'Connect wallet'}
-            </span>
-          }
-          style={{ marginTop: 248 }}
-        />
-      )}
-      {!!assets.length && (
-        <CardList
-          data={transItems(assets)}
-          onClick={showDetail}
-          total={assets.length}
-        />
-      )}
+
+      <div className={styles.content}>
+        <div className={styles.wrapFilterCollection}>
+          <FilterCollection
+            collections={collections}
+            onClick={onChangeCollection}
+            onCancel={onCancelFilter}
+          />
+        </div>
+
+        <div className={styles.wrapCardList}>
+          <CardList
+            loading={loading}
+            data={transItems(assets)}
+            onClick={showDetail}
+            total={assets.length}
+          />
+        </div>
+      </div>
     </div>
   );
 };

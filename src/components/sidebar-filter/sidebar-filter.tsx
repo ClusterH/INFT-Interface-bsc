@@ -7,16 +7,19 @@ export interface ISidebarFilterProps {
   attrs: any[];
   onChangeCollection: (item: any) => void;
   onAttrsChange: (attr: string, values: string[]) => void;
+  onCancel?: () => void;
 }
 
 export default (props: ISidebarFilterProps) => {
-  const { collections, attrs, onChangeCollection, onAttrsChange } = props;
+  const { collections, attrs, onChangeCollection, onAttrsChange, onCancel } =
+    props;
 
   return (
     <div className={styles.sidebarFilter}>
       <FilterCollection
         collections={collections}
         onClick={onChangeCollection}
+        onCancel={onCancel}
       />
 
       {attrs.map((attr) => (

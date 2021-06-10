@@ -6,16 +6,28 @@ import styles from './styles.less';
 
 export interface IFilterCollectionProps {
   collections: any[];
-  onClick: (item: any) => void;
   active?: boolean;
+  onClick: (item: any) => void;
+  onCancel?: () => void;
 }
 
 const { Panel } = Collapse;
 
 export default (props: IFilterCollectionProps) => {
-  const { collections, onClick } = props;
+  const { collections, onClick, onCancel } = props;
 
   const [input, setInput] = useState('');
+  const [activeId, setActiveId] = useState('');
+
+  const handleClick = (item: any) => {
+    if (item.id === activeId) {
+      onCancel && onCancel();
+      setActiveId('');
+    } else {
+      setActiveId(item.id);
+      onClick(item);
+    }
+  };
 
   const RenderCollectionItems = () => {
     let list = collections;
@@ -29,9 +41,12 @@ export default (props: IFilterCollectionProps) => {
       <>
         {list.map((item) => (
           <div
-            className={styles.collectItem}
+            className={[
+              styles.collectItem,
+              item.id === activeId ? styles.collectItemActive : '',
+            ].join(' ')}
             key={item.id}
-            onClick={() => onClick(item)}
+            onClick={() => handleClick(item)}
           >
             <img
               src={transResource(item.logo)}
