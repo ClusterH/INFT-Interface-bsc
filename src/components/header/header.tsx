@@ -5,10 +5,12 @@ import { useWallet } from '@binance-chain/bsc-use-wallet';
 import logo from '@/assets/images/logo-inft.svg';
 import walletIcon from '@/assets/images/wallet.png';
 import { SearchInput } from '@/components/input';
+import ModalAccount from '@/components/modal-account';
 import styles from './styles.less';
 
 export default () => {
   const wallet = useWallet();
+  const [visible, setVisible] = useState(false);
 
   /** log wallet status */
   useEffect(() => {
@@ -44,6 +46,13 @@ export default () => {
     return `${account.substr(0, 5)}...${account.substr(-4)}`;
   };
 
+  const onDisconnect = () => {
+    wallet.reset();
+    setVisible(false);
+    sessionStorage.removeItem('metamask-connected');
+    location.reload();
+  };
+
   return (
     <div className={styles.header}>
       <div className={styles.content}>
@@ -64,7 +73,7 @@ export default () => {
 
         <div className={styles.wallet}>
           {wallet.status === 'connected' && (
-            <span className={styles.account}>
+            <span className={styles.account} onClick={() => setVisible(true)}>
               {formatAccount(wallet.account as string)}
             </span>
           )}
@@ -76,6 +85,16 @@ export default () => {
           />
         </div>
       </div>
+
+      {wallet.status === 'connected' && (
+        <ModalAccount
+          visible={visible}
+          address={wallet.account}
+          onOk={() => setVisible(false)}
+          onCancel={() => setVisible(false)}
+          onDisconnect={onDisconnect}
+        />
+      )}
     </div>
   );
 };
