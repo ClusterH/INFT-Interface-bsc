@@ -107,6 +107,14 @@ const queryCollectAttrs = (params: {
     },
   });
 
+const searchGlobal = ({ chainId = 56, query = '' }) =>
+  axios.get('/search-v2', {
+    params: {
+      chain_id: chainId,
+      query,
+    },
+  });
+
 export {
   itemsRecommend,
   queryItems,
@@ -116,4 +124,5 @@ export {
   makeOrder,
   queryCollections,
   queryCollectAttrs,
+  searchGlobal,
 };

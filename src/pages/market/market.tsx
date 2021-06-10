@@ -85,7 +85,7 @@ export default () => {
           <Sticky>
             {({ style }) => (
               <div style={style}>
-                <div style={{ marginLeft: 14 }}>
+                <div className={styles.wrapSortType}>
                   <SelectSortType onChange={changedSortType} />
                 </div>
 

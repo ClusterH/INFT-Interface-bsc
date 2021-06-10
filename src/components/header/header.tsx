@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
-import { Link, NavLink } from 'umi';
+import { Link, NavLink, useHistory } from 'umi';
 import { Menu } from 'antd';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import logo from '@/assets/images/logo-inft.svg';
 import walletIcon from '@/assets/images/wallet.png';
 import { SearchInput } from '@/components/input';
+import SearchGlobal from '@/components/search-global';
 import ModalAccount from '@/components/modal-account';
 import styles from './styles.less';
 
 export default () => {
+  const history = useHistory();
   const wallet = useWallet();
   const [visible, setVisible] = useState(false);
 
@@ -53,6 +55,11 @@ export default () => {
     location.reload();
   };
 
+  const onSelectContract = (item: any) => {
+    console.log('onSelectContract', item);
+    history.push(`/market?contract=${item.value}`);
+  };
+
   return (
     <div className={styles.header}>
       <div className={styles.content}>
@@ -60,7 +67,7 @@ export default () => {
           <img src={logo} alt="iNFT" className={styles.logo} />
         </Link>
 
-        {/* <SearchInput placeholder="请输入NFT名称" /> */}
+        <SearchGlobal onSelect={onSelectContract} />
 
         <div className={styles.nav}>
           <NavLink exact to="/market" activeClassName={styles.activeLink}>

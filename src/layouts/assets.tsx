@@ -16,9 +16,7 @@ export default (props: React.PropsWithChildren<any>) => {
       }}
     >
       <Header />
-      <div style={{ minHeight: 'calc(100vh - 130px)', padding: 1 }}>
-        {props.children}
-      </div>
+      <div style={{ minHeight: 'calc(100vh - 130px)' }}>{props.children}</div>
       <Footer />
     </bsc.UseWalletProvider>
   );
