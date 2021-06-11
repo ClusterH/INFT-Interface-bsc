@@ -15,10 +15,12 @@ export default () => {
         <span className={styles.copyright}>
           ©2021 iNFT,Inc.All rights reserved
         </span>
+
         <span className={styles.business}>
           Business cooperation：
           <a href="mailto:business@inft.io">business@inft.io</a>
         </span>
+
         <span className={styles.communtie}>
           <span className={styles.communtieItem}>
             <img src={weibo} alt="weibo" />

@@ -81,7 +81,7 @@ export default () => {
       <Market.LevelCheckbox />
 
       <div className={styles.content}>
-        <StickyContainer>
+        <StickyContainer className={styles.stickyContainer}>
           <Sticky>
             {({ style }) => (
               <div style={style}>
@@ -114,7 +114,7 @@ export default () => {
               </div>
             }
           >
-            <div style={{ paddingLeft: 30 }}>
+            <div className={styles.wrapCardList}>
               <Market.CardList
                 data={itemsToList(items, wallet)}
                 total={dataCount}

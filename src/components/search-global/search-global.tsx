@@ -79,7 +79,7 @@ const SearchGlobal = (props) => {
     <div className={styles.searchGlobal}>
       <DebounceSelect
         value={value}
-        placeholder="Select users"
+        placeholder="Search for collection"
         fetchOptions={fetchUserList}
         onChange={(newValue) => {
           setValue(newValue);

@@ -1,11 +1,15 @@
+# DrawerConnectWallet
+
+```jsx
 import React, { useState } from 'react';
-import DrawerNav from '@/components-mobile/drawer-nav';
+import DrawerConnectWallet from '@/components/mobile/drawer-connect-wallet';
 import Button from '@/components/button';
 
 export default () => {
   const [visible, setVisible] = useState(false);
 
-  const onOk = () => {
+  const onOk = (name) => {
+    console.log('connect: ', name)
     setVisible(false);
   };
 
@@ -16,7 +20,8 @@ export default () => {
   return (
     <>
       <Button onClick={() => setVisible(true)}>Open</Button>
-      <DrawerNav visible={visible} onOk={onOk} onClose={onClose} />
+      <DrawerConnectWallet visible={visible} onOk={onOk} onClose={onClose} />
     </>
   );
 };
+```

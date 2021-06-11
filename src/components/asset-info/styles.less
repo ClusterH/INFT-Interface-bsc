@@ -114,6 +114,9 @@
     font-weight: 400;
     color: #a19d9d;
   }
+  .wrapContractShort {
+    display: none;
+  }
   // .value {
   //   font-size: 15px;
   //   font-weight: 400;
@@ -216,5 +219,136 @@
   }
   .sellBtn {
     width: 295px;
+  }
+}
+
+@media (max-width: 768px) {
+  .assetInfo {
+    width: 100%;
+    margin: 0 auto;
+
+    .imgBox {
+      width: 100%;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      border: none;
+      .img {
+        border-radius: 0;
+      }
+    }
+
+    .content {
+      position: relative;
+      width: 100%;
+      border-radius: 17px 17px 0 0;
+      background: #fff;
+      // transform: translateY(-20px);
+      padding: 17px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -79px;
+        left: 0;
+        right: 0;
+        height: 80px;
+        background: #fff;
+      }
+    }
+
+    .tagsWrap {
+      .chainTag,
+      .collectName {
+        margin-right: 15px;
+      }
+    }
+
+    .textBox {
+      width: 100%;
+    }
+
+    .buyPanel {
+      width: 100%;
+    }
+    .wrapContract {
+      display: none;
+    }
+    .wrapContractShort {
+      display: inline-block;
+    }
+  }
+
+  .buyPanel {
+    height: 56px;
+    background: #fff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px 0 17px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+
+    .priceText {
+      display: none;
+    }
+    .priceWrap {
+      margin: 0;
+    }
+
+    .button {
+      width: 107px;
+      height: 37px;
+      border-radius: 8px;
+      font-size: 17px;
+      background: #fed835;
+      font-weight: 500;
+      color: #333333;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .sellPanel {
+    width: 100%;
+    height: 56px;
+    background: #fff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px 0 17px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+
+    .btnWrap {
+      margin: 0;
+      margin-left: auto;
+    }
+
+    .sendBtn,
+    .sellBtn {
+      width: 107px;
+      height: 37px;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: 500;
+      color: #333333;
+      margin: 0;
+      padding: 0;
+    }
+    .sellBtn {
+      background: #fed835;
+      margin-left: 11px;
+    }
   }
 }

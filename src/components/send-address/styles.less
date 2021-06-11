@@ -21,7 +21,17 @@
   .addressInput {
     margin-bottom: 44px;
   }
+}
 
-  .btn {
+@media (max-width: 768px) {
+  .sendAddress {
+    :global {
+      .ant-modal-content {
+        width: 100%;
+      }
+    }
+    .content {
+      padding: 0;
+    }
   }
 }

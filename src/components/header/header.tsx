@@ -7,12 +7,15 @@ import walletIcon from '@/assets/images/wallet.png';
 import { SearchInput } from '@/components/input';
 import SearchGlobal from '@/components/search-global';
 import ModalAccount from '@/components/modal-account';
+import IconFont from '@/components/icon-font';
+import DrawNav from '@/components-mobile/drawer-nav';
 import styles from './styles.less';
 
 export default () => {
   const history = useHistory();
   const wallet = useWallet();
   const [visible, setVisible] = useState(false);
+  const [drawNavVisible, setDrawNavVisible] = useState(false);
 
   /** log wallet status */
   useEffect(() => {
@@ -63,11 +66,19 @@ export default () => {
   return (
     <div className={styles.header}>
       <div className={styles.content}>
+        <IconFont
+          type="icon-menu"
+          className={styles.iconMenu}
+          onClick={() => setDrawNavVisible(true)}
+        />
+
         <Link to="/">
           <img src={logo} alt="iNFT" className={styles.logo} />
         </Link>
 
-        <SearchGlobal onSelect={onSelectContract} />
+        <div className={styles.wrapSearchGlobal}>
+          <SearchGlobal onSelect={onSelectContract} />
+        </div>
 
         <div className={styles.nav}>
           <NavLink exact to="/market" activeClassName={styles.activeLink}>
@@ -102,6 +113,12 @@ export default () => {
           onDisconnect={onDisconnect}
         />
       )}
+
+      <DrawNav
+        visible={drawNavVisible}
+        onClose={() => setDrawNavVisible(false)}
+        onOk={() => setDrawNavVisible(false)}
+      />
     </div>
   );
 };

@@ -12,15 +12,16 @@
     align-items: center;
   }
 
+  .iconMenu {
+    display: none;
+  }
+
   .logo {
     width: 111px;
     height: auto;
     margin-right: 40px;
   }
-  .inputSearch {
-    width: 285px;
-    margin-left: 11px;
-  }
+
   .nav {
     margin-left: auto;
     a {
@@ -63,5 +64,37 @@
     padding-right: 38px;
     transform: translate(32px, 2px);
     cursor: pointer;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    .content {
+      padding: 0 12px;
+      height: 65px;
+
+      .iconMenu {
+        display: inline-block;
+        font-size: 28px;
+        margin-right: 16px;
+        margin-left: 7px;
+      }
+
+      .logo {
+        width: 90px;
+        height: 45px;
+        margin-right: 0;
+      }
+    }
+  }
+
+  .wrapSearchGlobal {
+    display: none;
+  }
+  .nav {
+    display: none;
+  }
+  .wallet {
+    margin-left: auto;
   }
 }

@@ -53,10 +53,14 @@
     align-items: center;
   }
   .owner {
+    display: inline-block;
     font-size: 12px;
     font-weight: 400;
     color: #9f9e9d;
     letter-spacing: 1px;
+    background: url(~@/assets/images/icon-inft.png) no-repeat left center;
+    background-size: contain;
+    padding-left: 28px;
   }
 
   .buyBtn {
@@ -147,5 +151,41 @@
       background: #fed835;
       border-radius: 4px;
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .marketCard {
+    width: 157px;
+    margin-bottom: 18px;
+    .imgBox {
+      width: 157px;
+      height: 157px;
+      border-radius: 12px 12px 0 0;
+    }
+
+    .content {
+      width: 100%;
+      .name {
+        color: #333;
+      }
+      .buyWrap {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        .buyBtn {
+          background: transparent;
+          color: #fed835;
+          font-size: 14px;
+          font-weight: 500;
+          text-align: left;
+          padding: 0;
+        }
+      }
+    }
+  }
+
+  .cardList {
+    width: 100%;
   }
 }

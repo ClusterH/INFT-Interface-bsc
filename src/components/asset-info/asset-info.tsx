@@ -153,7 +153,12 @@ export default (props: IAssetInfoProps) => {
           <div className={styles.infoItem}>
             <span className={styles.label}>Contract Address</span>
             {/* <span className={styles.value}>{contract}</span> */}
-            <BscAddress value={contract}></BscAddress>
+            <span className={styles.wrapContract}>
+              <BscAddress value={contract}></BscAddress>
+            </span>
+            <span className={styles.wrapContractShort}>
+              <BscAddress value={contract} short={true}></BscAddress>
+            </span>
           </div>
           <div className={styles.infoItem}>
             <span className={styles.label}>Token ID</span>

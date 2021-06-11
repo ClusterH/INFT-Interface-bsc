@@ -9,8 +9,9 @@ export default () => (
   <Card
     image="https://wx2.sinaimg.cn/large/005BaCAEly4ghple87niuj30mj0nvdhi.jpg"
     name="三上优亚盲盒"
-    owner="0xsdfjkskd***sjdjfjsdfs"
+    owner="0xsdf***x600C"
     price="1"
+    showFooter
     onClick={() => {
       console.log('onClick');
     }}

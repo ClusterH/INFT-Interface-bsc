@@ -288,7 +288,7 @@ export default () => {
           onCancelSell={handleCancelSell}
         />
       )}
-      <OffersTable dataSource={[]} />
+      {/* <OffersTable dataSource={[]} /> */}
       <SellConfirm
         visible={visible}
         onChange={setPrice}
