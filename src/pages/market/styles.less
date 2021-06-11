@@ -1,3 +1,6 @@
+.wrapMobileSelector {
+  display: none;
+}
 .content {
   display: flex;
   flex-direction: row;
@@ -20,6 +23,13 @@
 }
 
 @media (max-width: 768px) {
+  .wrapMobileSelector {
+    display: flex;
+    padding: 18px 20px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
   .content {
     max-width: 100%;
     .stickyContainer {

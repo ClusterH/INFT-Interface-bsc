@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'umi';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
+import { Select } from 'antd';
 import Banner from '@/components/banner';
 import Market from '@/components/market';
 import {
@@ -16,6 +17,7 @@ import SidebarFilter from '@/components/sidebar-filter';
 import styles from './styles.less';
 import { StickyContainer, Sticky } from 'react-sticky';
 import SelectSortType from '@/components/select-sort-type/select-sort-type';
+import SelectCollection from '@/components-mobile/select-collection';
 
 import useCollections from '@/hooks/useCollections';
 import useCollectAttrs from '@/hooks/useCollectAttrs';
@@ -55,8 +57,13 @@ export default () => {
     history.push(`/market/${contract}/${tokenId}/${orderId}`);
   };
 
-  const onChangeCollection = (item: any) => {
-    history.push(`/market?contract=${item.address}`);
+  const onChangeCollection = (address: string) => {
+    console.log('onChangeCollection');
+    if (!address) {
+      history.push('/market');
+    } else {
+      history.push(`/market?contract=${address}`);
+    }
   };
 
   const onAttrsChange = (attr: string, values: string[]) => {
@@ -72,13 +79,30 @@ export default () => {
   };
 
   const onCancelSellect = () => {
+    console.log('onCancelSellect');
     history.push('/market');
   };
 
   return (
     <div>
-      <Banner />
-      <Market.LevelCheckbox />
+      {/* <Banner />
+      <Market.LevelCheckbox /> */}
+
+      {/* 移动端-选择器 */}
+      <div className={styles.wrapMobileSelector}>
+        <SelectCollection
+          collections={collections}
+          onChange={onChangeCollection}
+        ></SelectCollection>
+
+        {!!params.contract && (
+          <SelectSortType
+            mode="mobile"
+            size="large"
+            onChange={changedSortType}
+          ></SelectSortType>
+        )}
+      </div>
 
       <div className={styles.content}>
         <StickyContainer className={styles.stickyContainer}>

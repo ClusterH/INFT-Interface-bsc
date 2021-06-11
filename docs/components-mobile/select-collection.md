@@ -1,3 +1,6 @@
+# SelectCollection
+
+```jsx
 import React, { useState } from 'react';
 import SelectCollection from '@/components-mobile/select-collection';
 
@@ -577,5 +580,10 @@ const collections = [
 ];
 
 export default () => {
-  return <SelectCollection collections={collections} />;
+    const onChange = val => {
+        console.log(val)
+    }
+  return <SelectCollection collections={collections} onChange={onChange} />;
 };
+
+```

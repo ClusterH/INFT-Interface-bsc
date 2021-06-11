@@ -25,7 +25,7 @@ export default (props: IFilterCollectionProps) => {
       setActiveId('');
     } else {
       setActiveId(item.id);
-      onClick(item);
+      onClick(item.address);
     }
   };
 
