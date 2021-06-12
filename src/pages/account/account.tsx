@@ -31,7 +31,7 @@ export default () => {
   const history = useHistory();
   const [assets, setAssets] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-  const collections = useCollections(queryCollections, 0);
+  const { collections } = useCollections(queryCollections, 0);
 
   useEffect(() => {
     if (wallet.status === 'connected') {
@@ -93,7 +93,7 @@ export default () => {
   };
 
   return (
-    <div>
+    <div className={styles.account}>
       <div style={{ marginTop: '48px' }}></div>
 
       <div className={styles.content}>

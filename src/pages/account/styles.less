@@ -1,3 +1,8 @@
+.account {
+  background: #fafafa;
+  padding-top: 1px;
+  min-height: calc(100vh - 130px);
+}
 .loading {
   position: absolute;
   left: 50%;
@@ -18,6 +23,13 @@
 .wrapCardList {
   position: relative;
   width: 100%;
+  background: #fff;
+
+  :global {
+    .ant-empty {
+      margin-top: 148px !important;
+    }
+  }
 }
 
 @media (max-width: 768px) {

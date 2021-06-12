@@ -81,8 +81,11 @@ export default () => {
         </div>
 
         <div className={styles.nav}>
-          <NavLink exact to="/market" activeClassName={styles.activeLink}>
+          <NavLink exact to="/home" activeClassName={styles.activeLink}>
             Home
+          </NavLink>
+          <NavLink exact to="/market" activeClassName={styles.activeLink}>
+            NFT Market
           </NavLink>
           <NavLink to="/account" activeClassName={styles.activeLink}>
             Account
