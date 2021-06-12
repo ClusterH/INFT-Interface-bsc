@@ -37,7 +37,11 @@ export default defineConfig({
       routes: [
         {
           path: '/',
-          redirect: '/market',
+          redirect: '/home',
+        },
+        {
+          path: '/home',
+          component: '@/pages/home',
         },
         {
           path: '/market',

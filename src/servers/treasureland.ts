@@ -115,6 +115,9 @@ const searchGlobal = ({ chainId = 56, query = '' }) =>
     },
   });
 
+const recentlyListed = (): Promise<any[]> =>
+  axios.get('/latest/list?chain_id=56&page=1&limit=10');
+
 const queryCategories = () => axios.get('/categories');
 
 export {
@@ -128,4 +131,5 @@ export {
   queryCollectAttrs,
   searchGlobal,
   queryCategories,
+  recentlyListed,
 };

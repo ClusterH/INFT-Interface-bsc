@@ -130,6 +130,18 @@ function useItems({ fetchCollectItems, fetchRecommendItems }: any) {
 
       setDataCount(dataCount);
       setItems(list || []);
+    } else {
+      const { dataCount, list, pageNo, pageSize } = await fetchRecommendItems({
+        ...params,
+        pageNo: 1,
+        sortType,
+      });
+
+      setDataCount(dataCount);
+
+      if (list) {
+        setItems(list || []);
+      }
     }
   };
 

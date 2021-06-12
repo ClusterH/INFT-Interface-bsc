@@ -25,14 +25,15 @@ export interface IHandleBuyParams {
 }
 
 export interface IMarketCardList {
+  hideTotal?: boolean;
   loading?: boolean;
   data: ICardBaseProps[];
-  total: number;
+  total?: number;
   onClick: (params: IHandleBuyParams) => void;
 }
 
 export default (props: IMarketCardList) => {
-  const { loading, data, total, onClick } = props;
+  const { hideTotal, loading, data, total, onClick } = props;
 
   if (loading) {
     return (
@@ -53,7 +54,7 @@ export default (props: IMarketCardList) => {
 
   return (
     <div className={styles.cardList}>
-      <div className={styles.total}>{total} Results</div>
+      {!hideTotal && <div className={styles.total}>{total} Results</div>}
 
       {data.map((item) => (
         <Card

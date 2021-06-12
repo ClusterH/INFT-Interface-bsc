@@ -15,3 +15,62 @@
     color: #fed835;
   }
 }
+
+.categoryHome {
+  width: 1030px;
+  height: 60px;
+  margin: 52px auto 54px;
+  background: #fff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+.categoryItem {
+  a {
+    padding: 24px;
+    color: #333333;
+  }
+  .active,
+  a:hover {
+    color: #fed835;
+  }
+}
+
+@media (max-width: 768px) {
+  .categoryMarket {
+    width: 100%;
+    margin: 0 auto;
+    overflow: auto;
+    .categoryItem {
+      border-radius: 0px;
+      a {
+        padding: 0 24px;
+        flex-shrink: 0;
+        display: inline-block;
+        width: auto;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .categoryHome {
+    width: 100%;
+    overflow: auto;
+    margin: 0;
+    box-shadow: none;
+    margin-bottom: 10px;
+
+    .categoryItem {
+      border-radius: 0px;
+      a {
+        padding: 0 24px;
+        flex-shrink: 0;
+        display: inline-block;
+        width: auto;
+        white-space: nowrap;
+      }
+    }
+  }
+}

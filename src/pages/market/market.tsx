@@ -31,7 +31,7 @@ export default () => {
   const { query }: any = useLocation();
   const categories = useCategory();
 
-  const [cate, setCate] = useState(0);
+  const [cate, setCate] = useState(query ? query.cate_id || 0 : 0);
   const { collections, initCollections } = useCollections(
     queryCollections,
     query.cate_id || 0,
@@ -119,13 +119,11 @@ export default () => {
           onChange={onChangeCollection}
         ></SelectCollection>
 
-        {!!params.contract && (
-          <SelectSortType
-            mode="mobile"
-            size="large"
-            onChange={changedSortType}
-          ></SelectSortType>
-        )}
+        <SelectSortType
+          mode="mobile"
+          size="large"
+          onChange={changedSortType}
+        ></SelectSortType>
       </div>
 
       <div className={styles.content}>

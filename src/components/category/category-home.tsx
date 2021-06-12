@@ -5,7 +5,7 @@ export default (props: any) => {
   const { categories, active = 0, onClick } = props;
 
   return (
-    <div className={styles.categoryMarket}>
+    <div className={styles.categoryHome}>
       <span className={styles.categoryItem}>
         <a
           onClick={() => onClick(0)}
