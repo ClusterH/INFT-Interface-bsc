@@ -115,6 +115,8 @@ const searchGlobal = ({ chainId = 56, query = '' }) =>
     },
   });
 
+const queryCategories = () => axios.get('/categories');
+
 export {
   itemsRecommend,
   queryItems,
@@ -125,4 +127,5 @@ export {
   queryCollections,
   queryCollectAttrs,
   searchGlobal,
+  queryCategories,
 };

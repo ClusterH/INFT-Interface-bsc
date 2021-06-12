@@ -9,6 +9,9 @@ function useCollectAttrs(fetchCollectAttrs: any) {
     if (query && query.contract) {
       initCollectAttrs();
     }
+    if (query && query.cate_id) {
+      resetCollectAttrs();
+    }
   }, [query]);
 
   const initCollectAttrs = async () => {
@@ -17,6 +20,10 @@ function useCollectAttrs(fetchCollectAttrs: any) {
       contract: query.contract,
     });
     setAttrs(data || []);
+  };
+
+  const resetCollectAttrs = () => {
+    setAttrs([]);
   };
 
   return attrs;

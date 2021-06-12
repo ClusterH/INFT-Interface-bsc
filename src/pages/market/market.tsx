@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'umi';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import { Select } from 'antd';
-import Banner from '@/components/banner';
+import Category from '@/components/category';
 import Market from '@/components/market';
 import {
   itemsRecommend,
@@ -23,12 +23,19 @@ import useCollections from '@/hooks/useCollections';
 import useCollectAttrs from '@/hooks/useCollectAttrs';
 import useItems from '@/hooks/useItems';
 import useCollectPros from '@/hooks/useCollectPros';
+import useCategory from '@/hooks/useCategory';
 
 export default () => {
-  const history = useHistory();
+  const history: any = useHistory();
   const wallet = useWallet();
+  const { query }: any = useLocation();
+  const categories = useCategory();
 
-  const collections = useCollections(queryCollections);
+  const [cate, setCate] = useState(0);
+  const { collections, initCollections } = useCollections(
+    queryCollections,
+    query.cate_id || 0,
+  );
   const collectAttrs = useCollectAttrs(queryCollectAttrs);
   const {
     params,
@@ -45,7 +52,6 @@ export default () => {
 
   useEffect(() => {
     onChangePros(pros);
-    console.log('onChangePros', pros);
   }, [pros]);
 
   const handleClickCard = (params: {
@@ -83,8 +89,26 @@ export default () => {
     history.push('/market');
   };
 
+  const onClickCate = (id: number) => {
+    setCate(id);
+    initCollections(id);
+
+    if (id === 0) {
+      history.push({
+        pathname: '/market',
+      });
+    } else {
+      history.push({
+        pathname: '/market',
+        query: {
+          cate_id: String(id),
+        },
+      });
+    }
+  };
+
   return (
-    <div>
+    <div className={styles.market}>
       {/* <Banner />
       <Market.LevelCheckbox /> */}
 
@@ -112,7 +136,6 @@ export default () => {
                 <div className={styles.wrapSortType}>
                   <SelectSortType onChange={changedSortType} />
                 </div>
-
                 <SidebarFilter
                   collections={collections}
                   attrs={collectAttrs}
@@ -125,28 +148,35 @@ export default () => {
           </Sticky>
         </StickyContainer>
 
-        {!!items.length && (
-          <InfiniteScroll
-            className={styles.scrollWrapList}
-            initialLoad={false}
-            loadMore={onLoadMore}
-            useWindow={true}
-            hasMore={items.length < dataCount}
-            loader={
-              <div key={params.pageNo} style={{ textAlign: 'center' }}>
-                <Spin />
-              </div>
-            }
-          >
-            <div className={styles.wrapCardList}>
-              <Market.CardList
-                data={itemsToList(items, wallet)}
-                total={dataCount}
-                onClick={handleClickCard}
-              />
+        <InfiniteScroll
+          className={styles.scrollWrapList}
+          initialLoad={false}
+          loadMore={onLoadMore}
+          useWindow={true}
+          hasMore={items.length < dataCount}
+          loader={
+            <div key={params.pageNo} style={{ textAlign: 'center' }}>
+              <Spin />
             </div>
-          </InfiniteScroll>
-        )}
+          }
+        >
+          {/* 分类 */}
+          <div className={styles.wrapTopbar}>
+            <Category.Market
+              active={cate}
+              onClick={onClickCate}
+              categories={categories}
+            />
+          </div>
+
+          <div className={styles.wrapCardList}>
+            <Market.CardList
+              data={itemsToList(items, wallet)}
+              total={dataCount}
+              onClick={handleClickCard}
+            />
+          </div>
+        </InfiniteScroll>
       </div>
     </div>
   );

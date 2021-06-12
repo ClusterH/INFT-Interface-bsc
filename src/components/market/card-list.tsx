@@ -47,7 +47,7 @@ export default (props: IMarketCardList) => {
       <Empty
         image={Empty.PRESENTED_IMAGE_SIMPLE}
         description={<span>No Data</span>}
-        style={{ marginTop: 248, width: '100%' }}
+        style={{ marginTop: 248, width: '100%', minWidth: '1000px' }}
       />
     );
 

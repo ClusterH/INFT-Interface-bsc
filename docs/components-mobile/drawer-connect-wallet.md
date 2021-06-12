@@ -2,7 +2,7 @@
 
 ```jsx
 import React, { useState } from 'react';
-import DrawerConnectWallet from '@/components/mobile/drawer-connect-wallet';
+import DrawerConnectWallet from '@/components-mobile/drawer-connect-wallet';
 import Button from '@/components/button';
 
 export default () => {

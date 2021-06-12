@@ -31,7 +31,7 @@ export default () => {
   const history = useHistory();
   const [assets, setAssets] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-  const collections = useCollections(queryCollections);
+  const collections = useCollections(queryCollections, 0);
 
   useEffect(() => {
     if (wallet.status === 'connected') {

@@ -22,7 +22,7 @@ function useItems({ fetchCollectItems, fetchRecommendItems }: any) {
   useEffect(() => {
     onInit();
     console.log('[useItem] onInit');
-  }, [query]);
+  }, [query.contract]);
 
   const onInit = async () => {
     setParams({

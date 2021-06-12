@@ -1,20 +1,23 @@
 import { useEffect, useState } from 'react';
 
 const chainId = 56;
-const catId = 0;
-function useCollections(fetchCollections: any) {
+function useCollections(fetchCollections: any, cateId: string | number) {
   const [collections, setCollections] = useState([]);
 
   useEffect(() => {
-    setup();
+    initCollections(cateId);
   }, []);
 
-  const setup = async () => {
-    const { items } = await fetchCollections(chainId, catId);
-    setCollections(items);
+  const initCollections = async (id: string | number) => {
+    try {
+      const { items } = await fetchCollections(chainId, id || 0);
+      setCollections(items);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  return collections;
+  return { collections, initCollections };
 }
 
 export default useCollections;
