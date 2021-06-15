@@ -17,6 +17,7 @@ const itemsToList = (list: any[], wallet?: any): any[] => {
       tokenId: item.token_id,
       orderId: item.order_id,
       image: transResource(item.resource),
+      imageType: item.resource_type,
       name: item.name,
       owner: `${maker.substr(0, 5)}***${maker.substr(-4)}`,
       price: web3.utils.fromWei(item.price),
@@ -29,6 +30,7 @@ const itemsToList = (list: any[], wallet?: any): any[] => {
 const dataToDetailProps = (data: any): any => {
   return {
     img: transResource(data.image),
+    imageType: data.image_type,
     name: data.name,
     collectName: data.collect_name,
     owner: data.seller,

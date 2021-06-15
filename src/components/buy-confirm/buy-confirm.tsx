@@ -114,8 +114,8 @@ export default (props: ICheckoutBuyProps) => {
         })}
       </div>
       <div className={styles.desc}>
-        To purchase this item for {amount} {symbol} , complete this
-        finaltransaction !
+        {/* To purchase this item for {amount} {symbol} , complete this
+        finaltransaction ! */}
         {intl.formatMessage(
           {
             id: 'buyConfirm_desc',

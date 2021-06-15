@@ -3,6 +3,7 @@ import styles from './styles.less';
 
 interface IMarketCardProps {
   image: string;
+  imageType: string;
   name: string;
   owner?: string;
   price?: string;
@@ -21,6 +22,7 @@ export default (props: IMarketCardProps) => {
     onSale,
     contract,
     image,
+    imageType,
     name,
     owner,
     price,
@@ -50,7 +52,17 @@ export default (props: IMarketCardProps) => {
             : null,
         ].join(' ')}
       >
-        <img src={image} alt="" className={styles.image} />
+        {imageType === 'image' && (
+          <img src={image} alt="" className={styles.image} />
+        )}
+        {imageType === 'video' && (
+          <video controls className={styles.video}>
+            <source src={image} type="video/mp4"></source>
+          </video>
+        )}
+        {imageType === 'audio' && (
+          <audio src={image} controls className={styles.audio}></audio>
+        )}
       </div>
 
       <div className={styles.content}>

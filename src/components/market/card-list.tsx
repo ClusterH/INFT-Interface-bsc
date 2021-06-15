@@ -11,6 +11,7 @@ export interface ICardBaseProps {
   tokenId: string;
   orderId: string;
   image: string;
+  imageType: string;
   name: string;
   owner: string;
   price: string;
@@ -77,6 +78,7 @@ export default (props: IMarketCardList) => {
         <Card
           key={item.contract + item.tokenId}
           image={item.image}
+          imageType={item.imageType}
           name={item.name}
           owner={item.owner}
           price={item.price}

@@ -7,6 +7,7 @@ import BscAddress from '@/components/bsc-address';
 
 export interface IAssetInfoProps {
   img: string;
+  imageType: string;
   name: string;
   owner: string;
   collectName: string;
@@ -130,6 +131,7 @@ export default (props: IAssetInfoProps) => {
   const intl = useIntl();
   const {
     img,
+    imageType,
     collectName,
     owner,
     name,
@@ -153,7 +155,17 @@ export default (props: IAssetInfoProps) => {
   return (
     <div className={styles.assetInfo}>
       <div className={styles.imgBox}>
-        <img src={img} alt="img" className={styles.img} />
+        {imageType === 'image' && (
+          <img src={img} alt="img" className={styles.img} />
+        )}
+        {imageType === 'video' && (
+          <video controls className={styles.video}>
+            <source src={img} type="video/mp4"></source>
+          </video>
+        )}
+        {imageType === 'audio' && (
+          <audio src={img} controls className={styles.audio}></audio>
+        )}
       </div>
       <div className={styles.content}>
         <div className={styles.name}>{name}</div>
