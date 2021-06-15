@@ -23,7 +23,6 @@ const approvedAddress = '0x2011e906491500a69c8f83ebe0cbebf4126bb536';
 
 export default () => {
   const intl = useIntl();
-  console.log('intl', intl);
   const { contract, tokenId, orderId } = useParams() as any;
   const wallet = useWallet();
   const history = useHistory();

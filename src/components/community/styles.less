@@ -1,0 +1,89 @@
+.content {
+  max-width: 1026px;
+  margin: 0 auto;
+  .title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #222222;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .intro {
+    max-width: 524px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    color: #939393;
+    margin-bottom: 50px;
+  }
+}
+
+.wrapCommunity {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-bottom: 150px;
+  .item {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    width: 180px;
+    height: 180px;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-right: 40px;
+    transition: 0.2s all;
+    cursor: pointer;
+    padding-top: 98px;
+    padding-left: 15px;
+    padding-right: 15px;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+  .name {
+    font-size: 18px;
+    // margin-bottom: 8px;
+  }
+  .text {
+    font-size: 12px;
+    text-align: center;
+  }
+  .itemTg {
+    color: #41aade;
+    background-image: url(~@/assets/images/telegram.png);
+  }
+  .twitter {
+    color: #3298f0;
+    background-image: url(~@/assets/images/twitter.png);
+  }
+  .github {
+    color: #24282d;
+    background-image: url(~@/assets/images/github.png);
+  }
+  .weibo {
+    color: #fdb93e;
+    background-image: url(~@/assets/images/weibo.png);
+  }
+}
+
+@media (max-width: 768px) {
+  .community {
+    margin-top: 120px;
+  }
+  .intro {
+    padding: 0 12px;
+  }
+  .wrapCommunity {
+    justify-content: space-around;
+    flex-wrap: wrap;
+    .item {
+      margin-right: 0;
+      margin-bottom: 24px;
+      width: 160px;
+      //   height: 160px;
+    }
+  }
+}

@@ -58,6 +58,19 @@ export default {
   filterCollection_header: '集合',
   filterCollection_search: '查询集合',
 
+  /** community */
+  community_title: '全球社区',
+  community_intro:
+    '了解更多关于iNFT的信息，与团队、社区中的其他人聊天，并就iNFT的未来发展发表您的看法。',
+  community_telegram: '电报',
+  community_tg_intro: '加入我们的社区与大家畅聊',
+  community_twitter: '推特',
+  community_twitter_intro: '关注@InftOffical获取实时资讯',
+  community_github: '源码',
+  community_github_intro: '了解我们的代码和项目进度',
+  community_weibo: '微博',
+  community_weibo_intro: '关注@inft_IO获取实时资讯',
+
   /** Page Home */
   home_tc: '集合趋势',
   home_viewAll: '查看全部',

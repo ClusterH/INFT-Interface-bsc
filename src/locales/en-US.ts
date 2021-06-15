@@ -59,6 +59,19 @@ export default {
   filterCollection_header: 'Collcetions',
   filterCollection_search: 'Search collections',
 
+  /** community */
+  community_title: 'Global Community',
+  community_intro:
+    'Learn more about iNFT, chat with the team, other people in the community,and express your opinion on the future development of iNFT.',
+  community_telegram: 'Telegram',
+  community_tg_intro: 'Join out community and chat with everyone',
+  community_twitter: 'Twitter',
+  community_twitter_intro: 'Follow @inftOffical for updates and news',
+  community_github: 'Github',
+  community_github_intro: 'Understand the progress of our code and project',
+  community_weibo: 'Weibo',
+  community_weibo_intro: 'Follow @inft_IO we get the latest information',
+
   /** Page Home */
   home_tc: 'TRENDING COLLECTIONS',
   home_viewAll: 'View all',

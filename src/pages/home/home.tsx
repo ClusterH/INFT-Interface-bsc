@@ -9,6 +9,7 @@ import { Card } from '@/components/market';
 import { transResource } from '@/helpers/data-to-props';
 import { itemsToList } from '@/helpers/data-to-props';
 import Market from '@/components/market';
+import Community from '@/components/community';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import { useWindowSize } from 'react-use';
 
@@ -96,6 +97,10 @@ export default () => {
           hideTotal
           onClick={handleClickCard}
         />
+      </div>
+
+      <div className={styles.wrapCommunity}>
+        <Community />
       </div>
     </div>
   );

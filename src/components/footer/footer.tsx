@@ -22,9 +22,14 @@ export default () => {
         </span>
 
         <span className={styles.communtie}>
-          <span className={styles.communtieItem}>
+          <a
+            href="https://weibo.com/u/7512350596"
+            target="_blank"
+            className={styles.communtieItem}
+          >
             <img src={weibo} alt="weibo" />
-          </span>
+          </a>
+
           <a
             href="https://twitter.com/InftOffical"
             target="_blank"
