@@ -15,6 +15,7 @@ import styles from './styles.less';
 const antIcon = <LoadingOutlined style={{ fontSize: 32 }} spin />;
 
 const transItems = (list: any[]): any[] => {
+  if (!list || !list.length) return [];
   return list.map((item) => ({
     image: transResource(item.resource),
     name: item.name,
@@ -43,7 +44,7 @@ export default () => {
     setLoading(true);
     try {
       const { list } = await queryAssets(account, null);
-      setAssets(list);
+      setAssets(list || []);
       setLoading(false);
     } catch (error) {
       console.error(error);
