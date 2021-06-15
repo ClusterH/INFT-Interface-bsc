@@ -4,6 +4,7 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
+  outputPath: 'bsc.inft.io/',
   alias: {
     // inft: '@/components',
   },

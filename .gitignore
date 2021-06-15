@@ -9,6 +9,8 @@
 
 # production
 /dist
+/bsc.inft.io
+/bsc.inft.io.tar
 
 # misc
 .DS_Store

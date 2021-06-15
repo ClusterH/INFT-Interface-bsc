@@ -6,7 +6,9 @@
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "test": "umi-test",
-    "test:coverage": "umi-test --coverage"
+    "test:coverage": "umi-test --coverage",
+    "tar": "tar -czvf bsc.inft.io.tar bsc.inft.io",
+    "untar": "tar -xzvf bsc.inft.io.tar"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
