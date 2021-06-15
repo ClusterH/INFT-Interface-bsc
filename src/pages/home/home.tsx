@@ -12,6 +12,7 @@ import Market from '@/components/market';
 import Community from '@/components/community';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import { useWindowSize } from 'react-use';
+import IconFont from '@/components/icon-font';
 
 import styles from './styles.less';
 
@@ -71,6 +72,10 @@ export default () => {
           <div className={styles.header}>
             <div className={styles.headerContent}>
               <span className="">
+                <IconFont
+                  type="icon-collection"
+                  style={{ marginRight: '5px' }}
+                />
                 {intl.formatMessage({
                   id: 'home_tc',
                   defaultMessage: 'TRENDING COLLECTIONS',
