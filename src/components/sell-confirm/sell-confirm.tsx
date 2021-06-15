@@ -1,3 +1,4 @@
+import { useIntl } from 'umi';
 import { Modal, InputNumber } from 'antd';
 import { Button } from 'antd';
 import styles from './styles.less';
@@ -11,6 +12,7 @@ export interface ISellConfirmProps {
 }
 
 export default (props: ISellConfirmProps) => {
+  const intl = useIntl();
   const { visible, priceSymbol, onChange, onOk, onCancel } = props;
 
   return (
@@ -25,7 +27,12 @@ export default (props: ISellConfirmProps) => {
       wrapClassName={styles.sellConfirm}
     >
       <div className={styles.content}>
-        <div className={styles.label}>Sell Price</div>
+        <div className={styles.label}>
+          {intl.formatMessage({
+            id: 'sellConfirm_sellPrice',
+            defaultMessage: 'Sell Price',
+          })}
+        </div>
 
         <div>
           <InputNumber className={styles.input} onChange={onChange} />
@@ -33,7 +40,10 @@ export default (props: ISellConfirmProps) => {
         </div>
 
         <Button className={styles.confirmBtn} onClick={onOk}>
-          Confirm
+          {intl.formatMessage({
+            id: 'sellConfirm_confirm',
+            defaultMessage: 'Confirm',
+          })}
         </Button>
       </div>
     </Modal>

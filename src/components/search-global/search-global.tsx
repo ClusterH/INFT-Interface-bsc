@@ -1,3 +1,4 @@
+import { useIntl } from 'umi';
 import React from 'react';
 import { Select, Spin } from 'antd';
 import debounce from 'lodash/debounce';
@@ -57,7 +58,6 @@ function DebounceSelect({
 } // Usage of DebounceSelect
 
 async function fetchUserList(query: string) {
-  console.log('fetching query', query);
   return searchGlobal({ query }).then((data) => {
     const { nft_collects } = data;
     if (nft_collects && nft_collects.length) {
@@ -72,6 +72,7 @@ async function fetchUserList(query: string) {
 }
 
 const SearchGlobal = (props) => {
+  const intl = useIntl();
   const [value, setValue] = React.useState([]);
   const { onSelect } = props;
 
@@ -79,7 +80,10 @@ const SearchGlobal = (props) => {
     <div className={styles.searchGlobal}>
       <DebounceSelect
         value={value}
-        placeholder="Search for collection"
+        placeholder={intl.formatMessage({
+          id: 'filterCollection_search',
+          defaultMessage: 'Search collections',
+        })}
         fetchOptions={fetchUserList}
         onChange={(newValue) => {
           setValue(newValue);

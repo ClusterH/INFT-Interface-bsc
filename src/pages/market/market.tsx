@@ -64,7 +64,6 @@ export default () => {
   };
 
   const onChangeCollection = (address: string) => {
-    console.log('onChangeCollection');
     if (!address) {
       history.push('/market');
     } else {
@@ -80,7 +79,6 @@ export default () => {
   };
 
   const changedSortType = (type: string) => {
-    console.log('changedSortType', type);
     onChangeSortType(type);
   };
 

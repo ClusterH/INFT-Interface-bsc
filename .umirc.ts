@@ -17,6 +17,14 @@ export default defineConfig({
     // 'process.env.rpcURL': 'https://data-seed-prebsc-1-s1.binance.org:8545/',
   },
 
+  locale: {
+    default: 'en-US',
+    antd: true,
+    title: true,
+    baseNavigator: true,
+    baseSeparator: '-',
+  },
+
   title: 'iNFT',
   favicon: '/favicon.ico',
   mode: 'site',
@@ -42,22 +50,27 @@ export default defineConfig({
         {
           path: '/home',
           component: '@/pages/home',
+          title: 'title_home',
         },
         {
           path: '/market',
           component: '@/pages/market',
+          title: 'title_market',
         },
         {
           path: '/market/:contract/:tokenId/:orderId',
           component: '@/pages/market/[contract][token-id][order-id]',
+          title: 'title_detail',
         },
         {
           path: '/market/:contract/:tokenId/',
           component: '@/pages/market/[contract][token-id][order-id]',
+          title: 'title_detail',
         },
         {
           path: '/account',
           component: '@/pages/account',
+          title: 'title_account',
         },
       ],
     },

@@ -1,3 +1,4 @@
+import { useIntl } from 'umi';
 import { createRef, useState } from 'react';
 import { Collapse, AutoComplete, Input } from 'antd';
 import { transResource } from '@/helpers/data-to-props';
@@ -14,6 +15,7 @@ export interface IFilterCollectionProps {
 const { Panel } = Collapse;
 
 export default (props: IFilterCollectionProps) => {
+  const intl = useIntl();
   const { collections, onClick, onCancel } = props;
 
   const [input, setInput] = useState('');
@@ -63,11 +65,20 @@ export default (props: IFilterCollectionProps) => {
   return (
     <div className={styles.filterCollection}>
       <Collapse defaultActiveKey={['1']} bordered={false}>
-        <Panel header="Collcetions" key="1">
+        <Panel
+          header={intl.formatMessage({
+            id: 'filterCollection_header',
+            defaultMessage: 'Collections',
+          })}
+          key="1"
+        >
           <Input
             allowClear
             suffix={<SearchOutlined />}
-            placeholder="Search collections"
+            placeholder={intl.formatMessage({
+              id: 'filterCollection_search',
+              defaultMessage: 'Search collections',
+            })}
             className={styles.input}
             onChange={(e) => setInput(e.target.value)}
           />

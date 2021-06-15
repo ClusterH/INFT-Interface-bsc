@@ -1,3 +1,4 @@
+import { useIntl } from 'umi';
 import { Modal, Button } from 'antd';
 import Input from '@/components/input';
 import styles from './styles.less';
@@ -11,6 +12,7 @@ export interface ISendAddressProps {
 }
 
 export default (props: ISendAddressProps) => {
+  const intl = useIntl();
   const { visible, onChange, onOk, onCancel } = props;
   return (
     <Modal
@@ -21,9 +23,17 @@ export default (props: ISendAddressProps) => {
       onCancel={onCancel}
     >
       <div className={styles.content}>
-        <div className={styles.title}>Address</div>
+        <div className={styles.title}>
+          {intl.formatMessage({
+            id: 'sendAddress_address',
+            defaultMessage: 'Address',
+          })}
+        </div>
         <Input
-          placeholder="Fill in the transfer address"
+          placeholder={intl.formatMessage({
+            id: 'sendAddress_placeholder',
+            defaultMessage: 'Fill in the transfer address',
+          })}
           onChange={(e) => onChange(e.target.value)}
           className={styles.addressInput}
           size="large"
@@ -35,7 +45,10 @@ export default (props: ISendAddressProps) => {
           size="large"
           className={styles.btn}
         >
-          Confirm
+          {intl.formatMessage({
+            id: 'sendAddress_cofirmn',
+            defaultMessage: 'Confirm',
+          })}
         </Button>
       </div>
     </Modal>

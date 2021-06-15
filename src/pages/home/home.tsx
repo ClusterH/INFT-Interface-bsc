@@ -1,3 +1,4 @@
+import { useIntl } from 'umi';
 import Banner from '@/components/banner';
 import Category from '@/components/category';
 import useCategory from '@/hooks/useCategory';
@@ -14,6 +15,7 @@ import { useWindowSize } from 'react-use';
 import styles from './styles.less';
 
 export default () => {
+  const intl = useIntl();
   const wallet = useWallet();
   const categories = useCategory();
   const [cateId, setCateId] = useState(null);
@@ -67,12 +69,21 @@ export default () => {
         <div className={styles.content}>
           <div className={styles.header}>
             <div className={styles.headerContent}>
-              <span className="">TRENDING COLLECTIONS</span>
+              <span className="">
+                {intl.formatMessage({
+                  id: 'home_tc',
+                  defaultMessage: 'TRENDING COLLECTIONS',
+                })}
+              </span>
               <span
                 className={styles.viewAll}
                 onClick={() => history.push('/market')}
               >
-                View all &gt;
+                {intl.formatMessage({
+                  id: 'home_viewAll',
+                  defaultMessage: 'View all',
+                })}{' '}
+                &gt;
               </span>
             </div>
           </div>

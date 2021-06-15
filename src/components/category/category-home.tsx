@@ -1,7 +1,8 @@
-import useCategory from '@/hooks/useCategory';
+import { useIntl } from 'umi';
 import styles from './styles.less';
 
 export default (props: any) => {
+  const intl = useIntl();
   const { categories, active = 0, onClick } = props;
 
   return (
@@ -11,7 +12,10 @@ export default (props: any) => {
           onClick={() => onClick(0)}
           className={active === 0 ? styles.active : null}
         >
-          All
+          {intl.formatMessage({
+            id: 'categoryHome_all',
+            defaultMessage: 'All',
+          })}
         </a>
       </span>
       {categories.map((cat: any) => (

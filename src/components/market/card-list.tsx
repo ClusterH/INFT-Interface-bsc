@@ -1,3 +1,4 @@
+import { useIntl } from 'umi';
 import styles from './styles.less';
 import Card from './card';
 import { Empty, Spin } from 'antd';
@@ -33,6 +34,7 @@ export interface IMarketCardList {
 }
 
 export default (props: IMarketCardList) => {
+  const intl = useIntl();
   const { hideTotal, loading, data, total, onClick } = props;
 
   if (loading) {
@@ -47,14 +49,29 @@ export default (props: IMarketCardList) => {
     return (
       <Empty
         image={Empty.PRESENTED_IMAGE_SIMPLE}
-        description={<span>No Data</span>}
+        description={
+          <span>
+            {intl.formatMessage({
+              id: 'market_nodata',
+              defaultMessage: 'No Data',
+            })}
+          </span>
+        }
         style={{ marginTop: 248, width: '100%', minWidth: '1000px' }}
       />
     );
 
   return (
     <div className={styles.cardList}>
-      {!hideTotal && <div className={styles.total}>{total} Results</div>}
+      {!hideTotal && (
+        <div className={styles.total}>
+          {total}{' '}
+          {intl.formatMessage({
+            id: 'market_results',
+            defaultMessage: 'Results',
+          })}
+        </div>
+      )}
 
       {data.map((item) => (
         <Card

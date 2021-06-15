@@ -1,5 +1,5 @@
+import { useHistory, useParams, useIntl } from 'umi';
 import { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'umi';
 import { notification } from 'antd';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import AssetInfo from '@/components/asset-info';
@@ -22,6 +22,8 @@ import contractFactory from '@/contracts';
 const approvedAddress = '0x2011e906491500a69c8f83ebe0cbebf4126bb536';
 
 export default () => {
+  const intl = useIntl();
+  console.log('intl', intl);
   const { contract, tokenId, orderId } = useParams() as any;
   const wallet = useWallet();
   const history = useHistory();
@@ -65,17 +67,20 @@ export default () => {
 
   const ownerOfme = async (tokenId: string) => {
     if (wallet.status === 'connected') {
-      console.log('ownerOfme tokenId: ', tokenId);
       const contractObj = await contractFactory(contract);
-      contractObj.methods
-        .ownerOf(tokenId)
-        .call()
-        .then((owner: string) => {
-          setIsMyOrder(owner === wallet.account);
-        })
-        .catch((error: any) => {
-          console.error(error);
-        });
+      try {
+        contractObj.methods
+          .ownerOf(tokenId)
+          .call()
+          .then((owner: string) => {
+            setIsMyOrder(owner === wallet.account);
+          })
+          .catch((error: any) => {
+            console.error(error);
+          });
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -99,7 +104,12 @@ export default () => {
 
   const handleBuy = async () => {
     if (wallet.status !== 'connected') {
-      notification.info({ message: '请先连接钱包' });
+      notification.info({
+        message: intl.formatMessage({
+          id: 'notify_connectWallet',
+          defaultMessage: 'Connect wallet',
+        }),
+      });
       return;
     }
 
@@ -118,7 +128,12 @@ export default () => {
         sendLoading: true,
       });
     } else {
-      notification.info({ message: '请先连接钱包' });
+      notification.info({
+        message: intl.formatMessage({
+          id: 'notify_connectWallet',
+          defaultMessage: 'Connect wallet',
+        }),
+      });
     }
   };
 
@@ -180,7 +195,12 @@ export default () => {
       // const { contract, token_id } = result;
       console.log('buyToken result: ', result);
 
-      notification.success({ message: '购买成功' });
+      notification.success({
+        message: intl.formatMessage({
+          id: 'notify_buySuccess',
+          defaultMessage: 'Buy success',
+        }),
+      });
       history.push(`/market/${contract}/${tokenId}`);
 
       setBuyConfirm({
@@ -254,7 +274,12 @@ export default () => {
 
   const handleCheck = async () => {
     if (wallet.status !== 'connected') {
-      notification.info({ message: '请先连接钱包' });
+      notification.info({
+        message: intl.formatMessage({
+          id: 'notify_connectWallet',
+          defaultMessage: 'Connect wallet',
+        }),
+      });
     } else {
       console.log(wallet.account, approvedAddress);
       const contractObj = await contractFactory(contract);

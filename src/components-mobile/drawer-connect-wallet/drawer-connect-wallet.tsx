@@ -1,14 +1,19 @@
+import { useIntl } from 'umi';
 import { Drawer } from 'antd';
 import { useState } from 'react';
 import styles from './styles.less';
 
 export default (props: any) => {
+  const intl = useIntl();
   const { visible, onClose, onOk } = props;
 
   return (
     <Drawer
       className={styles.drawerConnectWallet}
-      title="请连接钱包"
+      title={intl.formatMessage({
+        id: 'drawerConnectWallet_title',
+        defaultMessage: 'Connect wallet',
+      })}
       placement="bottom"
       closable={true}
       onClose={onClose}

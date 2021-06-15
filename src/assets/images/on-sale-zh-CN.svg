@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="75px" height="85px" viewBox="0 0 75 85" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59 (86127) - https://sketch.com -->
+    <title>出售</title>
+    <desc>Created with Sketch.</desc>
+    <g id="盲盒活动" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Home" transform="translate(-128.000000, -566.000000)">
+            <g id="编组" transform="translate(127.000000, 566.000000)">
+                <g id="出售" transform="translate(0.228875, 0.165009)">
+                    <polygon id="路径-3" fill="#FED835" points="0.836269195 38.1221147 35.3582545 0 75.7982945 0 0.836269195 84.5316456"></polygon>
+                    <text transform="translate(29.502281, 28.785212) rotate(-49.000000) translate(-29.502281, -28.785212) " font-family="PingFangSC-Medium, PingFang SC" font-size="15" font-weight="400" letter-spacing="0.75" fill="#FFFFFF">
+                        <tspan x="11.0022805" y="34.2852124">出售</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

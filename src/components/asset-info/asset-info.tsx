@@ -1,3 +1,4 @@
+import { useIntl } from 'umi';
 import { Button } from 'antd';
 import styles from './styles.less';
 import { useState } from 'react';
@@ -27,13 +28,20 @@ export interface IAssetInfoProps {
 }
 
 const BuyPanel = (props) => {
+  const intl = useIntl();
   const { isOnSale, price, priceSymbol, onBuy, loading } = props;
 
   return (
     <div className={styles.buyPanel}>
       {isOnSale ? (
         <>
-          <div className={styles.priceText}>Price:</div>
+          <div className={styles.priceText}>
+            {intl.formatMessage({
+              id: 'assetInfo_price',
+              defaultMessage: 'Price',
+            })}
+            :
+          </div>
           <div className={styles.priceWrap}>
             <span className={styles.price}>{price}</span>
             <span className={styles.priceSymbol}>{priceSymbol}</span>
@@ -47,7 +55,10 @@ const BuyPanel = (props) => {
             loading={loading}
             className={styles.button}
           >
-            Buy
+            {intl.formatMessage({
+              id: 'assetInfo_buy',
+              defaultMessage: 'Buy',
+            })}
           </Button>
         </>
       ) : null}
@@ -56,6 +67,7 @@ const BuyPanel = (props) => {
 };
 
 const SellPanel = (props) => {
+  const intl = useIntl();
   const {
     sendLoading,
     sellLoading,
@@ -76,7 +88,10 @@ const SellPanel = (props) => {
           loading={sendLoading}
           className={styles.sendBtn}
         >
-          Send
+          {intl.formatMessage({
+            id: 'assetInfo_send',
+            defaultMessage: 'Send',
+          })}
         </Button>
 
         {isOnSale ? (
@@ -87,7 +102,10 @@ const SellPanel = (props) => {
             loading={cancelSellLoading}
             className={styles.sellBtn}
           >
-            Cancel
+            {intl.formatMessage({
+              id: 'assetInfo_cancel',
+              defaultMessage: 'Cancel',
+            })}
           </Button>
         ) : (
           <Button
@@ -97,7 +115,10 @@ const SellPanel = (props) => {
             loading={sellLoading}
             className={styles.sellBtn}
           >
-            Sell
+            {intl.formatMessage({
+              id: 'assetInfo_sell',
+              defaultMessage: 'Sell',
+            })}
           </Button>
         )}
       </div>
@@ -106,6 +127,7 @@ const SellPanel = (props) => {
 };
 
 export default (props: IAssetInfoProps) => {
+  const intl = useIntl();
   const {
     img,
     collectName,
@@ -145,13 +167,23 @@ export default (props: IAssetInfoProps) => {
         </div>
 
         <div className={styles.ownerWrap}>
-          <span className={styles.text}>Owned by</span>
+          <span className={styles.text}>
+            {intl.formatMessage({
+              id: 'assetInfo_ownedBy',
+              defaultMessage: 'Owned by',
+            })}
+          </span>
           <BscAddress value={owner} short></BscAddress>
         </div>
 
         <div className={styles.textBox}>
           <div className={styles.infoItem}>
-            <span className={styles.label}>Contract Address</span>
+            <span className={styles.label}>
+              {intl.formatMessage({
+                id: 'assetInfo_contractAddress',
+                defaultMessage: 'Contract Address',
+              })}
+            </span>
             {/* <span className={styles.value}>{contract}</span> */}
             <span className={styles.wrapContract}>
               <BscAddress value={contract}></BscAddress>
@@ -161,11 +193,21 @@ export default (props: IAssetInfoProps) => {
             </span>
           </div>
           <div className={styles.infoItem}>
-            <span className={styles.label}>Token ID</span>
+            <span className={styles.label}>
+              {intl.formatMessage({
+                id: 'assetInfo_tokenId',
+                defaultMessage: 'Token ID',
+              })}
+            </span>
             <span className={styles.value}>{tokenId}</span>
           </div>
           <div className={styles.infoItem}>
-            <span className={styles.label}>Blockchain</span>
+            <span className={styles.label}>
+              {intl.formatMessage({
+                id: 'assetInfo_blockchain',
+                defaultMessage: 'Blockchain',
+              })}
+            </span>
             <span className={styles.value}>{blockchain}</span>
           </div>
         </div>

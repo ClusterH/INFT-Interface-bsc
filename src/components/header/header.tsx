@@ -1,21 +1,49 @@
 import { useState, useEffect } from 'react';
-import { Link, NavLink, useHistory } from 'umi';
-import { Menu } from 'antd';
+import { Link, NavLink, useHistory, getLocale, setLocale, useIntl } from 'umi';
+import { Menu, Dropdown } from 'antd';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import logo from '@/assets/images/logo-inft.svg';
 import walletIcon from '@/assets/images/wallet.png';
-import { SearchInput } from '@/components/input';
 import SearchGlobal from '@/components/search-global';
 import ModalAccount from '@/components/modal-account';
 import IconFont from '@/components/icon-font';
 import DrawNav from '@/components-mobile/drawer-nav';
+
 import styles from './styles.less';
 
 export default () => {
+  const intl = useIntl();
   const history = useHistory();
   const wallet = useWallet();
   const [visible, setVisible] = useState(false);
   const [drawNavVisible, setDrawNavVisible] = useState(false);
+
+  const menu = (
+    <Menu>
+      <Menu.Item key="en-US">
+        <span
+          className={[
+            styles.langItem,
+            getLocale() === 'en-US' ? styles.langItemActive : null,
+          ].join(' ')}
+          onClick={() => changeLang('en-US')}
+        >
+          English
+        </span>
+      </Menu.Item>
+      <Menu.Item key="zh-CN">
+        <span
+          className={[
+            styles.langItem,
+            getLocale() === 'zh-CN' ? styles.langItemActive : null,
+          ].join(' ')}
+          onClick={() => changeLang('zh-CN')}
+        >
+          中 文
+        </span>
+      </Menu.Item>
+    </Menu>
+  );
 
   /** log wallet status */
   useEffect(() => {
@@ -63,6 +91,10 @@ export default () => {
     history.push(`/market?contract=${item.value}`);
   };
 
+  const changeLang = (lang: 'zh-CN' | 'en-US') => {
+    setLocale(lang, true);
+  };
+
   return (
     <div className={styles.header}>
       <div className={styles.content}>
@@ -82,15 +114,43 @@ export default () => {
 
         <div className={styles.nav}>
           <NavLink exact to="/home" activeClassName={styles.activeLink}>
-            Home
+            {intl.formatMessage({
+              id: 'header_home',
+              defaultMessage: 'Home',
+            })}
           </NavLink>
           <NavLink exact to="/market" activeClassName={styles.activeLink}>
-            NFT Market
+            {intl.formatMessage({
+              id: 'header_market',
+              defaultMessage: 'NFT Market',
+            })}
           </NavLink>
           <NavLink to="/account" activeClassName={styles.activeLink}>
-            Account
+            {intl.formatMessage({
+              id: 'header_account',
+              defaultMessage: 'Account',
+            })}
           </NavLink>
         </div>
+
+        <Dropdown
+          overlay={menu}
+          placement="bottomCenter"
+          trigger={['click']}
+          overlayClassName={styles.dropdown}
+        >
+          <IconFont
+            type="icon-global"
+            style={{
+              fontSize: 26,
+            }}
+            className={
+              wallet.status === 'connected'
+                ? styles.langIconConnected
+                : styles.langIconDisconnect
+            }
+          />
+        </Dropdown>
 
         <div className={styles.wallet}>
           {wallet.status === 'connected' && (

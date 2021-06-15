@@ -1,8 +1,10 @@
+import { useIntl } from 'umi';
 import { Drawer } from 'antd';
 import { NavLink } from 'umi';
 import styles from './styles.less';
 
 export default (props: any) => {
+  const intl = useIntl();
   const { visible, onClose, onOk } = props;
 
   return (
@@ -17,17 +19,26 @@ export default (props: any) => {
       <div className={styles.content}>
         <span className={styles.navItem} onClick={onOk}>
           <NavLink exact to="/home" activeClassName={styles.active}>
-            Home
+            {intl.formatMessage({
+              id: 'header_home',
+              defaultMessage: 'Home',
+            })}
           </NavLink>
         </span>
         <span className={styles.navItem} onClick={onOk}>
           <NavLink exact to="/market" activeClassName={styles.active}>
-            NFT Market
+            {intl.formatMessage({
+              id: 'header_market',
+              defaultMessage: 'NFT Market',
+            })}
           </NavLink>
         </span>
         <span className={styles.navItem} onClick={onOk}>
           <NavLink exact to="/account" activeClassName={styles.active}>
-            Account
+            {intl.formatMessage({
+              id: 'header_account',
+              defaultMessage: 'Account',
+            })}
           </NavLink>
         </span>
       </div>

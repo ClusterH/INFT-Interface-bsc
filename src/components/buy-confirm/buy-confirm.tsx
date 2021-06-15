@@ -1,3 +1,4 @@
+import { useIntl } from 'umi';
 import { Modal, Button } from 'antd';
 import styles from './styles.less';
 
@@ -25,6 +26,7 @@ export interface ICheckoutBuyProps {
 }
 
 export default (props: ICheckoutBuyProps) => {
+  const intl = useIntl();
   const {
     name,
     title,
@@ -40,11 +42,26 @@ export default (props: ICheckoutBuyProps) => {
 
   const CheckoutPanel = () => (
     <div className={styles.checkoutPanel}>
-      <div className={styles.title}>Checkout</div>
+      <div className={styles.title}>
+        {intl.formatMessage({
+          id: 'buyConfirm_title',
+          defaultMessage: 'Checkout',
+        })}
+      </div>
 
       <div className={styles.labels}>
-        <span>Item</span>
-        <span>Amount</span>
+        <span>
+          {intl.formatMessage({
+            id: 'buyConfirm_item',
+            defaultMessage: 'Item',
+          })}
+        </span>
+        <span>
+          {intl.formatMessage({
+            id: 'buyConfirm_amount',
+            defaultMessage: 'Amount',
+          })}
+        </span>
       </div>
 
       <div className={styles.infoWrap}>
@@ -61,7 +78,13 @@ export default (props: ICheckoutBuyProps) => {
       </div>
 
       <div className={styles.paymentWrap}>
-        <span className={styles.label}>Total Payment:</span>
+        <span className={styles.label}>
+          {intl.formatMessage({
+            id: 'buyConfirm_totalPayment',
+            defaultMessage: 'Total Payment',
+          })}
+          :
+        </span>
         <span className={styles.value}>
           {amount} {symbol}
         </span>
@@ -74,23 +97,44 @@ export default (props: ICheckoutBuyProps) => {
         className={styles.btn}
         onClick={onOk}
       >
-        Checkout
+        {intl.formatMessage({
+          id: 'buyConfirm_checkout',
+          defaultMessage: 'Checkout',
+        })}
       </Button>
     </div>
   );
 
   const CompletingPanel = () => (
     <div className={styles.completingPanel}>
-      <div className={styles.title}>Completing the trade</div>
+      <div className={styles.title}>
+        {intl.formatMessage({
+          id: 'buyConfirm_completing',
+          defaultMessage: 'Completing the trade',
+        })}
+      </div>
       <div className={styles.desc}>
         To purchase this item for {amount} {symbol} , complete this
         finaltransaction !
+        {intl.formatMessage(
+          {
+            id: 'buyConfirm_desc',
+            defaultMessage: `To purchase this item for ${amount} ${symbol} , complete this finaltransaction !`,
+          },
+          {
+            amount,
+            symbol,
+          },
+        )}
       </div>
       <div className={styles.imageWrap}>
         <img src={image} alt="" className={styles.image} />
       </div>
       <div className={styles.footerText}>
-        WAITING FOR BLOCKCHAIN CONFIRMATION
+        {intl.formatMessage({
+          id: 'buyConfirm_footer',
+          defaultMessage: 'WAITING FOR BLOCKCHAIN CONFIRMATION',
+        })}
       </div>
     </div>
   );

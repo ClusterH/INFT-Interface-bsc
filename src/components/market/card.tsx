@@ -1,3 +1,4 @@
+import { getLocale } from 'umi';
 import styles from './styles.less';
 
 interface IMarketCardProps {
@@ -40,9 +41,14 @@ export default (props: IMarketCardProps) => {
   return (
     <div className={styles.marketCard} onClick={handleClick}>
       <div
-        className={[styles.imgBox, onSale ? styles.imageBoxOnSale : null].join(
-          ' ',
-        )}
+        className={[
+          styles.imgBox,
+          onSale
+            ? getLocale() === 'zh-CN'
+              ? styles.imageBoxOnSaleCN
+              : styles.imageBoxOnSale
+            : null,
+        ].join(' ')}
       >
         <img src={image} alt="" className={styles.image} />
       </div>
