@@ -147,6 +147,7 @@ export default (props: ICheckoutBuyProps) => {
       footer={null}
       onCancel={onCancel}
       width={473}
+      centered
       wrapClassName={styles.buyConfirm}
     >
       <div className={styles.content}>
