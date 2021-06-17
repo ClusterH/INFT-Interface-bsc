@@ -1,0 +1,140 @@
+.create {
+  :global {
+    .ant-input,
+    .ant-btn-dashed {
+      background: #fbfbfb;
+    }
+    .ant-radio-disabled .ant-radio-inner::after {
+      background-color: #fed835;
+    }
+  }
+}
+
+.content {
+  width: 1020px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 126px;
+
+  .wrapForm {
+    display: flex;
+    flex-direction: column;
+    width: 420px;
+  }
+  .wrapImage {
+    position: relative;
+    width: 500px;
+    height: 550px;
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px dotted #dcdcdc;
+  }
+}
+.label {
+  font-size: 22px;
+  font-weight: bold;
+  color: #222222;
+  margin-bottom: 16px;
+}
+.box {
+  margin-bottom: 30px;
+}
+.uploadBox {
+  position: relative;
+}
+.iconClose {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 36px;
+}
+
+.uploader {
+  width: 100%;
+  height: 130px;
+  background-color: #dcdcdc;
+
+  :global {
+    .ant-upload {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+.wrapTip {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 400;
+  color: #939393;
+  img {
+    width: 50px;
+    // height: 40px;
+    margin-bottom: 17px;
+  }
+}
+
+.imageBox {
+  width: 400px;
+  height: 400px;
+  text-align: center;
+  margin: 50px auto 0px;
+
+  .preImage {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 16px;
+  }
+}
+.previewText {
+  position: absolute;
+  bottom: 40px;
+  text-align: center;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 400;
+  color: #939393;
+}
+.textSuccess {
+  font-size: 14px;
+  font-weight: 500;
+  color: #fed936;
+}
+
+@media (max-width: 768px) {
+  .content {
+    width: 100%;
+    flex-wrap: wrap;
+    padding: 12px;
+    flex-direction: column-reverse;
+    padding-bottom: 80px;
+
+    .wrapForm {
+      width: 100%;
+    }
+    .wrapImage {
+      width: 100%;
+      height: 380px;
+      border: none;
+      margin-bottom: 30px;
+    }
+    .imageBox {
+      margin: 0;
+      width: 100%;
+      height: 320px;
+      text-align: center;
+
+      img {
+        max-width: 320px;
+        max-height: 320px;
+      }
+    }
+    .previewText {
+      bottom: 0;
+    }
+  }
+}

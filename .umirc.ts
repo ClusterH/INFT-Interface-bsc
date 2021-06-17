@@ -73,6 +73,16 @@ export default defineConfig({
           component: '@/pages/account',
           title: 'title_account',
         },
+        {
+          path: '/create',
+          component: '@/pages/create',
+          title: 'title_create',
+        },
+        {
+          path: '/create/:id',
+          component: '@/pages/create/[id]',
+          title: 'title_create_preview',
+        },
       ],
     },
   ],
