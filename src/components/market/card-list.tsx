@@ -74,22 +74,24 @@ export default (props: IMarketCardList) => {
         </div>
       )}
 
-      {data.map((item) => (
-        <Card
-          key={item.contract + item.tokenId}
-          image={item.image}
-          imageType={item.imageType}
-          name={item.name}
-          owner={item.owner}
-          price={item.price}
-          tokenId={item.tokenId}
-          orderId={item.orderId}
-          onSale={item.onSale}
-          contract={item.contract}
-          showFooter={item.showFooter}
-          onClick={onClick}
-        />
-      ))}
+      <div className={styles.wrapList}>
+        {data.map((item) => (
+          <Card
+            key={item.contract + item.tokenId}
+            image={item.image}
+            imageType={item.imageType}
+            name={item.name}
+            owner={item.owner}
+            price={item.price}
+            tokenId={item.tokenId}
+            orderId={item.orderId}
+            onSale={item.onSale}
+            contract={item.contract}
+            showFooter={item.showFooter}
+            onClick={onClick}
+          />
+        ))}
+      </div>
     </div>
   );
 };
