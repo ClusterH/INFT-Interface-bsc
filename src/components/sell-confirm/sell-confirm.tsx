@@ -17,6 +17,7 @@ export default (props: ISellConfirmProps) => {
 
   return (
     <Modal
+      centered
       title={null}
       visible={visible}
       onOk={onOk}
