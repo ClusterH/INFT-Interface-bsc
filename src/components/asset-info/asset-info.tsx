@@ -28,7 +28,7 @@ export interface IAssetInfoProps {
   onCancelSell: () => void;
 }
 
-const BuyPanel = (props) => {
+const BuyPanel = (props: any) => {
   const intl = useIntl();
   const { isOnSale, price, priceSymbol, onBuy, loading } = props;
 
@@ -67,7 +67,7 @@ const BuyPanel = (props) => {
   );
 };
 
-const SellPanel = (props) => {
+const SellPanel = (props: any) => {
   const intl = useIntl();
   const {
     sendLoading,
@@ -175,7 +175,9 @@ export default (props: IAssetInfoProps) => {
             <IconFont type="icon-bsc" />
             BSC
           </span>
-          <span className={styles.collectName}>#{collectName}#</span>
+          {!!collectName && (
+            <span className={styles.collectName}>#{collectName}#</span>
+          )}
         </div>
 
         <div className={styles.ownerWrap}>

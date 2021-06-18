@@ -1,4 +1,5 @@
 import web3 from 'web3';
+const tlContract = '0xf7a21ffb762ef2c14d8713b18f5596b4b0b0490a';
 
 const transResource = (resource: string): string => {
   return resource.startsWith('http')
@@ -27,17 +28,17 @@ const itemsToList = (list: any[], wallet?: any): any[] => {
   });
 };
 
-const dataToDetailProps = (data: any): any => {
+const dataToDetailProps = (data: any, tokenId?: string): any => {
   return {
     img: transResource(data.image),
     imageType: data.image_type,
     name: data.name,
     collectName: data.collect_name,
     owner: data.seller,
-    contract: data.contract,
-    tokenId: data.token_id,
+    contract: data.contract || tlContract,
+    tokenId: data.token_id || tokenId,
     blockchain: 'BSC',
-    price: web3.utils.fromWei(data.price),
+    price: web3.utils.fromWei(data.price || '0'),
     priceSymbol: 'BNB',
   };
 };

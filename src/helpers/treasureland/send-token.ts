@@ -1,9 +1,15 @@
-import { cryptozContract } from '@/contracts';
+import factory from '@/contracts';
 
-const sendToken = async (from: string, to: string, id: string) => {
-  const result = await cryptozContract.methods.transferFrom(from, to, id).send({
+const sendToken = async (
+  from: string,
+  to: string,
+  id: string,
+  contractAddress: string,
+) => {
+  const contractObj = await factory(contractAddress);
+  const result = await contractObj.methods.transferFrom(from, to, id).send({
     from: from,
-    gas: 126842,
+    gas: 144864,
   });
 
   return result;

@@ -120,6 +120,8 @@ const recentlyListed = (): Promise<any[]> =>
 
 const queryCategories = () => axios.get('/categories');
 
+const queryMintToken = (id: string) => axios.get(`/lazy/mint/token/${id}`);
+
 export {
   itemsRecommend,
   queryItems,
@@ -132,4 +134,5 @@ export {
   searchGlobal,
   queryCategories,
   recentlyListed,
+  queryMintToken,
 };

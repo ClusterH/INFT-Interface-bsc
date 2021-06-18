@@ -17,7 +17,6 @@ const feeRecipient = '0x4c9f5e85Dd88cd06015d791479a6a478c3D27B6B'; // 接收手�
 
 async function getE({ maker, basePrice, tokenId, amount, target }: IGetEParam) {
   const o = await bscscan({ address: target });
-  console.log('getE o', typeof o, o);
 
   const e: any = {
     //   basePrice: "1000000000000000000", // ？
