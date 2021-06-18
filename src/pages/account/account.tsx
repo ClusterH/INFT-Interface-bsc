@@ -18,6 +18,7 @@ const transItems = (list: any[]): any[] => {
   if (!list || !list.length) return [];
   return list.map((item) => ({
     image: transResource(item.resource),
+    imageType: item.resource_type,
     name: item.name,
     contract: item.contract,
     tokenId: item.token_id,
