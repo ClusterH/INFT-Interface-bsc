@@ -10,33 +10,9 @@ import styles from './styles.less';
 const { TextArea } = Input;
 
 export default (props: any) => {
-  const { form, setForm } = props;
-  const [formRef] = Form.useForm();
-  const [file, setFile] = useState(null);
-
-  const beforeUpload = () => {};
-  const handleChange = () => {};
-
-  const onCreate = () => {
-    const properties = formRef.getFieldValue('properties');
-    console.log('properties', properties);
-  };
-
-  const customRequest = (e: any) => {
-    console.log('customRequest', e);
-    const { file } = e;
-    setFile(file);
-
-    const _thumbUrl = URL.createObjectURL(file);
-
-    const form = new FormData();
-    form.append('file', file, file.name);
-  };
-
-  const removeImage = (e: any) => {
-    e.stopPropagation();
-    setFile(null);
-  };
+  const { form, formRef, setForm, customRequest, removeImage, onCreate } =
+    props;
+  const { file } = form;
 
   return (
     <div className={styles.create}>
@@ -60,8 +36,6 @@ export default (props: any) => {
                 listType="picture-card"
                 className={styles.uploader}
                 showUploadList={false}
-                beforeUpload={beforeUpload}
-                onChange={handleChange}
                 customRequest={customRequest}
               >
                 <div className={styles.wrapTip}>
