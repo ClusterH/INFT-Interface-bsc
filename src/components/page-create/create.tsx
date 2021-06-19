@@ -14,6 +14,22 @@ export default (props: any) => {
     props;
   const { file } = form;
 
+  const Preview = () => (
+    <>
+      <div className={styles.label}>Preview</div>
+      <div className={styles.wrapImage}>
+        <div className={styles.imageBox}>
+          <img
+            src={file ? URL.createObjectURL(file) : previewPlacehold}
+            alt="previews"
+            className={styles.preImage}
+          />
+        </div>
+        <div className={styles.previewText}>Preview of your NFT</div>
+      </div>
+    </>
+  );
+
   return (
     <div className={styles.create}>
       <BannerCreateNFT />
@@ -66,6 +82,10 @@ export default (props: any) => {
                 )}
               </Upload>
             </div>
+          </div>
+
+          <div className={[styles.formItem, styles.formItemPreview].join(' ')}>
+            <Preview />
           </div>
           <div className={styles.formItem}>
             <div className={styles.label}>Name</div>
@@ -156,17 +176,7 @@ export default (props: any) => {
           </Button>
         </div>
         <div className={styles.wrapPreview}>
-          <div className={styles.label}>Preview</div>
-          <div className={styles.wrapImage}>
-            <div className={styles.imageBox}>
-              <img
-                src={file ? URL.createObjectURL(file) : previewPlacehold}
-                alt="previews"
-                className={styles.preImage}
-              />
-            </div>
-            <div className={styles.previewText}>Preview of your NFT</div>
-          </div>
+          <Preview />
         </div>
       </div>
     </div>
