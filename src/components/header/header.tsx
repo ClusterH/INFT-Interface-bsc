@@ -8,8 +8,10 @@ import SearchGlobal from '@/components/search-global';
 import ModalAccount from '@/components/modal-account';
 import IconFont from '@/components/icon-font';
 import DrawNav from '@/components-mobile/drawer-nav';
+import Web3 from 'web3';
 
 import styles from './styles.less';
+const web3 = new Web3(Web3.givenProvider);
 
 export default () => {
   const intl = useIntl();
@@ -57,14 +59,25 @@ export default () => {
   }, [wallet.status]);
 
   useEffect(() => {
-    const connected = sessionStorage.getItem('metamask-connected');
-    if (connected) {
-      if (wallet.status !== 'connected') {
-        console.log('connected');
-        wallet.connect('injected');
-        sessionStorage.setItem('metamask-connected', 'true');
-      }
-    }
+    // const connected = sessionStorage.getItem('metamask-connected');
+    // if (connected) {
+    //   if (wallet.status !== 'connected') {
+    //     console.log('connected');
+    //     wallet.connect('injected');
+    //     sessionStorage.setItem('metamask-connected', 'true');
+    //   }
+    // }
+    web3.eth
+      .getAccounts()
+      .then((accounts) => {
+        console.log('accounts: ', accounts);
+        if (accounts.length) {
+          wallet.connect('injected');
+        }
+      })
+      .catch((e) => {
+        console.log('error: ', e);
+      });
   }, []);
 
   const connectWallet = () => {

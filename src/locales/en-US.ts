@@ -89,4 +89,23 @@ export default {
   assetInfo_sell: 'Sell',
   assetInfo_send: 'Send',
   assetInfo_cancel: 'Cancel',
+
+  /** create */
+  create_preview: 'Preview',
+  create_previewText: 'Preview of your NFT',
+  create_quantily: 'Quantily',
+  create_single: 'Single',
+  create_upload: 'Upload file',
+  create_uploadText: 'Document only support JPG, PNG, GIF, and maximum for 4MB',
+  create_success: 'Upload successfully!',
+  create_formName: 'Name',
+  create_formNamePlaceholder: 'Item name',
+  create_formDescription: 'Description',
+  create_formDescriptionPlaceholder: 'Detailed description of your item.',
+  create_formProperties: 'Properties',
+  create_formPropertieName: 'Input property name',
+  create_formPropertieValue: 'Input property value',
+  create_formAddField: 'Add field',
+  create_formRoyalties: 'Royalties',
+  create_formCreate: 'Create NFT',
 };

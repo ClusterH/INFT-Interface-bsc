@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useIntl } from 'umi';
 import { Button, Radio, Upload, Input, Form, Space } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import previewPlacehold from '@/assets/images/preview.png';
@@ -10,13 +11,19 @@ import styles from './styles.less';
 const { TextArea } = Input;
 
 export default (props: any) => {
+  const intl = useIntl();
   const { form, formRef, setForm, customRequest, removeImage, onCreate } =
     props;
   const { file } = form;
 
   const Preview = () => (
     <>
-      <div className={styles.label}>Preview</div>
+      <div className={styles.label}>
+        {intl.formatMessage({
+          id: 'create_preview',
+          defaultMessage: 'Preview',
+        })}
+      </div>
       <div className={styles.wrapImage}>
         <div className={styles.imageBox}>
           <img
@@ -25,7 +32,12 @@ export default (props: any) => {
             className={styles.preImage}
           />
         </div>
-        <div className={styles.previewText}>Preview of your NFT</div>
+        <div className={styles.previewText}>
+          {intl.formatMessage({
+            id: 'create_previewText',
+            defaultMessage: 'Preview of your NFT',
+          })}
+        </div>
       </div>
     </>
   );
@@ -37,15 +49,28 @@ export default (props: any) => {
       <div className={styles.content}>
         <div className={styles.wrapForm}>
           <div className={styles.formItem}>
-            <div className={styles.label}>Quantily</div>
+            <div className={styles.label}>
+              {intl.formatMessage({
+                id: 'create_quantily',
+                defaultMessage: 'Quantily',
+              })}
+            </div>
             <div className={styles.box}>
               <Radio defaultChecked disabled>
-                Single
+                {intl.formatMessage({
+                  id: 'create_single',
+                  defaultMessage: 'Single',
+                })}
               </Radio>
             </div>
           </div>
           <div className={styles.formItem}>
-            <div className={styles.label}>Upload file</div>
+            <div className={styles.label}>
+              {intl.formatMessage({
+                id: 'create_upload',
+                defaultMessage: 'Upload file',
+              })}
+            </div>
             <div className={[styles.box, styles.uploadBox].join(' ')}>
               <Upload
                 name="avatar"
@@ -59,14 +84,21 @@ export default (props: any) => {
                     <>
                       <img src={iconUpload} alt="upload" />
                       <span>
-                        Document only support JPG, PNG, GIF, and maximum for 4MB
+                        {intl.formatMessage({
+                          id: 'create_uploadText',
+                          defaultMessage:
+                            'Document only support JPG, PNG, GIF, and maximum for 4MB',
+                        })}
                       </span>
                     </>
                   ) : (
                     <>
                       <img src={iconSuccess} alt="success" />
                       <span className={styles.textSuccess}>
-                        Upload successfully!
+                        {intl.formatMessage({
+                          id: 'create_success',
+                          defaultMessage: 'Upload successfully!',
+                        })}
                       </span>
                     </>
                   )}
@@ -88,11 +120,19 @@ export default (props: any) => {
             <Preview />
           </div>
           <div className={styles.formItem}>
-            <div className={styles.label}>Name</div>
+            <div className={styles.label}>
+              {intl.formatMessage({
+                id: 'create_formName',
+                defaultMessage: 'Name',
+              })}
+            </div>
             <div className={styles.box}>
               <Input
                 value={form.name}
-                placeholder="Item name"
+                placeholder={intl.formatMessage({
+                  id: 'create_formNamePlaceholder',
+                  defaultMessage: 'Item name',
+                })}
                 onChange={(e) =>
                   setForm({
                     ...form,
@@ -103,12 +143,20 @@ export default (props: any) => {
             </div>
           </div>
           <div className={styles.formItem}>
-            <div className={styles.label}>Description</div>
+            <div className={styles.label}>
+              {intl.formatMessage({
+                id: 'create_formDescription',
+                defaultMessage: 'Description',
+              })}
+            </div>
             <div className={styles.box}>
               <TextArea
                 value={form.description}
                 rows={4}
-                placeholder="Detailed description of your item."
+                placeholder={intl.formatMessage({
+                  id: 'create_formDescriptionPlaceholder',
+                  defaultMessage: 'Detailed description of your item.',
+                })}
                 onChange={(e) =>
                   setForm({
                     ...form,
@@ -119,7 +167,12 @@ export default (props: any) => {
             </div>
           </div>
           <div className={styles.formItem}>
-            <div className={styles.label}>Properties</div>
+            <div className={styles.label}>
+              {intl.formatMessage({
+                id: 'create_formProperties',
+                defaultMessage: 'Properties',
+              })}
+            </div>
             <div className={styles.box}>
               <Form form={formRef} autoComplete="off">
                 <Form.List name="properties">
@@ -136,14 +189,24 @@ export default (props: any) => {
                             name={[name, 'attr']}
                             fieldKey={[fieldKey, 'attr']}
                           >
-                            <Input placeholder="Input property name" />
+                            <Input
+                              placeholder={intl.formatMessage({
+                                id: 'create_formPropertieName',
+                                defaultMessage: 'Input property name',
+                              })}
+                            />
                           </Form.Item>
                           <Form.Item
                             {...restField}
                             name={[name, 'value']}
                             fieldKey={[fieldKey, 'value']}
                           >
-                            <Input placeholder="Input property value" />
+                            <Input
+                              placeholder={intl.formatMessage({
+                                id: 'create_formPropertieValue',
+                                defaultMessage: 'Input property value',
+                              })}
+                            />
                           </Form.Item>
                           <MinusCircleOutlined onClick={() => remove(name)} />
                         </Space>
@@ -155,7 +218,10 @@ export default (props: any) => {
                           block
                           icon={<PlusOutlined />}
                         >
-                          Add field
+                          {intl.formatMessage({
+                            id: 'create_formAddField',
+                            defaultMessage: 'Add field',
+                          })}
                         </Button>
                       </Form.Item>
                     </>
@@ -165,14 +231,22 @@ export default (props: any) => {
             </div>
           </div>
           <div className={styles.formItem}>
-            <div className={styles.label}>Royalties</div>
+            <div className={styles.label}>
+              {intl.formatMessage({
+                id: 'create_formRoyalties',
+                defaultMessage: 'Royalties',
+              })}
+            </div>
             <div className={styles.box}>
               <Input value="10%" disabled />
             </div>
           </div>
 
           <Button type="primary" block size="large" onClick={onCreate}>
-            Create NFT
+            {intl.formatMessage({
+              id: 'create_formCreate',
+              defaultMessage: 'Create NFT',
+            })}
           </Button>
         </div>
         <div className={styles.wrapPreview}>

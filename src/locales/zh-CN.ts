@@ -88,4 +88,23 @@ export default {
   assetInfo_sell: '出售',
   assetInfo_send: '发送',
   assetInfo_cancel: '取消',
+
+  /** create */
+  create_preview: '预览',
+  create_previewText: '预览你的NFT',
+  create_quantily: '数量',
+  create_single: '单个',
+  create_upload: '上传文件',
+  create_uploadText: '支持JPG, PNG, GIF格式的图片, 最大4MB',
+  create_success: '上传成功!',
+  create_formName: '名称',
+  create_formNamePlaceholder: '输入名称',
+  create_formDescription: '描述',
+  create_formDescriptionPlaceholder: '详细描述',
+  create_formProperties: '属性',
+  create_formPropertieName: '输入属性名',
+  create_formPropertieValue: '输入属性值',
+  create_formAddField: '增加字段',
+  create_formRoyalties: '铸造费',
+  create_formCreate: '创建NFT',
 };
