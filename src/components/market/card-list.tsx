@@ -36,12 +36,12 @@ export interface IMarketCardList {
 
 export default (props: IMarketCardList) => {
   const intl = useIntl();
-  const { hideTotal, loading, data, total, onClick } = props;
+  const { loading, hideTotal, data, total, onClick } = props;
 
   if (loading) {
     return (
       <div className={styles.wrapSpin}>
-        <Spin indicator={antIcon} size="large" className={styles.loading} />
+        <Spin tip="Loading..." size="large" />
       </div>
     );
   }
