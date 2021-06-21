@@ -203,6 +203,12 @@ export default () => {
     try {
       await sellTokenCancel(order);
       setCancelSellLoading(false);
+      notification.success({
+        message: intl.formatMessage({
+          id: 'notify_cancelSellSuccess',
+          defaultMessage: 'Cancel Sell success',
+        }),
+      });
       history.push(`/market/${contract}/${tokenId}`);
     } catch (error) {
       console.error(error);
