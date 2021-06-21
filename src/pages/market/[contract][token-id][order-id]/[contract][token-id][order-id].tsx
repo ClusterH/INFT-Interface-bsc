@@ -17,9 +17,11 @@ import {
 } from '@/helpers/treasureland';
 import SellConfirm from '@/components/sell-confirm';
 import Web3 from 'web3';
-import contractFactory from '@/contracts';
+import contractFactory, {
+  treasurelandProxyRegistryContract,
+} from '@/contracts';
 
-const approvedAddress = '0x2011e906491500a69c8f83ebe0cbebf4126bb536';
+// const approvedAddress = '0x2011e906491500a69c8f83ebe0cbebf4126bb536'; // proxies 返回的代理者
 const tlContract = '0xf7a21ffb762ef2c14d8713b18f5596b4b0b0490a';
 
 export default () => {
@@ -174,6 +176,10 @@ export default () => {
         target,
       });
 
+      notification.success({
+        message: 'On sale',
+      });
+
       console.log('res', res);
       const orderId = res.ID;
 
@@ -314,22 +320,53 @@ export default () => {
         }),
       });
     } else {
+      setSellLoading(true);
       try {
-        console.log(wallet.account, approvedAddress);
+        // console.log(wallet.account, approvedAddress);
         const contractObj = await contractFactory(contract);
-        console.log('contractObj', contractObj);
-        const isApproved = await contractObj.methods
-          .isApprovedForAll(wallet.account, approvedAddress)
+        // console.log('contractObj', contractObj);
+        // 是否注册代理
+        const _proxy = await treasurelandProxyRegistryContract.methods
+          .proxies(wallet.account)
           .call();
-        if (isApproved) {
-          setVisivle(true);
+        const isProxied =
+          _proxy !== '0x0000000000000000000000000000000000000000';
+        if (isProxied) {
+          // 是否授权
+          const isApproved = await contractObj.methods
+            .isApprovedForAll(wallet.account, _proxy)
+            .call();
+          if (isApproved) {
+            setVisivle(true);
+          } else {
+            await contractObj.methods.setApprovalForAll(_proxy, true).send({
+              from: wallet.account,
+            });
+          }
+
+          setSellLoading(false);
         } else {
-          contractObj.methods.setApprovalForAll(approvedAddress, true).send({
-            from: wallet.account,
+          // 未注册代理
+          // 1. 注册代理
+          // 2. 授权
+          // 3. 出售
+          const _proxy = await treasurelandProxyRegistryContract.methods
+            .registerProxy()
+            .send({
+              from: wallet.account,
+            });
+          console.log('_proxy', _proxy);
+          notification.success({
+            message: 'Approve success',
           });
+          setSellLoading(false);
         }
       } catch (error) {
         console.error(error);
+        notification.error({
+          message: error.message,
+        });
+        setSellLoading(false);
       }
     }
   };
