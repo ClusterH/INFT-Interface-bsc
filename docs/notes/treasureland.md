@@ -217,8 +217,69 @@ export default () => {
 
 ## 发送
 
+
+
+## 使用estimateGas设置gas的示例  
+
 <Alert type="info">
 调用合约方法时，如果不手动设置 gas，系统会自动设置gas,但是自动设置的gas一般比较高，为了节约gas fee，建议手动设置gas，但是手动设置的时候要注意不能设置太低，否则交易可能会失败，这就要求我们需要知道最低可设置的gas是多少？
-
-目前还没搞清楚如何设置一个最低的，可用的gas!
 </Alert>
+
+```tsx
+import React, { useState } from 'react';
+import { Button, Input, Form } from 'antd';
+import Web3 from 'web3';
+import abi from '@/abis/treasureland-proxy-registry.json';
+const contractAddress = '0xaD3eB5b1A9a5729f08C0A623c8EeacFb43Fb6B54';
+const web3 = new Web3(Web3.givenProvider);
+const tlProxyContract = new web3.eth.Contract(abi as any, contractAddress);
+
+const layout = {
+  labelCol: { span: 4 },
+  wrapperCol: { span: 20 },
+};
+const tailLayout = {
+  wrapperCol: { offset: 4, span: 20 },
+};
+
+export default () => {
+  const [account, setAccount] = useState(
+    '0x8b7A9d07e34712F8473BeB95Cd85420ee25A600C',
+  );
+  const [proxies, setProxies] = useState('');
+
+  const handleRegister = async () => {
+    try {
+      const gasAmount = await tlProxyContract.methods
+        .registerProxy()
+        .estimateGas();
+      const _proxies = await tlProxyContract.methods
+        .registerProxy()
+        .send({ from: account, gas: gasAmount });
+      setProxies(_proxies);
+    } catch (error) {
+      console.log('catch error: ', error);
+    }
+  };
+
+  return (
+    <>
+      <Form {...layout}>
+        <Form.Item label="Account">
+          <Input
+            style={{ width: 420 }}
+            value={account}
+            onChange={(e) => setAccount(e.target.value)}
+          />
+        </Form.Item>
+        <Form.Item label="Proxies">
+          <Input style={{ width: 420 }} value={proxies} readOnly />
+        </Form.Item>
+        <Form.Item {...tailLayout}>
+          <Button onClick={handleRegister}>注册代理</Button>
+        </Form.Item>
+      </Form>
+    </>
+  );
+};
+```
