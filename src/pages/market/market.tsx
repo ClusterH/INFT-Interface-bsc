@@ -126,7 +126,7 @@ export default () => {
 
       <div className={styles.content}>
         <StickyContainer className={styles.stickyContainer}>
-          <Sticky>
+          <Sticky disableCompensation>
             {({ style }) => (
               <div style={style}>
                 <div className={styles.wrapSortType}>
