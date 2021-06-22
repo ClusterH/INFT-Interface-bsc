@@ -58,7 +58,7 @@ export default (props: IMarketCardList) => {
             })}
           </span>
         }
-        style={{ marginTop: 248, width: '100%', minWidth: '1000px' }}
+        className={styles.empty}
       />
     );
 
