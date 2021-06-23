@@ -27,6 +27,7 @@
     "@umijs/preset-react": "1.x",
     "axios": "^0.21.1",
     "ethers": "^5.2.0",
+    "ipfs": "^0.55.4",
     "lodash": "^4.17.21",
     "react-infinite-scroller": "^1.2.4",
     "react-sticky": "^6.0.3",

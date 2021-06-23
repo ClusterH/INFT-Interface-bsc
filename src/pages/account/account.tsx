@@ -1,23 +1,20 @@
-import { Spin, Empty, Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'umi';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
-import { notification } from 'antd';
 import { CardList } from '@/components/market';
 import { queryAssets, queryCollections } from '@/servers';
 import { transResource } from '@/helpers/data-to-props';
-import { LoadingOutlined } from '@ant-design/icons';
-import { StickyContainer, Sticky } from 'react-sticky';
 import FilterCollection from '@/components/filter-collection';
 import useCollections from '@/hooks/useCollections';
+import { inftCreateNftContract } from '@/contracts';
+import useMyInftTokens from '@/hooks/useMyInftTokens';
 import styles from './styles.less';
-
-const antIcon = <LoadingOutlined style={{ fontSize: 32 }} spin />;
+import tokenList from '@/components/idolbox/token-list/token-list';
 
 const transItems = (list: any[]): any[] => {
   if (!list || !list.length) return [];
   return list.map((item) => ({
-    image: transResource(item.resource),
+    image: item.imageUrl || transResource(item.resource),
     imageType: item.resource_type,
     name: item.name,
     contract: item.contract,
@@ -34,18 +31,24 @@ export default () => {
   const [assets, setAssets] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const { collections } = useCollections(queryCollections, 0);
+  const tokens = useMyInftTokens();
+  console.log('use tokens: ', tokens);
 
   useEffect(() => {
     if (wallet.status === 'connected') {
-      wallet.account && initAssets(wallet.account);
+      const account = wallet.account || '';
+      if (account) {
+        initTlAssets(account);
+      }
     }
   }, [wallet.status]);
 
-  const initAssets = async (account: string) => {
+  const initTlAssets = async (account: string) => {
     setLoading(true);
     try {
       const { list } = await queryAssets(account, null);
       setAssets(list || []);
+      console.log('list', list);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -114,6 +117,14 @@ export default () => {
             onClick={showDetail}
             total={assets.length}
           />
+
+          {!!tokens.length && (
+            <CardList
+              data={transItems(tokens)}
+              onClick={showDetail}
+              total={tokens.length}
+            />
+          )}
         </div>
       </div>
     </div>
