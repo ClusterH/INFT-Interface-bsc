@@ -1,9 +1,10 @@
+import bannerImg from '@/assets/images/banner-create-nft.png';
 import styles from './styles.less';
 
 export default () => {
   return (
     <div className={styles.banner}>
-      <span>Create your NFT</span>
+      <img src={bannerImg} alt="Create your NFT" />
     </div>
   );
 };

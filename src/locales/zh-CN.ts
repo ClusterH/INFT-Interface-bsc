@@ -9,6 +9,7 @@ export default {
   notify_connectWallet: '请先连接钱包',
   notify_buySuccess: '购买成功',
   notify_cancelSellSuccess: '取消出售',
+  notify_createSuccess: '铸造成功',
 
   /** Header */
   header_home: '首页',

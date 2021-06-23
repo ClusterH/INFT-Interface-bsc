@@ -9,6 +9,7 @@ export default {
   notify_connectWallet: 'Connect wallet',
   notify_buySuccess: 'Buy success',
   notify_cancelSellSuccess: 'Cancel Sell success',
+  notify_createSuccess: 'Create success',
 
   /** Header */
   header_home: 'Home',

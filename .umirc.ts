@@ -79,8 +79,8 @@ export default defineConfig({
           title: 'title_create',
         },
         {
-          path: '/create/:id',
-          component: '@/pages/create/[id]',
+          path: '/create-preview',
+          component: '@/pages/create/create-preview',
           title: 'title_create_preview',
         },
       ],

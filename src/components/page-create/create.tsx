@@ -12,9 +12,17 @@ const { TextArea } = Input;
 
 export default (props: any) => {
   const intl = useIntl();
-  const { form, formRef, setForm, customRequest, removeImage, onCreate } =
+  const { formRef, form, setForm, customRequest, removeImage, onCreate } =
     props;
   const { file } = form;
+
+  const beforeUpload = (_file: any) => {
+    setForm({
+      ...form,
+      file: _file,
+    });
+    return false;
+  };
 
   const Preview = () => (
     <>
@@ -78,6 +86,7 @@ export default (props: any) => {
                 className={styles.uploader}
                 showUploadList={false}
                 customRequest={customRequest}
+                beforeUpload={beforeUpload}
               >
                 <div className={styles.wrapTip}>
                   {!file ? (
@@ -128,6 +137,7 @@ export default (props: any) => {
             </div>
             <div className={styles.box}>
               <Input
+                size="large"
                 value={form.name}
                 placeholder={intl.formatMessage({
                   id: 'create_formNamePlaceholder',
@@ -186,10 +196,11 @@ export default (props: any) => {
                         >
                           <Form.Item
                             {...restField}
-                            name={[name, 'attr']}
-                            fieldKey={[fieldKey, 'attr']}
+                            name={[name, 'trait_type']}
+                            fieldKey={[fieldKey, 'trait_type']}
                           >
                             <Input
+                              size="large"
                               placeholder={intl.formatMessage({
                                 id: 'create_formPropertieName',
                                 defaultMessage: 'Input property name',
@@ -202,6 +213,7 @@ export default (props: any) => {
                             fieldKey={[fieldKey, 'value']}
                           >
                             <Input
+                              size="large"
                               placeholder={intl.formatMessage({
                                 id: 'create_formPropertieValue',
                                 defaultMessage: 'Input property value',
@@ -213,6 +225,7 @@ export default (props: any) => {
                       ))}
                       <Form.Item>
                         <Button
+                          size="large"
                           type="dashed"
                           onClick={() => add()}
                           block
@@ -238,11 +251,18 @@ export default (props: any) => {
               })}
             </div>
             <div className={styles.box}>
-              <Input value="10%" disabled />
+              <Input value="10%" disabled size="large" />
             </div>
           </div>
 
-          <Button type="primary" block size="large" onClick={onCreate}>
+          <Button
+            type="primary"
+            block
+            size="large"
+            onClick={onCreate}
+            loading={form.submiting}
+            disabled={form.submiting}
+          >
             {intl.formatMessage({
               id: 'create_formCreate',
               defaultMessage: 'Create NFT',
