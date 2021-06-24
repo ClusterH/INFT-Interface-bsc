@@ -40,12 +40,13 @@ function useMyInftTokens() {
           console.log('ipfsPath', ipfsPath);
 
           const metaRes: any = await axios.get(
-            `https://ipfs.io/ipfs/${ipfsPath}`,
+            `https://inft.mypinata.cloud/ipfs/${ipfsPath}`,
           );
+
           const tokenMeta = metaRes.data;
           const imageIpfsPath = tokenMeta.image;
           const imageCid = imageIpfsPath.split('ipfs://').pop();
-          const imageUrl = `https://ipfs.io/ipfs/${imageCid}`;
+          const imageUrl = `https://inft.mypinata.cloud/ipfs/${imageCid}`;
 
           tokenMetas.push({
             amount: '1',
