@@ -10,21 +10,11 @@ import BannerCreateNFT from '@/components/banner-create-nft';
 import styles from './styles.less';
 const { TextArea } = Input;
 
-export default (props: any) => {
+const Preview = (props: any) => {
+  const { file } = props;
   const intl = useIntl();
-  const { formRef, form, setForm, customRequest, removeImage, onCreate } =
-    props;
-  const { file } = form;
 
-  const beforeUpload = (_file: any) => {
-    setForm({
-      ...form,
-      file: _file,
-    });
-    return false;
-  };
-
-  const Preview = () => (
+  return (
     <>
       <div className={styles.label}>
         {intl.formatMessage({
@@ -49,6 +39,21 @@ export default (props: any) => {
       </div>
     </>
   );
+};
+
+export default (props: any) => {
+  const intl = useIntl();
+  const { formRef, form, setForm, customRequest, removeImage, onCreate } =
+    props;
+  const { file } = form;
+
+  const beforeUpload = (_file: any) => {
+    setForm({
+      ...form,
+      file: _file,
+    });
+    return false;
+  };
 
   return (
     <div className={styles.create}>
@@ -126,7 +131,7 @@ export default (props: any) => {
           </div>
 
           <div className={[styles.formItem, styles.formItemPreview].join(' ')}>
-            <Preview />
+            <Preview file={file} />
           </div>
           <div className={styles.formItem}>
             <div className={styles.label}>
@@ -270,7 +275,7 @@ export default (props: any) => {
           </Button>
         </div>
         <div className={styles.wrapPreview}>
-          <Preview />
+          <Preview file={file} />
         </div>
       </div>
     </div>

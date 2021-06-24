@@ -60,9 +60,6 @@ export default () => {
     formData.append('roylaties', '10');
     formData.append('network', 'bsc');
 
-    for (const key of formData.keys()) {
-      console.log(key, formData.get(key));
-    }
     try {
       const ret = await createNft(formData);
       const { code, message = {} } = ret as any;
