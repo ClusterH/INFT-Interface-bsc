@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useIntl } from 'umi';
-import { Button, Radio, Upload, Input, Form, Space } from 'antd';
+import { Button, Radio, Upload, Input, Form, Space, notification } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import previewPlacehold from '@/assets/images/preview.png';
 import iconUpload from '@/assets/images/icon-upload.png';
@@ -8,6 +8,7 @@ import iconSuccess from '@/assets/images/icon-success.png';
 import iconClose from '@/assets/images/icon-close.png';
 import BannerCreateNFT from '@/components/banner-create-nft';
 import styles from './styles.less';
+import { fromPairs } from 'lodash';
 const { TextArea } = Input;
 
 const Preview = (props: any) => {
@@ -48,6 +49,15 @@ export default (props: any) => {
   const { file } = form;
 
   const beforeUpload = (_file: any) => {
+    const isLt4M = _file.size / 1024 / 1024 < 4;
+    if (!isLt4M) {
+      notification.error({
+        message: 'Image must smaller than 4MB!',
+      });
+
+      return;
+    }
+
     setForm({
       ...form,
       file: _file,
@@ -88,6 +98,7 @@ export default (props: any) => {
               <Upload
                 name="avatar"
                 listType="picture-card"
+                accept="image/*"
                 className={styles.uploader}
                 showUploadList={false}
                 customRequest={customRequest}

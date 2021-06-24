@@ -15,7 +15,6 @@ export default () => {
     file: null,
     name: '',
     description: '',
-    properties: [],
     royalties: 0.1,
     submiting: false,
   });
@@ -41,6 +40,18 @@ export default () => {
       });
       return;
     }
+
+    const properties = formRef.getFieldValue('properties') || [];
+    if (!form.file || !form.name || !form.description || !properties.length) {
+      notification.info({
+        message: intl.formatMessage({
+          id: 'notify_inputNftInfo',
+          defaultMessage: 'Input NFT info',
+        }),
+      });
+      return;
+    }
+
     setForm({
       ...form,
       submiting: true,
@@ -53,10 +64,7 @@ export default () => {
     formData.append('quantily', '0');
     formData.append('name', name);
     formData.append('description', description);
-    formData.append(
-      'attributes',
-      JSON.stringify(formRef.getFieldValue('properties')),
-    );
+    formData.append('attributes', JSON.stringify(properties));
     formData.append('roylaties', '10');
     formData.append('network', 'bsc');
 
