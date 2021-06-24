@@ -58,7 +58,7 @@ export default () => {
   /** 是否是我的单子 */
   useEffect(() => {
     ownerOfme(tokenId);
-  }, [wallet.status]);
+  }, [wallet.status, detail]);
 
   /** 是否在售 */
   useEffect(() => {
@@ -74,7 +74,7 @@ export default () => {
    * @param tokenId
    */
   const ownerOfme = async (tokenId: string) => {
-    if (wallet.status === 'connected') {
+    if (wallet.status === 'connected' && detail) {
       if (detail && detail.is_mint === 0) {
         setIsMyOrder(
           wallet.account?.toLocaleLowerCase() ===
