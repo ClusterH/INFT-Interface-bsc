@@ -1,5 +1,4 @@
 import getCalldata from './get-calldata';
-import { bscscan } from '@/servers';
 
 export interface IGetEParam {
   maker: string;
@@ -16,8 +15,6 @@ const treasurelandContractAddress =
 const feeRecipient = '0x4c9f5e85Dd88cd06015d791479a6a478c3D27B6B'; // 接收手续费的地址
 
 async function getE({ maker, basePrice, tokenId, amount, target }: IGetEParam) {
-  const o = await bscscan({ address: target });
-
   const e: any = {
     //   basePrice: "1000000000000000000", // ？
     //   calldata:
@@ -54,7 +51,6 @@ async function getE({ maker, basePrice, tokenId, amount, target }: IGetEParam) {
     '0x0000000000000000000000000000000000000000', // 固定
     tokenId, // token ID
     amount, // amount 认为固定
-    o,
   );
   e.maker = maker;
   e.listingTime = Math.floor(Date.now() / 1e3);

@@ -11,4 +11,3 @@
 
 export * from './treasureland';
 export * from './inft';
-export { bscscan } from './bscscan';

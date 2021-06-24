@@ -4,6 +4,7 @@ export default {
   title_market: 'Market',
   title_detail: 'Detail',
   title_account: 'Account',
+  title_create: 'Create',
 
   /** notification */
   notify_connectWallet: 'Connect wallet',

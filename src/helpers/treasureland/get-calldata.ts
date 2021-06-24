@@ -11,15 +11,31 @@ const ethers = require('ethers');
  * @param {array} o 系列合约ABI
  * @returns
  */
-function getCalldata(
-  e: string,
-  t: string,
-  n: string,
-  r: string,
-  a: number,
-  o: any[],
-) {
-  // let o = cryptozABI;
+function getCalldata(e: string, t: string, n: string, r: string, a: number) {
+  let o = [
+    {
+      constant: false,
+      inputs: [
+        {
+          name: 'from',
+          type: 'address',
+        },
+        {
+          name: 'to',
+          type: 'address',
+        },
+        {
+          name: 'tokenId',
+          type: 'uint256',
+        },
+      ],
+      name: 'transferFrom',
+      outputs: [],
+      payable: false,
+      stateMutability: 'nonpayable',
+      type: 'function',
+    },
+  ];
   let s = new ethers.utils.Interface(o);
 
   let l = s.encodeFunctionData('transferFrom(address,address,uint256)', [

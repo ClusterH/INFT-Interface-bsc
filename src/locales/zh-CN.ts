@@ -4,6 +4,7 @@ export default {
   title_market: '市场',
   title_detail: '详情',
   title_account: '账户',
+  title_create: '铸造',
 
   /** notification */
   notify_connectWallet: '请先连接钱包',
