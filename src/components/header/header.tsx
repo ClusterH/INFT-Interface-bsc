@@ -108,6 +108,10 @@ export default () => {
     setLocale(lang, true);
   };
 
+  const navtoHelp = () => {
+    window.open('http://inftsupport.zendesk.com/', '_blank');
+  };
+
   return (
     <div className={styles.header}>
       <div className={styles.content}>
@@ -158,6 +162,7 @@ export default () => {
             fontSize: 26,
           }}
           className={styles.helpIcon}
+          onClick={navtoHelp}
         />
 
         <Dropdown

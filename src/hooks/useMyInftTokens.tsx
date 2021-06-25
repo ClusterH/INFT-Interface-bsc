@@ -27,12 +27,17 @@ function useMyInftTokens() {
           const tokenId = await inftCreateNftContract.methods
             .tokenByIndex(index)
             .call();
+          console.log('tokenId', tokenId);
           const uri = await inftCreateNftContract.methods
             .tokenURI(tokenId)
             .call();
           console.log('uri: ', uri);
           const ipfsPath = uri.split('ipfs://').pop();
           console.log('ipfsPath', ipfsPath);
+          // 未审核时，ipfsPath 是 tokenId
+          if (String(ipfsPath).length <= 5) {
+            continue;
+          }
 
           const metaRes: any = await axios.get(
             `https://inft.mypinata.cloud/ipfs/${ipfsPath}`,
