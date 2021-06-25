@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'umi';
+import { useHistory, useIntl } from 'umi';
+import { notification } from 'antd';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import { CardList } from '@/components/market';
 import { queryAssets, queryCollections } from '@/servers';
@@ -26,6 +27,7 @@ const transItems = (list: any[]): any[] => {
 };
 
 export default () => {
+  const intl = useIntl();
   const wallet = useWallet();
   const history = useHistory();
   const [assets, setAssets] = useState<any[]>([]);
@@ -62,6 +64,15 @@ export default () => {
     } else {
       history.push(`/market/${contract}/${tokenId}`);
     }
+  };
+
+  const disAllowShowDetail = () => {
+    notification.info({
+      message: intl.formatMessage({
+        id: 'notify_disAllowShowDetail',
+        defaultMessage: 'Waiting for approval',
+      }),
+    });
   };
 
   const onChangeCollection = async (item: any) => {
@@ -121,7 +132,7 @@ export default () => {
           {!!tokens.length && (
             <CardList
               data={transItems(tokens)}
-              onClick={showDetail}
+              onClick={disAllowShowDetail}
               total={tokens.length}
             />
           )}

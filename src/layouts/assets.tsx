@@ -2,6 +2,7 @@ import * as bsc from '@binance-chain/bsc-use-wallet';
 import Header from '@/components/header';
 import React from 'react';
 import Footer from '@/components/footer';
+import styles from './styles.less';
 
 const chainId = process.env.chainId; // taste-frontend-farms
 const rpcUrl = process.env.rpcURL;
@@ -16,7 +17,7 @@ export default (props: React.PropsWithChildren<any>) => {
       }}
     >
       <Header />
-      <div style={{ minHeight: 'calc(100vh - 130px)' }}>{props.children}</div>
+      <div className={styles.content}>{props.children}</div>
       <Footer />
     </bsc.UseWalletProvider>
   );

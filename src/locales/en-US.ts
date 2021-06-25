@@ -11,10 +11,12 @@ export default {
   notify_buySuccess: 'Buy success',
   notify_cancelSellSuccess: 'Cancel Sell success',
   notify_createSuccess: 'Create success',
+  notify_disAllowShowDetail: 'Waiting for approval',
 
   /** Header */
   header_home: 'Home',
   header_market: 'NFT Market',
+  header_submit: 'Create',
   header_account: 'Account',
 
   /** buy-confirm */

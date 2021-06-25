@@ -32,6 +32,12 @@ export default (props: any) => {
               defaultMessage: 'NFT Market',
             })}
           </NavLink>
+          <NavLink to="/create" activeClassName={styles.active}>
+            {intl.formatMessage({
+              id: 'header_submit',
+              defaultMessage: 'Create',
+            })}
+          </NavLink>
         </span>
         <span className={styles.navItem} onClick={onOk}>
           <NavLink exact to="/account" activeClassName={styles.active}>

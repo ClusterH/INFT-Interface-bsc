@@ -4,6 +4,7 @@ import styles from './styles.less';
 import { useState } from 'react';
 import IconFont from '@/components/icon-font';
 import BscAddress from '@/components/bsc-address';
+import useBnbusd from '@/hooks/useBnbusd';
 
 export interface IAssetInfoProps {
   img: string;
@@ -30,7 +31,11 @@ export interface IAssetInfoProps {
 
 const BuyPanel = (props: any) => {
   const intl = useIntl();
+  const bnbusd = useBnbusd();
   const { isOnSale, price, priceSymbol, onBuy, loading } = props;
+  const transUsd = (_price = 0) => {
+    return (_price * bnbusd).toFixed(2);
+  };
 
   return (
     <div className={styles.buyPanel}>
@@ -44,7 +49,10 @@ const BuyPanel = (props: any) => {
             :
           </div>
           <div className={styles.priceWrap}>
-            <span className={styles.price}>{price}</span>
+            <span className={styles.price}>
+              <span className={styles.bnbPrice}>{price}</span>
+              <span className={styles.usdPrice}>/${transUsd(price)}</span>
+            </span>
             <span className={styles.priceSymbol}>{priceSymbol}</span>
           </div>
 

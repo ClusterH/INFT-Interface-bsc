@@ -138,6 +138,12 @@ export default () => {
               defaultMessage: 'NFT Market',
             })}
           </NavLink>
+          <NavLink to="/create" activeClassName={styles.activeLink}>
+            {intl.formatMessage({
+              id: 'header_submit',
+              defaultMessage: 'Create',
+            })}
+          </NavLink>
           <NavLink to="/account" activeClassName={styles.activeLink}>
             {intl.formatMessage({
               id: 'header_account',

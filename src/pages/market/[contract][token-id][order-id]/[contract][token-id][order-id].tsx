@@ -58,7 +58,7 @@ export default () => {
   /** 是否是我的单子 */
   useEffect(() => {
     ownerOfme(tokenId);
-  }, [wallet.status, detail]);
+  }, [wallet.status, detail, order]);
 
   /** 是否在售 */
   useEffect(() => {
@@ -74,27 +74,25 @@ export default () => {
    * @param tokenId
    */
   const ownerOfme = async (tokenId: string) => {
-    if (wallet.status === 'connected' && detail) {
-      if (detail && detail.is_mint === 0) {
+    if (wallet.status === 'connected') {
+      if (order as any) {
+        const maker = order.maker || '';
+        const account = wallet.account || '';
+        const _isMyOrder =
+          maker.toLocaleLowerCase() === account.toLocaleLowerCase();
+        setIsMyOrder(_isMyOrder);
+
+        return;
+      } else if (detail && detail.is_mint === 0) {
         setIsMyOrder(
           wallet.account?.toLocaleLowerCase() ===
             detail.creator?.toLocaleLowerCase(),
         );
+        return;
       } else {
-        const contractObj = await contractFactory(contract);
-        try {
-          contractObj.methods
-            .ownerOf(tokenId)
-            .call()
-            .then((owner: string) => {
-              setIsMyOrder(owner === wallet.account);
-            })
-            .catch((error: any) => {
-              console.error(error);
-            });
-        } catch (error) {
-          console.error(error);
-        }
+        // 没有order 即没有挂单
+        // 认为只有所有者才可以查看未出售中的卡片
+        setIsMyOrder(true);
       }
     }
   };

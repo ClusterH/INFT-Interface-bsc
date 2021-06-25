@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
 import { inftCreateNftContract } from '@/contracts';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
-import IPFS from 'ipfs';
-const uint8ArrayConcat = require('uint8arrays/concat');
-const uint8ArrayToString = require('uint8arrays/to-string');
-const all = require('it-all');
 import axios from 'axios';
 
 function useMyInftTokens() {
@@ -12,6 +8,7 @@ function useMyInftTokens() {
   const wallet = useWallet();
 
   useEffect(() => {
+    console.log('useMyInftTokens');
     if (wallet.status === 'connected') {
       setup(wallet.account as string);
     }
@@ -22,11 +19,9 @@ function useMyInftTokens() {
       const balance = await inftCreateNftContract.methods
         .balanceOf(account)
         .call();
-      console.log('balance', balance);
 
       if (balance) {
         const tokenMetas = [];
-        const ipfs = await IPFS.create({});
 
         for (let index = 0; index < balance; index++) {
           const tokenId = await inftCreateNftContract.methods

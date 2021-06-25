@@ -11,10 +11,12 @@ export default {
   notify_buySuccess: '购买成功',
   notify_cancelSellSuccess: '取消出售',
   notify_createSuccess: '铸造成功',
+  notify_disAllowShowDetail: '等待审核',
 
   /** Header */
   header_home: '首页',
   header_market: '市场',
+  header_submit: '铸造',
   header_account: '账户',
 
   /** buy-confirm */
