@@ -2,16 +2,27 @@
   :global {
     .ant-drawer-content-wrapper {
       margin-top: 65px;
+      height: calc(100% - 65px);
+    }
+    .ant-drawer-body {
+      padding-top: 0;
     }
   }
 
   .content {
     display: flex;
     flex-direction: column;
+    height: 100%;
   }
 
   .navItem {
-    // margin-bottom: 36px;
+    padding: 22px 0;
+    border-bottom: 1px solid #f2f2f2;
+
+    img {
+      margin-right: 10px;
+      transform: translateY(-2px);
+    }
 
     a {
       font-size: 16px;
@@ -23,6 +34,25 @@
     }
     a.active {
       color: #fed835;
+    }
+  }
+
+  .navItemHelp {
+    margin-top: auto;
+    width: 100%;
+
+    .helpIcon {
+      font-size: 20px;
+      transform: translateY(2px);
+      margin-right: 10px;
+    }
+
+    a {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 40px;
+      color: #333333;
+      display: inline-block;
     }
   }
 }

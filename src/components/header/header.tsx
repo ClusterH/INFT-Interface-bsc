@@ -152,6 +152,14 @@ export default () => {
           </NavLink>
         </div>
 
+        <IconFont
+          type="icon-help"
+          style={{
+            fontSize: 26,
+          }}
+          className={styles.helpIcon}
+        />
+
         <Dropdown
           overlay={menu}
           placement="bottomCenter"
