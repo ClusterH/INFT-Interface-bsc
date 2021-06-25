@@ -2,7 +2,7 @@ import Axios from 'axios';
 import { notification } from 'antd';
 
 const axios = Axios.create({
-  baseURL: '/inft/api/v1/',
+  baseURL: process.env.inftBASE,
   timeout: 60000,
 });
 

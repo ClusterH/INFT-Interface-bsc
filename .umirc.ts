@@ -10,6 +10,8 @@ export default defineConfig({
   },
 
   define: {
+    // 'process.env.inftBASE': 'http://8.214.29.180:8008/api/v1/',
+    'process.env.inftBASE': '/inft/api/v1/',
     // Mainnet
     'process.env.chainId': 56,
     'process.env.rpcURL': 'https://bsc-dataseed1.binance.org/',

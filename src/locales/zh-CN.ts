@@ -112,4 +112,7 @@ export default {
   create_formAddField: '增加字段',
   create_formRoyalties: '铸造费',
   create_formCreate: '创建NFT',
+
+  /** createPreview */
+  createPreview_message: `您的NFT已经提交! 请耐心等待审核。 如果一个工作日还没有通过，请联系我们`,
 };

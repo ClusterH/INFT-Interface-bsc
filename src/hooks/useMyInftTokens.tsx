@@ -25,7 +25,7 @@ function useMyInftTokens() {
 
         for (let index = 0; index < balance; index++) {
           const tokenId = await inftCreateNftContract.methods
-            .tokenByIndex(index)
+            .tokenOfOwnerByIndex(account, index)
             .call();
           console.log('tokenId', tokenId);
           const uri = await inftCreateNftContract.methods

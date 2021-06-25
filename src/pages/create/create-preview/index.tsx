@@ -1,8 +1,9 @@
-import { useLocation } from 'umi';
+import { useLocation, useIntl } from 'umi';
 import BannerCreateNFT from '@/components/banner-create-nft';
 import styles from './styles.less';
 
 export default () => {
+  const intl = useIntl();
   const { query = {} } = useLocation();
   const { imgUrl = '' } = query;
   return (
@@ -11,9 +12,13 @@ export default () => {
 
       <div className={styles.content}>
         <div className={styles.title}>
-          Your NFT has been submitted! Please wait with patient. If there is no
-          response after a working day, please don’t feel hesitate to contact
-          our staff <a type="mailto:help@inft.io">help@inft.io</a>
+          {intl.formatMessage({
+            id: 'createPreview_message',
+            defaultMessage: `Your NFT has been submitted! Please wait with patient. If there is no
+              response after a working day, please don’t feel hesitate to contact
+              our staff`,
+          })}
+          <a type="mailto:help@inft.io">help@inft.io</a>
         </div>
         <div className={styles.wrapImage}>
           <img src={imgUrl} alt="" />

@@ -113,4 +113,9 @@ export default {
   create_formAddField: 'Add field',
   create_formRoyalties: 'Royalties',
   create_formCreate: 'Create NFT',
+
+  /** createPreview */
+  createPreview_message: `Your NFT has been submitted! Please wait with patient. If there is no
+  response after a working day, please don’t feel hesitate to contact
+  our staff`,
 };
