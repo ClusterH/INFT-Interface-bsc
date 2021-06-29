@@ -29,6 +29,7 @@
     "ethers": "^5.2.0",
     "ipfs": "^0.55.4",
     "lodash": "^4.17.21",
+    "react-countdown": "^2.3.2",
     "react-infinite-scroller": "^1.2.4",
     "react-sticky": "^6.0.3",
     "react-use": "^17.2.4",

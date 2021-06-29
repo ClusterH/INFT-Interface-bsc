@@ -1,0 +1,123 @@
+.bidCardItem {
+  width: 313px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  display: inline-block;
+  // margin-right: 20px;
+  margin-bottom: 68px;
+  // margin-left: 20px;
+  margin-right: 20px;
+  padding-bottom: 12px;
+  box-shadow: 0px 0px 9px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  cursor: pointer;
+
+  .content {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .imgBox {
+    position: relative;
+    width: 313px;
+    height: 313px;
+    text-align: center;
+  }
+  .imageBoxOnSale::after {
+    content: url(~@/assets/images/on-sale.svg);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .imageBoxOnSaleCN::after {
+    content: url(~@/assets/images/on-sale-zh-CN.svg);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .image {
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 6px 6px 0px 0px;
+  }
+  .video {
+    height: 100%;
+    width: 100%;
+    border-radius: 6px 6px 0px 0px;
+  }
+  .audio {
+    width: 100%;
+    height: 100%;
+    background: url(https://d1iep3ievzy2jq.cloudfront.net/static/audio_bg.07a8d7d6.jpg);
+    background-size: cover;
+    border-radius: 6px 6px 0px 0px;
+  }
+
+  .name {
+    font-size: 16px;
+    font-weight: 500;
+    color: #f57f18;
+    line-height: 22px;
+    margin: 13px 0;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .buyWrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .owner {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 400;
+    color: #9f9e9d;
+    letter-spacing: 1px;
+    background: url(~@/assets/images/icon-inft.png) no-repeat left center;
+    background-size: contain;
+    padding-left: 28px;
+  }
+
+  .buyBtn {
+    width: 140px;
+    height: 36px;
+    background: linear-gradient(270deg, #fcb43f 0%, #fed835 100%);
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+  }
+}
+
+.countdown {
+  font-size: 12px;
+  font-family: Axiforma-Regular, Axiforma;
+  font-weight: 400;
+  color: #000000;
+}
+
+.wrapOwner {
+  display: flex;
+  flex-direction: column;
+
+  .time {
+    .label {
+      font-size: 12px;
+      font-family: Axiforma-Regular, Axiforma;
+      font-weight: 400;
+      color: #9f9e9d;
+      display: inline-block;
+      background: url(~@/assets/images/icon-chuizi.png) no-repeat left center;
+      background-size: contain;
+      padding-left: 28px;
+      padding-right: 8px;
+    }
+  }
+}

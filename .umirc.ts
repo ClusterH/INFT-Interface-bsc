@@ -85,6 +85,16 @@ export default defineConfig({
           component: '@/pages/create/create-preview',
           title: 'title_create_preview',
         },
+        {
+          path: '/auction',
+          component: '@/pages/auction',
+          title: 'title_auction',
+        },
+        {
+          path: '/auction/:id',
+          component: '@/pages/auction/[id]',
+          title: 'title_auction_info',
+        },
       ],
     },
   ],

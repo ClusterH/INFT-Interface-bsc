@@ -1,0 +1,91 @@
+.bidDetail {
+  width: 1258px;
+  margin: 0 auto;
+  padding-bottom: 88px;
+}
+
+.wrapInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.wrapProperties {
+  width: 540px;
+  display: inline-block;
+}
+
+.wrapBidHistory {
+  display: inline-block;
+  width: 689px;
+}
+
+.placeBidModal {
+  border-radius: 14px;
+
+  :global {
+    .ant-modal-content {
+      width: 500px;
+      // height: 338px;
+      border-radius: 14px;
+    }
+    .ant-modal-body {
+      padding: 30px 40px;
+    }
+    .ant-input.ant-input-lg {
+      height: 50px;
+      background: #fbfbfb;
+      border-radius: 4px;
+      border: none;
+    }
+    .ant-input-group-addon {
+      position: relative;
+      width: 90px;
+      font-size: 14px;
+      font-family: Axiforma-Regular, Axiforma;
+      font-weight: 400;
+      color: #000000;
+      border: none;
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 10px;
+        width: 1px;
+        height: 30px;
+        background: #d8d8d8;
+      }
+    }
+    .ant-btn.ant-btn-primary.ant-btn-lg.ant-btn-block {
+      color: #fff;
+    }
+  }
+
+  .content {
+    .price {
+      display: inline-block;
+      font-size: 18px;
+      font-family: Aemstel-Regular, Aemstel;
+      font-weight: 400;
+      color: #000000;
+      margin-bottom: 16px;
+    }
+
+    .tip {
+      font-size: 14px;
+      font-family: Axiforma-Medium, Axiforma;
+      font-weight: 500;
+      color: #000000;
+      margin-top: 16px;
+    }
+    .message {
+      font-size: 14px;
+      font-family: Axiforma-Regular, Axiforma;
+      font-weight: 400;
+      color: #939393;
+      line-height: 20px;
+      margin-bottom: 40px;
+      margin-top: 16px;
+    }
+  }
+}

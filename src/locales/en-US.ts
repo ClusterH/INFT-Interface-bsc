@@ -5,6 +5,8 @@ export default {
   title_detail: 'Detail',
   title_account: 'Account',
   title_create: 'Create',
+  title_auction: 'Auction',
+  title_bid_info: 'Auction',
 
   /** notification */
   notify_connectWallet: 'Connect wallet',
@@ -18,6 +20,7 @@ export default {
   header_market: 'NFT Market',
   header_submit: 'Create',
   header_account: 'Account',
+  header_auction: 'Auction',
 
   /** buy-confirm */
   buyConfirm_title: 'Checkout',

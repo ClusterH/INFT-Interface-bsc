@@ -5,6 +5,8 @@ export default {
   title_detail: '详情',
   title_account: '账户',
   title_create: '铸造',
+  title_auction: '拍卖',
+  title_auction_info: '拍卖',
 
   /** notification */
   notify_connectWallet: '请先连接钱包',
@@ -18,6 +20,7 @@ export default {
   header_market: '市场',
   header_submit: '铸造',
   header_account: '账户',
+  header_auction: '拍卖',
 
   /** buy-confirm */
   buyConfirm_title: '确认',
