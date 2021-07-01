@@ -1,4 +1,4 @@
-import { getLocale, useHistory } from 'umi';
+import { getLocale, useHistory, useIntl } from 'umi';
 import Countdown from 'react-countdown';
 import Web3 from 'web3';
 import transAddressShort from '@/helpers/trans-address-short';
@@ -27,6 +27,7 @@ const renderer = (props: any) => {
 
 const imageType = 'image';
 export default (props: any) => {
+  const intl = useIntl();
   const history = useHistory();
   const { auction, bidderPrice = '0' } = props;
   const { tokenMetadata = {} } = auction || {};
@@ -44,7 +45,25 @@ export default (props: any) => {
 
   const renderPreview = () => {
     if (imageType === 'image') {
-      return <img src={transIpfsUrl(image)} alt="" className={styles.image} />;
+      return (
+        <div
+          className={`${styles.wrapImage} ${
+            isFinish ? styles.isFinishImage : null
+          }`}
+        >
+          <img src={transIpfsUrl(image)} alt="" className={styles.image} />
+
+          {/* 已结束 */}
+          {isFinish && (
+            <span className={styles.auctionClosed}>
+              {intl.formatMessage({
+                id: 'bidCardItem_auctionClosed',
+                defaultMessage: 'Auction closed',
+              })}
+            </span>
+          )}
+        </div>
+      );
     }
     if (imageType === 'video') {
       return (
@@ -81,7 +100,12 @@ export default (props: any) => {
         {/* 未开始 */}
         {!!id && !isStart && (
           <span className={styles.coming}>
-            <span className={styles.text}>Coming soon</span>
+            <span className={styles.text}>
+              {intl.formatMessage({
+                id: 'bidCardItem_auctionComing',
+                defaultMessage: 'Coming soon',
+              })}
+            </span>
             <BidCountdown
               size="small"
               countdown={startTime * 1000}
@@ -90,15 +114,24 @@ export default (props: any) => {
         )}
 
         {/* 已结束 */}
-        {isFinish && (
-          <span className={styles.auctionClosed}>Auction closed</span>
-        )}
+        {/* {isFinish && (
+          <span className={styles.auctionClosed}>
+            {intl.formatMessage({
+              id: 'bidCardItem_auctionClosed',
+              defaultMessage: 'Auction closed',
+            })}
+          </span>
+        )} */}
 
         {/* 进行中 */}
         {isStart && !isFinish && (
           <span className={styles.auctioning}>
             <span className={styles.text}>
-              Go to auction <ArrowRightOutlined />
+              {intl.formatMessage({
+                id: 'bidCardItem_auctionGo',
+                defaultMessage: 'Go to auction',
+              })}
+              <ArrowRightOutlined />
             </span>
           </span>
         )}

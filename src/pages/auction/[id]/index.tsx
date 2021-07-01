@@ -26,6 +26,7 @@ export default () => {
   });
   const { tokenMetadata = {}, bidEvents = [] } = auction;
   const bidContract = bidFactory(contract);
+  console.log('auction', auction);
 
   useEffect(() => {
     if (bidEvents.length) {

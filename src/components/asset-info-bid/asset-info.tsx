@@ -28,6 +28,7 @@ export interface IAssetInfoProps {
 }
 
 const PlaceBidPanel = (props: any) => {
+  const intl = useIntl();
   const {
     owner,
     account,
@@ -50,14 +51,20 @@ const PlaceBidPanel = (props: any) => {
       if (bidderPrice === '0' || owner === account) {
         return (
           <Button type="primary" size="large" block disabled>
-            Place Bid
+            {intl.formatMessage({
+              id: 'assetInfoBid_placeBid',
+              defaultMessage: 'Place Bid',
+            })}
           </Button>
         );
       } else {
         // 已参与：取回质押BNB
         return (
           <Button type="primary" size="large" block onClick={onWithdraw}>
-            Retrieve the tender amoun
+            {intl.formatMessage({
+              id: 'assetInfoBid_retrieve',
+              defaultMessage: 'Retrieve the tender amount',
+            })}
           </Button>
         );
       }
@@ -73,7 +80,10 @@ const PlaceBidPanel = (props: any) => {
         onClick={onPlaceBid}
         disabled={!isStart}
       >
-        Place Bid
+        {intl.formatMessage({
+          id: 'assetInfoBid_placeBid',
+          defaultMessage: 'Place Bid',
+        })}
       </Button>
     );
   };
@@ -82,7 +92,15 @@ const PlaceBidPanel = (props: any) => {
     <div className={styles.placeBidPanel}>
       <div className={styles.header}>
         <span className={styles.timeLeftLabel}>
-          {isStart ? 'Time left' : 'Coming'}
+          {isStart
+            ? intl.formatMessage({
+                id: 'assetInfoBid_timeLeft',
+                defaultMessage: 'Time left',
+              })
+            : intl.formatMessage({
+                id: 'assetInfoBid_coming',
+                defaultMessage: 'Coming',
+              })}
         </span>
         <span className={styles.wrapCountdown}>
           {!!isStart && <Countdown key={countdown} countdown={countdown} />}
@@ -96,7 +114,12 @@ const PlaceBidPanel = (props: any) => {
             {' '}
             {Web3.utils.fromWei(bidderPrice)} BNB
           </span>
-          <span className={styles.text}>My last bid</span>
+          <span className={styles.text}>
+            {intl.formatMessage({
+              id: 'assetInfoBid_myLastBid',
+              defaultMessage: 'My last bid',
+            })}
+          </span>
         </div>
       </div>
 
@@ -114,7 +137,12 @@ const PlaceBidPanel = (props: any) => {
             /${parseFloat(Web3.utils.fromWei(highestBidder)) * bnbusd}
           </span> */}
         </div>
-        <div className={styles.text}>Current high price</div>
+        <div className={styles.text}>
+          {intl.formatMessage({
+            id: 'assetInfoBid_highest',
+            defaultMessage: 'Current high price',
+          })}
+        </div>
       </div>
 
       {renderButton()}

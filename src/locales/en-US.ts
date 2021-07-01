@@ -121,4 +121,26 @@ export default {
   createPreview_message: `Your NFT has been submitted! Please wait with patient. If there is no
   response after a working day, please don’t feel hesitate to contact
   our staff`,
+
+  /** bid-card-item */
+  bidCardItem_auctionComing: 'Coming soon',
+  bidCardItem_auctionClosed: 'Auction closed',
+  bidCardItem_auctionGo: 'Go to auction',
+
+  /** asset-info-bid */
+  assetInfoBid_placeBid: 'Place Bid',
+  assetInfoBid_retrieve: 'Retrieve the tender amoun',
+  assetInfoBid_myLastBid: 'My last bid',
+  assetInfoBid_highest: 'Current high price',
+  assetInfoBid_timeLeft: 'Time left',
+  assetInfoBid_coming: 'Coming',
+
+  /** properties */
+  properties_title: 'Properties',
+
+  /** bid-history */
+  bidHistory_title: 'Bid history',
+  bidHistory_price: 'Price',
+  bidHistory_from: 'From',
+  bidHistory_date: 'Date',
 };

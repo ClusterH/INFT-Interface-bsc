@@ -31,6 +31,21 @@
         filter: blur(8px);
       }
     }
+
+    .wrapImage {
+      display: inline-block;
+      position: relative;
+    }
+
+    .isFinishImage::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.3);
+    }
   }
   .imageBoxOnSale::after {
     content: url(~@/assets/images/tag-my-bid.png);
@@ -45,8 +60,9 @@
     left: 0;
   }
   .image {
-    max-height: 100%;
-    max-width: 100%;
+    position: relative;
+    max-height: 313px;
+    max-width: 313px;
     border-radius: 6px 6px 0px 0px;
   }
   .video {
@@ -135,6 +151,7 @@
   font-family: PingFangSC-Medium, PingFang SC;
   font-weight: 500;
   color: #ffffff;
+  z-index: 1;
 }
 
 .coming {
@@ -185,4 +202,72 @@
 
 .imgBox:hover .auctioning {
   display: flex;
+}
+
+@media (max-width: 768px) {
+  .bidCardItem {
+    width: 157px;
+    margin-bottom: 18px;
+    margin-left: 0;
+    margin-right: 0;
+
+    .imgBox {
+      width: 157px;
+      height: 157px;
+      border-radius: 12px 12px 0 0;
+    }
+
+    .image {
+      max-height: 157px;
+      max-width: 157px;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .content {
+      width: 100%;
+      .name {
+        color: #333;
+      }
+      .buyWrap {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        .buyBtn {
+          background: transparent;
+          color: #fed835;
+          font-size: 14px;
+          font-weight: 500;
+          text-align: left;
+          padding: 0;
+        }
+      }
+    }
+  }
+
+  .cardList {
+    width: 100%;
+    padding: 0;
+    .total {
+      padding-left: 12px;
+    }
+  }
+  .wrapList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    &::after {
+      content: none;
+    }
+  }
+
+  .auctionClosed {
+    top: 60px;
+    font-size: 14px;
+    height: 40px;
+    line-height: 40px;
+  }
+  .coming {
+    top: 35px;
+  }
 }

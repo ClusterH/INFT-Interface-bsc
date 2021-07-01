@@ -221,7 +221,11 @@ export default (props: IAssetInfoProps) => {
                 defaultMessage: 'Token ID',
               })}
             </span>
-            <span className={styles.value}>{tokenId}</span>
+            <span className={styles.value}>
+              {String(tokenId).length > 12
+                ? `${tokenId.substr(0, 3)}...${tokenId.substr(-4)}`
+                : tokenId}
+            </span>
           </div>
           <div className={styles.infoItem}>
             <span className={styles.label}>

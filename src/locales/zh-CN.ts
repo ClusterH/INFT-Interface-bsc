@@ -118,4 +118,26 @@ export default {
 
   /** createPreview */
   createPreview_message: `您的NFT已经提交! 请耐心等待审核。 如果一个工作日还没有通过，请联系我们`,
+
+  /** bid-card-item */
+  bidCardItem_auctionComing: '即将开始',
+  bidCardItem_auctionClosed: '拍卖结束',
+  bidCardItem_auctionGo: '参与竞拍',
+
+  /** asset-info-bid */
+  assetInfoBid_placeBid: '竞拍',
+  assetInfoBid_retrieve: '退款',
+  assetInfoBid_myLastBid: '我的出价',
+  assetInfoBid_highest: '当前最高出价',
+  assetInfoBid_timeLeft: '剩余时间',
+  assetInfoBid_coming: '即将开始',
+
+  /** properties */
+  properties_title: '属性',
+
+  /** bid-history */
+  bidHistory_title: '出价历史',
+  bidHistory_price: '价格',
+  bidHistory_from: '来自',
+  bidHistory_date: '日期',
 };
