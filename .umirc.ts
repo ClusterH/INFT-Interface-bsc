@@ -91,7 +91,7 @@ export default defineConfig({
           title: 'title_auction',
         },
         {
-          path: '/auction/:id',
+          path: '/auction/:contract/:id',
           component: '@/pages/auction/[id]',
           title: 'title_auction_info',
         },

@@ -23,15 +23,22 @@
     width: 313px;
     height: 313px;
     text-align: center;
+    transition: all 0.2s;
+
+    &:hover {
+      img {
+        filter: blur(8px);
+      }
+    }
   }
   .imageBoxOnSale::after {
-    content: url(~@/assets/images/on-sale.svg);
+    content: url(~@/assets/images/tag-my-bid.png);
     position: absolute;
     top: 0;
     left: 0;
   }
   .imageBoxOnSaleCN::after {
-    content: url(~@/assets/images/on-sale-zh-CN.svg);
+    content: url(~@/assets/images/tag-my-bid-zh-CN.png);
     position: absolute;
     top: 0;
     left: 0;
@@ -53,7 +60,6 @@
     background-size: cover;
     border-radius: 6px 6px 0px 0px;
   }
-
   .name {
     font-size: 16px;
     font-weight: 500;
@@ -65,7 +71,6 @@
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-
   .buyWrap {
     display: flex;
     flex-direction: row;
@@ -81,7 +86,6 @@
     background-size: contain;
     padding-left: 28px;
   }
-
   .buyBtn {
     width: 140px;
     height: 36px;
@@ -95,18 +99,15 @@
     margin-left: auto;
   }
 }
-
 .countdown {
   font-size: 12px;
   font-family: Axiforma-Regular, Axiforma;
   font-weight: 400;
   color: #000000;
 }
-
 .wrapOwner {
   display: flex;
   flex-direction: column;
-
   .time {
     .label {
       font-size: 12px;
@@ -120,4 +121,67 @@
       padding-right: 8px;
     }
   }
+}
+.auctionClosed {
+  position: absolute;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  background: rgba(0, 0, 0, 0.3);
+  top: 103px;
+  left: 0;
+  font-size: 18px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.coming {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  top: 115px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 90px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 6px;
+
+  .text {
+    font-size: 14px;
+    font-family: Axiforma-Medium, Axiforma;
+    font-weight: 500;
+    color: #000000;
+    margin-top: 12px;
+    margin-bottom: 10px;
+  }
+}
+
+.auctioning {
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  top: 115px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 200px;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+
+  .text {
+    font-size: 18px;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: #ffffff;
+    line-height: 60px;
+  }
+}
+
+.imgBox:hover .auctioning {
+  display: flex;
 }

@@ -1,21 +1,12 @@
-import { getLocale } from 'umi';
+import { getLocale, useHistory } from 'umi';
 import Countdown from 'react-countdown';
-import styles from './styles.less';
+import Web3 from 'web3';
+import transAddressShort from '@/helpers/trans-address-short';
+import transIpfsUrl from '@/helpers/trans-ipfs-url';
+import BidCountdown from '../bid-countdown';
+import { ArrowRightOutlined } from '@ant-design/icons';
 
-interface IMarketCardProps {
-  image: string;
-  imageType: 'image' | 'video' | 'audio';
-  name: string;
-  countdown: number;
-  owner?: string;
-  price?: string;
-  contract?: string;
-  tokenId?: string;
-  orderId?: string;
-  onSale?: boolean;
-  showFooter?: boolean;
-  onClick?: (data: any) => void;
-}
+import styles from './styles.less';
 
 const renderer = (props: any) => {
   const { days, hours, minutes, seconds, formatted } = props;
@@ -34,78 +25,108 @@ const renderer = (props: any) => {
   );
 };
 
-export default (props: IMarketCardProps) => {
+const imageType = 'image';
+export default (props: any) => {
+  const history = useHistory();
+  const { auction, bidderPrice = '0' } = props;
+  const { tokenMetadata = {} } = auction || {};
+  const { image = '' } = tokenMetadata;
   const {
-    tokenId,
-    orderId,
-    onSale,
+    id,
     contract,
-    image,
-    imageType,
     name,
     owner,
-    price,
-    showFooter,
-    countdown,
-    onClick,
-  } = props;
+    startTime,
+    isStart,
+    isFinish,
+    endTime,
+    highestBidder = '0',
+  } = auction || {};
 
-  const handleClick = () => {
-    onClick &&
-      onClick({
-        contract,
-        tokenId,
-        orderId,
-        onSale,
-      });
+  const renderPreview = () => {
+    if (imageType === 'image') {
+      return <img src={transIpfsUrl(image)} alt="" className={styles.image} />;
+    }
+    if (imageType === 'video') {
+      return (
+        <video controls className={styles.video}>
+          <source src={image} type="video/mp4"></source>
+        </video>
+      );
+    }
+    if (imageType === 'audio') {
+      return <audio src={image} controls className={styles.audio}></audio>;
+    }
+
+    return null;
+  };
+
+  const onClick = () => {
+    history.push(`/auction/${contract}/${id}`);
   };
 
   return (
-    <div className={styles.bidCardItem} onClick={handleClick}>
+    <div className={styles.bidCardItem} onClick={onClick}>
       <div
         className={[
           styles.imgBox,
-          onSale
+          bidderPrice !== '0'
             ? getLocale() === 'zh-CN'
               ? styles.imageBoxOnSaleCN
               : styles.imageBoxOnSale
             : null,
         ].join(' ')}
       >
-        {imageType === 'image' && (
-          <img src={image} alt="" className={styles.image} />
+        {renderPreview()}
+
+        {/* 未开始 */}
+        {!!id && !isStart && (
+          <span className={styles.coming}>
+            <span className={styles.text}>Coming soon</span>
+            <BidCountdown
+              size="small"
+              countdown={startTime * 1000}
+            ></BidCountdown>
+          </span>
         )}
-        {imageType === 'video' && (
-          <video controls className={styles.video}>
-            <source src={image} type="video/mp4"></source>
-          </video>
+
+        {/* 已结束 */}
+        {isFinish && (
+          <span className={styles.auctionClosed}>Auction closed</span>
         )}
-        {imageType === 'audio' && (
-          <audio src={image} controls className={styles.audio}></audio>
+
+        {/* 进行中 */}
+        {isStart && !isFinish && (
+          <span className={styles.auctioning}>
+            <span className={styles.text}>
+              Go to auction <ArrowRightOutlined />
+            </span>
+          </span>
         )}
       </div>
 
       <div className={styles.content}>
         <div className={styles.name}>{name}</div>
 
-        {!!showFooter && (
-          <div className={styles.buyWrap}>
-            <div className={styles.wrapOwner}>
-              <span className={styles.owner}>{owner}</span>
+        <div className={styles.buyWrap}>
+          <div className={styles.wrapOwner}>
+            <span className={styles.owner}>{transAddressShort(owner)}</span>
+            {/* {!!isStart && !isFinish && (
               <span className={styles.time}>
                 <span className={styles.label}>Time Left</span>
                 <Countdown
-                  date={Date.now() + countdown * 1000}
+                  key={endTime}
+                  date={endTime * 1000}
                   renderer={renderer}
                 />
               </span>
-            </div>
-
-            <button className={styles.buyBtn} onClick={handleClick}>
-              {price} BNB
-            </button>
+            )} */}
           </div>
-        )}
+
+          <button className={styles.buyBtn}>
+            {parseFloat(Web3.utils.fromWei(highestBidder)).toFixed(5)} BNB
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ export default {
   title_account: 'Account',
   title_create: 'Create',
   title_auction: 'Auction',
-  title_bid_info: 'Auction',
+  title_auction_info: 'Auction',
 
   /** notification */
   notify_connectWallet: 'Connect wallet',

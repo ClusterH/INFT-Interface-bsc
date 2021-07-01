@@ -19,7 +19,14 @@ const renderer = (props: any) => {
 };
 
 export default (props: any) => {
-  const { countdown }: { countdown: number } = props;
+  const {
+    countdown,
+    size = 'default',
+  }: { countdown: number; size?: 'default' | 'small' } = props;
 
-  return <Countdown date={countdown} renderer={renderer} />;
+  return (
+    <span className={styles[size]}>
+      <Countdown date={countdown} renderer={renderer} />
+    </span>
+  );
 };

@@ -21,6 +21,8 @@ export interface IAssetInfoProps {
   highestBidder: string;
   bidderPrice: string;
   isFinish: boolean;
+  isStart: boolean;
+  startTime: string;
   onPlaceBid?: () => void;
   onWithdraw?: () => void;
 }
@@ -34,13 +36,13 @@ const PlaceBidPanel = (props: any) => {
     bidderPrice,
     highestBidder,
     isFinish,
+    isStart,
+    startTime,
     onWithdraw,
   } = props;
   // const bnbusd = useBnbusd();
-  console.log('bidderPrice', bidderPrice);
 
   const renderButton = () => {
-    console.log('renderButton');
     // 拍卖已结束
     if (isFinish) {
       // 未参与
@@ -69,6 +71,7 @@ const PlaceBidPanel = (props: any) => {
         block
         size="large"
         onClick={onPlaceBid}
+        disabled={!isStart}
       >
         Place Bid
       </Button>
@@ -78,9 +81,14 @@ const PlaceBidPanel = (props: any) => {
   return (
     <div className={styles.placeBidPanel}>
       <div className={styles.header}>
-        <span className={styles.timeLeftLabel}>Time left</span>
+        <span className={styles.timeLeftLabel}>
+          {isStart ? 'Time left' : 'Coming'}
+        </span>
         <span className={styles.wrapCountdown}>
-          <Countdown key={countdown} countdown={countdown} />
+          {!!isStart && <Countdown key={countdown} countdown={countdown} />}
+          {!isStart && (
+            <Countdown key={startTime} countdown={startTime * 1000} />
+          )}
         </span>
 
         <div className={styles.myLastBid}>
@@ -99,7 +107,7 @@ const PlaceBidPanel = (props: any) => {
       >
         <div className={styles.wrapPriceValue}>
           <span className={styles.bnbPrice}>
-            {Web3.utils.fromWei(highestBidder)}
+            {Math.floor(Number(Web3.utils.fromWei(highestBidder)) * 1e5) / 1e5}
           </span>
           <span className={styles.symbol}>BNB</span>
           {/* <span className={styles.usdPrice}>
@@ -129,6 +137,8 @@ export default (props: IAssetInfoProps) => {
     highestBidder,
     bidderPrice,
     isFinish,
+    isStart,
+    startTime,
 
     onPlaceBid,
     onWithdraw,
@@ -181,6 +191,8 @@ export default (props: IAssetInfoProps) => {
           highestBidder={highestBidder}
           bidderPrice={bidderPrice}
           isFinish={isFinish}
+          isStart={isStart}
+          startTime={startTime}
           onPlaceBid={onPlaceBid}
           onWithdraw={onWithdraw}
         />
