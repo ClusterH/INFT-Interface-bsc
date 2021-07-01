@@ -259,7 +259,7 @@ export default (props: any) => {
               </Form>
             </div>
           </div>
-          <div className={styles.formItem}>
+          {/* <div className={styles.formItem}>
             <div className={styles.label}>
               {intl.formatMessage({
                 id: 'create_formRoyalties',
@@ -269,7 +269,7 @@ export default (props: any) => {
             <div className={styles.box}>
               <Input value="10%" disabled size="large" />
             </div>
-          </div>
+          </div> */}
 
           <Button
             type="primary"
