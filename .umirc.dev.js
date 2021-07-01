@@ -9,6 +9,8 @@ export default defineConfig({
     // Testnet
     'process.env.chainId': 97,
     'process.env.rpcURL': 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+    'process.env.BID_TOKEN_CONTRACT':
+      '0x6352f57A0E17FE177fbfcdEa7FDAd83427b6B2b2',
   },
   proxy: {
     '/inft/api/v1/': {

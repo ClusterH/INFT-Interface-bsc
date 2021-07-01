@@ -33,13 +33,12 @@ export default (props: any) => {
   const { image = '' } = tokenMetadata;
   const {
     id,
-    contract,
+    bidContract,
     name,
     owner,
     startTime,
     isStart,
     isFinish,
-    endTime,
     highestBidder = '0',
   } = auction || {};
 
@@ -62,7 +61,7 @@ export default (props: any) => {
   };
 
   const onClick = () => {
-    history.push(`/auction/${contract}/${id}`);
+    history.push(`/auction/${bidContract}/${id}`);
   };
 
   return (

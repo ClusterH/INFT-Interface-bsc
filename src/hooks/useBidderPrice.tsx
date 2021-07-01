@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
+import bidFactory from '@/contracts/bid-factory';
 
-export default ({ bidContract }: any) => {
+export default (contractAddress: string) => {
   const wallet = useWallet();
   const [bidderPrice, setBidderPrice] = useState('0');
+  const bidContract = bidFactory(contractAddress);
 
   useEffect(() => {
     if (wallet.status === 'connected') {

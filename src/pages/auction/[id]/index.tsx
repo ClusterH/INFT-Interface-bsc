@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'umi';
 import { Button, Input, Modal, notification } from 'antd';
 import Web3 from 'web3';
-import bidContract from '@/contracts/bid';
+// import bidContract from '@/contracts/bid';
+import bidFactory from '@/contracts/bid-factory';
 import bidTokenContract from '@/contracts/bid-token';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import AssetInfo from '@/components/asset-info-bid';
@@ -15,16 +16,16 @@ import styles from './styles.less';
 
 const PRICE_STEP_PERCENT = 0.05; // 百分比
 export default () => {
-  const { id } = useParams<{ id: string }>();
+  const { id, contract } = useParams<{ id: string; contract: string }>();
   const wallet = useWallet();
-  const myBidderPrice = useBidderPrice({ bidContract });
+  const myBidderPrice = useBidderPrice(contract);
   const auction: any = useAuction({
     id,
-    bidContract,
-    tokenContract: bidTokenContract,
+    bidContract: contract,
+    tokenContract: '0x6352f57A0E17FE177fbfcdEa7FDAd83427b6B2b2',
   });
   const { tokenMetadata = {}, bidEvents = [] } = auction;
-  console.log(auction);
+  const bidContract = bidFactory(contract);
 
   useEffect(() => {
     if (bidEvents.length) {
@@ -48,9 +49,9 @@ export default () => {
   useEffect(() => {
     try {
       const { highestBidder = '0' } = auction;
-      const highest = parseFloat(Web3.utils.fromWei(highestBidder));
-      const _priceStep = parseFloat((highest * PRICE_STEP_PERCENT).toFixed(5));
-      const _minPriceLimit = (_priceStep + highest).toFixed(5);
+      const highest = Number(Web3.utils.fromWei(highestBidder));
+      const _priceStep = Number(highest * PRICE_STEP_PERCENT);
+      const _minPriceLimit = Math.ceil((_priceStep + highest) * 1e5) / 1e5;
 
       setPriceStep(_priceStep);
       setMinPriceLimit(_minPriceLimit);
@@ -186,6 +187,7 @@ export default () => {
         visible={isVisible}
         footer={null}
         centered
+        maskClosable={false}
         onOk={handlePlaceBidOk}
         onCancel={handlePlaceBidCancel}
         wrapClassName={styles.placeBidModal}

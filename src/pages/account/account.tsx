@@ -7,14 +7,14 @@ import { queryAssets, queryCollections } from '@/servers';
 import { transResource } from '@/helpers/data-to-props';
 import FilterCollection from '@/components/filter-collection';
 import useCollections from '@/hooks/useCollections';
-import { inftCreateNftContract } from '@/contracts';
 import useMyInftTokens from '@/hooks/useMyInftTokens';
+import useOwnerBid from '@/hooks/useOwnerBid';
 import styles from './styles.less';
-import tokenList from '@/components/idolbox/token-list/token-list';
 
 const transItems = (list: any[]): any[] => {
   if (!list || !list.length) return [];
-  return list.map((item) => ({
+
+  const _list = list.map((item) => ({
     image: item.imageUrl || transResource(item.resource),
     imageType: item.resource_type,
     name: item.name,
@@ -24,6 +24,8 @@ const transItems = (list: any[]): any[] => {
     onSale: item.on_sale,
     showFooter: false,
   }));
+
+  return _list;
 };
 
 export default () => {
@@ -34,7 +36,7 @@ export default () => {
   const [loading, setLoading] = useState(false);
   const { collections } = useCollections(queryCollections, 0);
   const tokens = useMyInftTokens();
-  console.log('use tokens: ', tokens);
+  const ownerBids = useOwnerBid(wallet);
 
   useEffect(() => {
     if (wallet.status === 'connected') {
@@ -49,6 +51,7 @@ export default () => {
     setLoading(true);
     try {
       const { list } = await queryAssets(account, null);
+
       setAssets(list || []);
       console.log('list', list);
       setLoading(false);
@@ -134,6 +137,14 @@ export default () => {
               data={transItems(tokens)}
               onClick={disAllowShowDetail}
               total={tokens.length}
+            />
+          )}
+
+          {!!ownerBids.length && (
+            <CardList
+              data={transItems(ownerBids)}
+              onClick={disAllowShowDetail}
+              total={ownerBids.length}
             />
           )}
         </div>

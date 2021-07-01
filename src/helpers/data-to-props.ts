@@ -1,7 +1,14 @@
 import web3 from 'web3';
+import transIpfsUrl from '@/helpers/trans-ipfs-url';
 const tlContract = '0xf7a21ffb762ef2c14d8713b18f5596b4b0b0490a';
 
 const transResource = (resource: string): string => {
+  if (!resource) return '';
+
+  if (resource.startsWith('ipfs://')) {
+    return transIpfsUrl(resource);
+  }
+
   return resource.startsWith('http')
     ? resource
     : `https://api.treasureland.market/v2/v1/resourceS3?uri=${resource}&size=500x0`;
