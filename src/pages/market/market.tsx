@@ -128,7 +128,7 @@ export default () => {
         <StickyContainer className={styles.stickyContainer}>
           <Sticky disableCompensation>
             {({ style }) => (
-              <div style={style}>
+              <div style={{ ...style, top: '70px' }}>
                 <div className={styles.wrapSortType}>
                   <SelectSortType onChange={changedSortType} />
                 </div>

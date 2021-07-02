@@ -20,8 +20,9 @@ const transResource = (resource: string, item?: any): string => {
 };
 
 const itemsToList = (list: any[], wallet?: any): any[] => {
-  const account =
-    wallet.status === 'connected' ? wallet.account.toLowerCase() : '';
+  const account = (
+    wallet.status === 'connected' ? wallet.account : ''
+  ).toLowerCase();
 
   return list.map((item) => {
     const maker = item.maker || '';
