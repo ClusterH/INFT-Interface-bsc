@@ -58,28 +58,6 @@ export default () => {
     }
   }, [wallet.status]);
 
-  useEffect(() => {
-    // const connected = sessionStorage.getItem('metamask-connected');
-    // if (connected) {
-    //   if (wallet.status !== 'connected') {
-    //     console.log('connected');
-    //     wallet.connect('injected');
-    //     sessionStorage.setItem('metamask-connected', 'true');
-    //   }
-    // }
-    web3.eth
-      .getAccounts()
-      .then((accounts) => {
-        console.log('accounts: ', accounts);
-        if (accounts.length) {
-          wallet.connect('injected');
-        }
-      })
-      .catch((e) => {
-        console.log('error: ', e);
-      });
-  }, []);
-
   const connectWallet = () => {
     if (wallet.status === 'disconnected') {
       wallet.connect('injected');
