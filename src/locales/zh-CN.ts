@@ -14,6 +14,7 @@ export default {
   notify_cancelSellSuccess: '取消出售',
   notify_createSuccess: '铸造成功',
   notify_disAllowShowDetail: '等待审核',
+  notify_success: '成功',
 
   /** Header */
   header_home: '首页',
@@ -140,4 +141,10 @@ export default {
   bidHistory_price: '价格',
   bidHistory_from: '来自',
   bidHistory_date: '日期',
+
+  /** auction */
+  auction_price: '价格',
+  auction_priceTip: '本次竞拍金额不可低于 : {minPriceLimit} BNB',
+  auction_message: `每轮溢价为5%，如果您已经投过标了，下次投标只需支付差价即可。拍卖时间截止后，若您竞标失败，则需要您在拍卖页面手动取回您的竞标资产；若您竞标成功，NFT将自动发送至您账户，请注意查收。`,
+  auction_confirm: '确认',
 };

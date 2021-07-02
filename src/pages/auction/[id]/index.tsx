@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'umi';
+import { useParams, useIntl } from 'umi';
 import { Button, Input, Modal, notification } from 'antd';
 import Web3 from 'web3';
 // import bidContract from '@/contracts/bid';
@@ -16,6 +16,7 @@ import styles from './styles.less';
 
 const PRICE_STEP_PERCENT = 0.05; // 百分比
 export default () => {
+  const intl = useIntl();
   const { id, contract } = useParams<{ id: string; contract: string }>();
   const wallet = useWallet();
   const myBidderPrice = useBidderPrice(contract);
@@ -95,14 +96,24 @@ export default () => {
 
     try {
       const payAmount =
-        Number(_price) - parseFloat(Web3.utils.fromWei(auction.highestBidder));
+        Math.floor(
+          (Number(_price) - parseFloat(Web3.utils.fromWei(myBidderPrice))) *
+            1e8,
+        ) / 1e8;
+
+      // const gas = await bidContract.methods.bid().estimateGas();
+      // console.log('gas', gas);
+
       const ret = await bidContract.methods.bid().send({
         from: wallet.account,
         value: Web3.utils.toWei(String(payAmount)),
       });
 
       notification.success({
-        message: 'Success',
+        message: intl.formatMessage({
+          id: 'notify_success',
+          defaultMessage: 'Success',
+        }),
       });
     } catch (error) {
       notification.error({
@@ -128,7 +139,10 @@ export default () => {
 
     if (wallet.status !== 'connected') {
       notification.info({
-        message: 'Connect wallet',
+        message: intl.formatMessage({
+          id: 'notify_connectWallet',
+          defaultMessage: 'Connect wallet',
+        }),
       });
       return;
     }
@@ -140,7 +154,10 @@ export default () => {
 
       console.log('ret', ret);
       notification.success({
-        message: 'Success',
+        message: intl.formatMessage({
+          id: 'notify_success',
+          defaultMessage: 'Success',
+        }),
       });
     } catch (error) {
       console.log('withdraw error:', error);
@@ -194,7 +211,12 @@ export default () => {
         wrapClassName={styles.placeBidModal}
       >
         <div className={styles.content}>
-          <span className={styles.price}>PRICE</span>
+          <span className={styles.price}>
+            {intl.formatMessage({
+              id: 'auction_price',
+              defaultMessage: 'PRICE',
+            })}
+          </span>
           <Input
             type="number"
             size="large"
@@ -204,13 +226,24 @@ export default () => {
             onChange={(e) => setInputPrice(e.target.value)}
           />
           <div className={styles.tip}>
-            This bidding requires payment of : {minPriceLimit} BNB
+            {intl.formatMessage(
+              {
+                id: 'auction_priceTip',
+                defaultMessage: `This bidding requires payment of : ${minPriceLimit} BNB`,
+              },
+              {
+                minPriceLimit,
+              },
+            )}
           </div>
 
           <div className={styles.message}>
-            If the user win the bid, NFT will be automatically sent to your
-            account.If the user lose the bid, the money will be automatically
-            returned to your wallet.
+            {intl.formatMessage({
+              id: 'auction_message',
+              defaultMessage: `If the user win the bid, NFT will be automatically sent to your
+              account.If the user lose the bid, the money will be automatically
+              returned to your wallet.`,
+            })}
           </div>
 
           <Button
@@ -221,7 +254,10 @@ export default () => {
             disabled={pidBtnLoading}
             onClick={() => placeBid(inputPrice)}
           >
-            Confirm
+            {intl.formatMessage({
+              id: 'auction_confirm',
+              defaultMessage: 'Confirm',
+            })}
           </Button>
         </div>
       </Modal>

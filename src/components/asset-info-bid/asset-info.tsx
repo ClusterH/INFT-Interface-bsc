@@ -111,8 +111,8 @@ const PlaceBidPanel = (props: any) => {
 
         <div className={styles.myLastBid}>
           <span className={styles.bnbPrice}>
-            {' '}
-            {Web3.utils.fromWei(bidderPrice)} BNB
+            {Math.floor(Number(Web3.utils.fromWei(bidderPrice)) * 1e5) / 1e5}{' '}
+            BNB
           </span>
           <span className={styles.text}>
             {intl.formatMessage({

@@ -14,6 +14,7 @@ export default {
   notify_cancelSellSuccess: 'Cancel Sell success',
   notify_createSuccess: 'Create success',
   notify_disAllowShowDetail: 'Waiting for approval',
+  notify_success: 'Success',
 
   /** Header */
   header_home: 'Home',
@@ -143,4 +144,10 @@ export default {
   bidHistory_price: 'Price',
   bidHistory_from: 'From',
   bidHistory_date: 'Date',
+
+  /** auction */
+  auction_price: 'PRICE',
+  auction_priceTip: 'This bidding requires payment of : {minPriceLimit} BNB',
+  auction_message: `The premium for each round is 5%. If you have already bid, you only need to pay the difference in the next bid. After the auction time expires, if your bid fails, you need to manually retrieve your bid assets on the auction page; if your bid is successful, the NFT will be automatically sent to your account, please pay attention to check.`,
+  auction_confirm: 'Confirm',
 };
