@@ -40,6 +40,7 @@ export default (props: any) => {
     startTime,
     isStart,
     isFinish,
+    endTime,
     highestBidder = '0',
   } = auction || {};
 
@@ -143,7 +144,7 @@ export default (props: any) => {
         <div className={styles.buyWrap}>
           <div className={styles.wrapOwner}>
             <span className={styles.owner}>{transAddressShort(owner)}</span>
-            {/* {!!isStart && !isFinish && (
+            {!!isStart && !isFinish && (
               <span className={styles.time}>
                 <span className={styles.label}>Time Left</span>
                 <Countdown
@@ -152,7 +153,7 @@ export default (props: any) => {
                   renderer={renderer}
                 />
               </span>
-            )} */}
+            )}
           </div>
 
           <button className={styles.buyBtn}>
