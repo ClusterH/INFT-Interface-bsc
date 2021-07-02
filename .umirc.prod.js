@@ -12,5 +12,6 @@ export default defineConfig({
 
     'process.env.TOKEN_CONTRACT': '0x52b29289DF14c9Ee2c135378c8c9Cd4eDA867BA8',
     'process.env.BID_CONTRACT': '0xC14d3cdCd7291Bd6B464f1A9052CBd0A3404F9B8',
+    'process.env.BID_CONTRACT_CREATED_BLOCK': 8792612,
   },
 });

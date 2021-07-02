@@ -79,10 +79,35 @@ export default (params: IUseAuctionParams) => {
 
   /** 获取竞拍记录 */
   const getBidRecords = async (bidContract: any) => {
+    const step = 5000;
+    const latest = await web3.eth.getBlockNumber();
+    let from = Number(process.env.BID_CONTRACT_CREATED_BLOCK);
+    let to = from + step;
+
+    let events: any[] = [];
+    do {
+      const ret = await _getNewBid(from, to, bidContract);
+      console.log(from, to, ret);
+
+      from = from + step;
+      to = to + step;
+      if (ret.length) {
+        events = events.concat(ret);
+      }
+    } while (from < latest);
+
+    return events;
+  };
+
+  const _getNewBid = async (
+    fromBlock: number,
+    toBlock: number,
+    bidContract: any,
+  ) => {
     try {
       const events = await bidContract.getPastEvents('NewBid', {
-        fromBlock: 8794471,
-        toBlock: 'latest',
+        fromBlock,
+        toBlock,
       });
       return events;
     } catch (error) {
