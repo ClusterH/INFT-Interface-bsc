@@ -5,7 +5,7 @@ import { fetchInftIpfs } from '@/servers';
 /**
  * 获取竞拍获得的NFT
  */
-const address = process.env.BID_TOKEN_CONTRACT;
+const address = process.env.BID_CONTRACT;
 export default (wallet: any) => {
   const [owners, setOwners] = useState<any[]>([]);
   const bidTokenContract = bidTokenFactory(address as string);

@@ -22,7 +22,7 @@ export default () => {
   const auction: any = useAuction({
     id,
     bidContract: contract,
-    tokenContract: '0x6352f57A0E17FE177fbfcdEa7FDAd83427b6B2b2',
+    tokenContract: process.env.TOKEN_CONTRACT as string,
   });
   const { tokenMetadata = {}, bidEvents = [] } = auction;
   const bidContract = bidFactory(contract);
@@ -37,7 +37,7 @@ export default () => {
   const [isVisible, setIsVisible] = useState(false);
   const [bidHistory, setBidHistory] = useState<any[]>([]); // 竞拍历史-格式化后的数据
   const [pidBtnLoading, setPidBtnLoading] = useState(false);
-  const [owner, setOwner] = useState('');
+  // const [owner, setOwner] = useState('');
   const [inputPrice, setInputPrice] = useState<number | string>(''); // 输入的竞拍价格
   const [minPriceLimit, setMinPriceLimit] = useState<string | number>(0); // 当前最小竞拍价格
   const [priceStep, setPriceStep] = useState(0);
@@ -61,8 +61,8 @@ export default () => {
   }, [auction]);
 
   const setup = async () => {
-    const _owner = await getTokenOwner();
-    setOwner(_owner);
+    // const _owner = await getTokenOwner();
+    // setOwner(_owner);
   };
 
   const initBisHistory = async (events: any) => {
@@ -79,14 +79,14 @@ export default () => {
   };
 
   /** token owner */
-  const getTokenOwner = async () => {
-    try {
-      return await bidTokenContract.methods.ownerOf(id).call();
-    } catch (error) {
-      console.log('getTokenOwner error:', error);
-      return '';
-    }
-  };
+  // const getTokenOwner = async () => {
+  //   try {
+  //     return await bidTokenContract.methods.ownerOf(id).call();
+  //   } catch (error) {
+  //     console.log('getTokenOwner error:', error);
+  //     return '';
+  //   }
+  // };
 
   /** 竞拍 */
   const placeBid = async (_price: string | number) => {
@@ -161,7 +161,7 @@ export default () => {
         countdown={auction.endTime * 1000}
         priceSymbol="BNB"
         imageType="image"
-        owner={owner}
+        owner={auction.owner}
         account={wallet && wallet.account}
         collectName={auction.name}
         highestBidder={auction.highestBidder || '0'}

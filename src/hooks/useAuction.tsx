@@ -81,20 +81,25 @@ export default (params: IUseAuctionParams) => {
   const getBidRecords = async (bidContract: any) => {
     try {
       const events = await bidContract.getPastEvents('NewBid', {
-        fromBlock: 10124363,
+        fromBlock: 8794471,
         toBlock: 'latest',
       });
       return events;
     } catch (error) {
       console.log('getBidRecords err:', error);
+      return [];
     }
   };
 
   /** 获取并设置竞价事件时间 */
   const setRecordsTime = async (events: any[]) => {
-    for (const event of events) {
-      const timestamp = await _getBlockTimestamp(event.blockNumber);
-      event.timestamp = timestamp;
+    try {
+      for (const event of events) {
+        const timestamp = await _getBlockTimestamp(event.blockNumber);
+        event.timestamp = timestamp;
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -170,8 +175,13 @@ export default (params: IUseAuctionParams) => {
 
   /** 获取token信息 */
   const getToken = async (_id: string | number, bidTokenContract: any) => {
-    const uri = await bidTokenContract.methods.tokenURI(_id).call();
-    return await _getMetadata(uri);
+    try {
+      const uri = await bidTokenContract.methods.tokenURI(_id).call();
+      return await _getMetadata(uri);
+    } catch (error) {
+      console.log('getToken:', error.message);
+      return {};
+    }
   };
 
   /** 获取metadata */
