@@ -268,10 +268,10 @@ export default () => {
     });
 
   const handleSendAddressOk = async () => {
-    setSendAddress({
-      ...sendAddress,
-      visible: false,
-    });
+    // setSendAddress({
+    //   ...sendAddress,
+    //   visible: false,
+    // });
 
     if (!detail || !wallet.account) return;
 

@@ -1,4 +1,5 @@
 import { useIntl } from 'umi';
+import { useState } from 'react';
 import { Modal, Button } from 'antd';
 import Input from '@/components/input';
 import styles from './styles.less';
@@ -13,14 +14,28 @@ export interface ISendAddressProps {
 
 export default (props: ISendAddressProps) => {
   const intl = useIntl();
+  const [sending, setSending] = useState(false);
   const { visible, onChange, onOk, onCancel } = props;
+
+  const handleConfirm = () => {
+    setSending(true);
+    onOk();
+  };
+
+  const afterClose = () => {
+    setSending(false);
+  };
+
   return (
     <Modal
       visible={visible}
       title={null}
       footer={null}
+      closable={!sending}
+      maskClosable={false}
       wrapClassName={styles.sendAddress}
       onCancel={onCancel}
+      afterClose={afterClose}
     >
       <div className={styles.content}>
         <div className={styles.title}>
@@ -41,9 +56,11 @@ export default (props: ISendAddressProps) => {
         <Button
           type="primary"
           block
-          onClick={onOk}
+          onClick={handleConfirm}
           size="large"
           className={styles.btn}
+          loading={sending}
+          disabled={sending}
         >
           {intl.formatMessage({
             id: 'sendAddress_cofirmn',

@@ -38,6 +38,10 @@ export default () => {
   const tokens = useMyInftTokens();
   const ownerBids = useOwnerBid(wallet);
 
+  console.log('assets', assets);
+  console.log('myInftTokens', tokens);
+  console.log('ownerBids', ownerBids);
+
   useEffect(() => {
     if (wallet.status === 'connected') {
       const account = wallet.account || '';
@@ -110,6 +114,8 @@ export default () => {
       setLoading(false);
     }
   };
+
+  console.log('transItems(assets)', transItems(assets));
 
   return (
     <div className={styles.account}>

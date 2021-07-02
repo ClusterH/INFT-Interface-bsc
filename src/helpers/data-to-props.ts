@@ -1,8 +1,13 @@
 import web3 from 'web3';
 import transIpfsUrl from '@/helpers/trans-ipfs-url';
 const tlContract = '0xf7a21ffb762ef2c14d8713b18f5596b4b0b0490a';
+const iNFTcommonContract = '0x52b29289df14c9ee2c135378c8c9cd4eda867ba8';
 
-const transResource = (resource: string): string => {
+const transResource = (resource: string, item?: any): string => {
+  if (item && item.contract === iNFTcommonContract) {
+    return transIpfsUrl(item.token_uri || '');
+  }
+
   if (!resource) return '';
 
   if (resource.startsWith('ipfs://')) {
@@ -24,7 +29,7 @@ const itemsToList = (list: any[], wallet?: any): any[] => {
       contract: item.contract,
       tokenId: item.token_id,
       orderId: item.order_id,
-      image: transResource(item.resource),
+      image: transResource(item.resource, item),
       imageType: item.resource_type,
       name: item.name,
       owner: `${maker.substr(0, 5)}***${maker.substr(-4)}`,
@@ -37,7 +42,7 @@ const itemsToList = (list: any[], wallet?: any): any[] => {
 
 const dataToDetailProps = (data: any, tokenId?: string): any => {
   return {
-    img: transResource(data.image),
+    img: transResource(data.image, data),
     imageType: data.image_type,
     name: data.name,
     collectName: data.collect_name,
