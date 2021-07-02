@@ -44,6 +44,7 @@
     margin: 0 auto;
     overflow: auto;
     .categoryItem {
+      position: relative;
       border-radius: 0px;
       a {
         padding: 0 24px;
@@ -51,6 +52,21 @@
         display: inline-block;
         width: auto;
         white-space: nowrap;
+      }
+
+      .active,
+      a:hover {
+        &::after {
+          content: '';
+          display: inline-block;
+          width: 13px;
+          height: 3px;
+          background: #fed835;
+          left: 50%;
+          bottom: -19px;
+          transform: translateX(-50%);
+          position: absolute;
+        }
       }
     }
   }
