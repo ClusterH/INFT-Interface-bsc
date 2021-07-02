@@ -81,6 +81,8 @@ export default (props: any) => {
   };
 
   const onClick = () => {
+    if (!bidContract || !id) return;
+
     history.push(`/auction/${bidContract}/${id}`);
   };
 
