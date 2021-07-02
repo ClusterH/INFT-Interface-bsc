@@ -1,6 +1,6 @@
 export default {
   /** Title */
-  title_home: '首页',
+  title_home: 'iNFT',
   title_market: '市场',
   title_detail: '详情',
   title_account: '账户',

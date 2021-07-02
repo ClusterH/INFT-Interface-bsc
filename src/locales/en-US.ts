@@ -1,6 +1,6 @@
 export default {
   /** Title */
-  title_home: 'Home',
+  title_home: 'iNFT',
   title_market: 'Market',
   title_detail: 'Detail',
   title_account: 'Account',
