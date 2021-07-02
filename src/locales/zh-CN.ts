@@ -112,7 +112,7 @@ export default {
   create_formProperties: '属性',
   create_formPropertieName: '输入属性名',
   create_formPropertieValue: '输入属性值',
-  create_formAddField: '增加字段',
+  create_formAddField: '增加属性',
   create_formRoyalties: '铸造费',
   create_formCreate: '创建NFT',
 
