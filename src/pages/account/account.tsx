@@ -35,11 +35,11 @@ export default () => {
   const [assets, setAssets] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const { collections } = useCollections(queryCollections, 0);
-  const tokens = useMyInftTokens();
+  // const tokens = useMyInftTokens();
   const ownerBids = useOwnerBid(wallet);
 
   console.log('assets', assets);
-  console.log('myInftTokens', tokens);
+  // console.log('myInftTokens', tokens);
   console.log('ownerBids', ownerBids);
 
   useEffect(() => {
@@ -138,13 +138,13 @@ export default () => {
             total={assets.length}
           />
 
-          {!!tokens.length && (
+          {/* {!!tokens.length && (
             <CardList
               data={transItems(tokens)}
               onClick={disAllowShowDetail}
               total={tokens.length}
             />
-          )}
+          )} */}
 
           {!!ownerBids.length && (
             <CardList

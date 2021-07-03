@@ -4,9 +4,9 @@ const tlContract = '0xf7a21ffb762ef2c14d8713b18f5596b4b0b0490a';
 const iNFTcommonContract = '0x52b29289df14c9ee2c135378c8c9cd4eda867ba8';
 
 const transResource = (resource: string, item?: any): string => {
-  if (item && item.contract === iNFTcommonContract) {
-    return transIpfsUrl(item.token_uri || '');
-  }
+  // if (item && item.contract === iNFTcommonContract) {
+  //   return transIpfsUrl(item.token_uri || '');
+  // }
 
   if (!resource) return '';
 
