@@ -8,6 +8,7 @@ import { queryDetail, queryOrder, queryMintToken } from '@/servers';
 import { dataToDetailProps, transResource } from '@/helpers/data-to-props';
 import BuyConfirm from '@/components/buy-confirm';
 import SendAddress from '@/components/send-address';
+import erc721 from '@/contracts/factories/erc721';
 
 import {
   buyToken,
@@ -37,6 +38,7 @@ export default () => {
   const [price, setPrice] = useState(0);
   const [isMyOrder, setIsMyOrder] = useState(false);
   const [isOnSale, setIsOnSale] = useState(false);
+  const [owner, setOwner] = useState('');
   const [buyConfirm, setBuyConfirm] = useState({
     visible: false,
     isCompleting: false,
@@ -50,6 +52,7 @@ export default () => {
 
   useEffect(() => {
     initDetailData(tokenId, contract);
+    initOwner();
     if (orderId) {
       initOrderData(orderId);
     }
@@ -101,6 +104,7 @@ export default () => {
     try {
       if (contract === tlContract) {
         const data: any = await queryMintToken(id);
+
         setDetail(data);
       } else {
         const data: any = await queryDetail(id, contract);
@@ -109,6 +113,13 @@ export default () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  /** 查询并设置拥有者 */
+  const initOwner = async () => {
+    const erc721Contract = erc721(contract);
+    const _owner = await erc721Contract.methods.ownerOf(tokenId).call();
+    setOwner(_owner);
   };
 
   const initOrderData = async (id: string) => {
@@ -374,6 +385,7 @@ export default () => {
       {!!detail && (
         <AssetInfo
           {...dataToDetailProps(detail, tokenId)}
+          owner={owner}
           buyLoading={buyConfirm.isCompleting}
           sendLoading={sendAddress.sendLoading}
           sellLoading={sellLoading}

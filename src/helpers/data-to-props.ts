@@ -47,7 +47,7 @@ const dataToDetailProps = (data: any, tokenId?: string): any => {
     imageType: data.image_type,
     name: data.name,
     collectName: data.collect_name,
-    owner: data.seller,
+    // owner: data.seller,
     contract: data.contract || tlContract,
     tokenId: data.token_id || tokenId,
     blockchain: 'BSC',
