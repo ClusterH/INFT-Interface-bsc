@@ -146,13 +146,13 @@ export default () => {
             />
           )} */}
 
-          {!!ownerBids.length && (
+          {/* {!!ownerBids.length && (
             <CardList
               data={transItems(ownerBids)}
               onClick={disAllowShowDetail}
               total={ownerBids.length}
             />
-          )}
+          )} */}
         </div>
       </div>
     </div>
