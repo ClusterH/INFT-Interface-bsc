@@ -6,15 +6,23 @@ export interface IGetEParam {
   tokenId: string;
   amount: number;
   target: string; // 系列合约地址
+  feeRecipient?: string;
 }
 
 // TODO 这里硬编码，后期作为参数传入
 // const cryptozContractAddress = '0x8a0c542ba7bbbab7cf3551ffcc546cdc5362d2a1';
 const treasurelandContractAddress =
   '0x76265575B884F2F7b26B6071e26Ce17235184053';
-const feeRecipient = '0x4c9f5e85Dd88cd06015d791479a6a478c3D27B6B'; // 接收手续费的地址
+const tlFeeRecipient = '0x4c9f5e85Dd88cd06015d791479a6a478c3D27B6B'; // 接收手续费的地址
 
-async function getE({ maker, basePrice, tokenId, amount, target }: IGetEParam) {
+async function getE({
+  maker,
+  basePrice,
+  tokenId,
+  amount,
+  target,
+  feeRecipient,
+}: IGetEParam) {
   const e: any = {
     //   basePrice: "1000000000000000000", // ？
     //   calldata:
@@ -23,12 +31,12 @@ async function getE({ maker, basePrice, tokenId, amount, target }: IGetEParam) {
     expirationTime: 0, // ？
     extra: 0, // ？
     feeMethod: 1, // ？
-    feeRecipient: feeRecipient, // ？
+    feeRecipient: feeRecipient || tlFeeRecipient, // ？
     howToCall: 0, // ？
     //   listingTime: 1622013006,
     //   maker: "0x8b7A9d07e34712F8473BeB95Cd85420ee25A600C",
-    makerProtocolFee: 0,
-    makerRelayerFee: 200,
+    makerProtocolFee: feeRecipient === tlFeeRecipient ? 0 : 200, // tl 0; 其他(inft): 200
+    makerRelayerFee: feeRecipient === tlFeeRecipient ? 200 : 1000, // tl 200; 其他(inft): 1000
     paymentToken: '0x0000000000000000000000000000000000000000',
     replacementPattern:
       '0x000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000',

@@ -7,15 +7,16 @@ export interface IGetBodyParams {
   maker: string;
   amount: number;
   target: string; // 系列合约地址
+  feeRecipient?: string;
 }
 
 const exchange = '0x76265575B884F2F7b26B6071e26Ce17235184053';
-const feeRecipient = '0x4c9f5e85Dd88cd06015d791479a6a478c3D27B6B';
+const tlFeeRecipient = '0x4c9f5e85Dd88cd06015d791479a6a478c3D27B6B';
 // const cryptozContractAddress = '0x8a0c542ba7bbbab7cf3551ffcc546cdc5362d2a1';
 
 async function getBody(
   e: any,
-  { tokenId, maker, amount, target }: IGetBodyParams,
+  { tokenId, maker, amount, target, feeRecipient }: IGetBodyParams,
 ) {
   const body: any = {
     chain_id: 56,
@@ -26,11 +27,15 @@ async function getBody(
     exchange: exchange, // 交易所合约地址 固定值
     //   maker: "0x8b7A9d07e34712F8473BeB95Cd85420ee25A600C", // 提供流动性 卖方
     taker: '0x0000000000000000000000000000000000000000', // 固定值
-    maker_relayer_fee: 200, // 固定
+    // maker_relayer_fee: 200, // 固定
+    maker_relayer_fee: feeRecipient === tlFeeRecipient ? 200 : 1000, // tl 200; 其他(inft): 1000
+
     taker_relayer_fee: 0, // 固定
-    maker_protocol_fee: 0, // 固定
+    // maker_protocol_fee: 0, // 固定
+    maker_protocol_fee: feeRecipient === tlFeeRecipient ? 0 : 200, // tl 0; 其他(inft): 200
+
     taker_protocol_fee: 0, // 固定
-    fee_recipient: feeRecipient, // 固定 平台地址
+    fee_recipient: feeRecipient || tlFeeRecipient, // 固定 平台地址
     fee_method: 1, // 固定
     side: 1, // 固定
     sale_kind: 0, // ？暂时认为固定
