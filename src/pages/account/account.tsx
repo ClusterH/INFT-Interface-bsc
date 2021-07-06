@@ -88,10 +88,7 @@ export default () => {
     setLoading(true);
     setAssets([]);
     try {
-      const { list } = await queryAssets(
-        wallet.account as string,
-        item.address,
-      );
+      const { list } = await queryAssets(wallet.account as string, item);
       setAssets(list || []);
       setLoading(false);
     } catch (error) {
