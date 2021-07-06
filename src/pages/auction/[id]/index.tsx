@@ -5,6 +5,7 @@ import Web3 from 'web3';
 // import bidContract from '@/contracts/bid';
 import bidFactory from '@/contracts/bid-factory';
 import bidTokenContract from '@/contracts/bid-token';
+import erc721Factory from '@/contracts/factories/erc721';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import AssetInfo from '@/components/asset-info-bid';
 import Properties from '@/components/properties';
@@ -12,36 +13,38 @@ import transIpfsUrl from '@/helpers/trans-ipfs-url';
 import BidHistory from '@/components/bid-history';
 import useAuction from '@/hooks/useAuction';
 import useBidderPrice from '@/hooks/useBidderPrice';
+import useAuctonData from '@/hooks/useAuctionData';
+import useMetadata from '@/hooks/useMetadata';
+import useBidHistory from '@/hooks/useBidHistory';
 import styles from './styles.less';
 
+const web3 = new Web3(Web3.givenProvider);
 const PRICE_STEP_PERCENT = 0.05; // 百分比
+let tokenContract = erc721Factory(process.env.TOKEN_CONTRACT as string);
 export default () => {
   const intl = useIntl();
-  const { id, contract } = useParams<{ id: string; contract: string }>();
   const wallet = useWallet();
+  const { id, contract } = useParams<{ id: string; contract: string }>();
+  const auction: any = useAuctonData({ id: 17, contract }) || {};
+  const tokenMetadata: any = useMetadata({ id: 17, contract: process.env.TOKEN_CONTRACT as string }) || {};
+  const bidEvents: any = useBidHistory({ auction });
+
   const myBidderPrice = useBidderPrice(contract);
-  const auction: any = useAuction({
-    id,
-    bidContract: contract,
-    tokenContract: process.env.TOKEN_CONTRACT as string,
-  });
-  const { tokenMetadata = {}, bidEvents = [] } = auction;
   const bidContract = bidFactory(contract);
-  console.log('auction', auction);
+
+  const [isVisible, setIsVisible] = useState(false);
+  const [bidHistory, setBidHistory] = useState<any[]>([]); // 竞拍历史-格式化后的数据
+  const [pidBtnLoading, setPidBtnLoading] = useState(false);
+  const [owner, setOwner] = useState('');
+  const [inputPrice, setInputPrice] = useState<number | string>(''); // 输入的竞拍价格
+  const [minPriceLimit, setMinPriceLimit] = useState<string | number>(0); // 当前最小竞拍价格
+  const [priceStep, setPriceStep] = useState(0);
 
   useEffect(() => {
     if (bidEvents.length) {
       initBisHistory(bidEvents);
     }
   }, [bidEvents]);
-
-  const [isVisible, setIsVisible] = useState(false);
-  const [bidHistory, setBidHistory] = useState<any[]>([]); // 竞拍历史-格式化后的数据
-  const [pidBtnLoading, setPidBtnLoading] = useState(false);
-  // const [owner, setOwner] = useState('');
-  const [inputPrice, setInputPrice] = useState<number | string>(''); // 输入的竞拍价格
-  const [minPriceLimit, setMinPriceLimit] = useState<string | number>(0); // 当前最小竞拍价格
-  const [priceStep, setPriceStep] = useState(0);
 
   useEffect(() => {
     setup();
@@ -62,32 +65,40 @@ export default () => {
   }, [auction]);
 
   const setup = async () => {
-    // const _owner = await getTokenOwner();
-    // setOwner(_owner);
+    const _owner = await getTokenOwner();
+    setOwner(_owner);
   };
 
   const initBisHistory = async (events: any) => {
-    const _history = events.map((event: any) => {
-      const { timestamp, returnValues = {} } = event;
-      return {
-        timestamp: timestamp,
-        bidder: returnValues.bidder || '',
-        price: Web3.utils.fromWei(returnValues.price || '0'),
-      };
-    });
+    try {
+      const _history = [];
+      for (const event of events) {
+        const { blockNumber, returnValues = {} } = event;
+        const { timestamp } = await web3.eth.getBlock(blockNumber);
+        console.log('timestamp', timestamp);
+        _history.push({
+          timestamp: timestamp,
+          bidder: returnValues.bidder || '',
+          price: Web3.utils.fromWei(returnValues.price || '0'),
+        });
+      }
 
-    setBidHistory(_history);
+      setBidHistory(_history.reverse());
+    } catch (error) {
+      console.log(error.message);
+      setBidHistory([]);
+    }
   };
 
   /** token owner */
-  // const getTokenOwner = async () => {
-  //   try {
-  //     return await bidTokenContract.methods.ownerOf(id).call();
-  //   } catch (error) {
-  //     console.log('getTokenOwner error:', error);
-  //     return '';
-  //   }
-  // };
+  const getTokenOwner = async () => {
+    try {
+      return await tokenContract.methods.ownerOf(id).call();
+    } catch (error) {
+      console.log('getTokenOwner error:', error);
+      return '';
+    }
+  };
 
   /** 竞拍 */
   const placeBid = async (_price: string | number) => {
@@ -95,11 +106,7 @@ export default () => {
     setPidBtnLoading(true);
 
     try {
-      const payAmount =
-        Math.floor(
-          (Number(_price) - parseFloat(Web3.utils.fromWei(myBidderPrice))) *
-            1e8,
-        ) / 1e8;
+      const payAmount = Math.floor((Number(_price) - parseFloat(Web3.utils.fromWei(myBidderPrice))) * 1e8) / 1e8;
 
       // const gas = await bidContract.methods.bid().estimateGas();
       // console.log('gas', gas);
@@ -178,14 +185,15 @@ export default () => {
         countdown={auction.endTime * 1000}
         priceSymbol="BNB"
         imageType="image"
-        owner={auction.owner}
+        owner={owner}
         account={wallet && wallet.account}
         collectName={auction.name}
-        highestBidder={auction.highestBidder || '0'}
+        highestPrice={auction.highestPrice || '0'}
+        highestBidder={auction.highestBidder || ''}
         bidderPrice={myBidderPrice || '0'}
         isStart={auction.isStart}
         startTime={auction.startTime}
-        isFinish={auction.isFinish}
+        isEnd={auction.isEnd}
         onWithdraw={withdraw}
         onPlaceBid={() => setIsVisible(true)}
       />
@@ -217,14 +225,7 @@ export default () => {
               defaultMessage: 'PRICE',
             })}
           </span>
-          <Input
-            type="number"
-            size="large"
-            addonAfter="BNB"
-            value={inputPrice}
-            step={priceStep}
-            onChange={(e) => setInputPrice(e.target.value)}
-          />
+          <Input type="number" size="large" addonAfter="BNB" value={inputPrice} step={priceStep} onChange={(e) => setInputPrice(e.target.value)} />
           <div className={styles.tip}>
             {intl.formatMessage(
               {
@@ -246,14 +247,7 @@ export default () => {
             })}
           </div>
 
-          <Button
-            type="primary"
-            block
-            size="large"
-            loading={pidBtnLoading}
-            disabled={pidBtnLoading}
-            onClick={() => placeBid(inputPrice)}
-          >
+          <Button type="primary" block size="large" loading={pidBtnLoading} disabled={pidBtnLoading} onClick={() => placeBid(inputPrice)}>
             {intl.formatMessage({
               id: 'auction_confirm',
               defaultMessage: 'Confirm',

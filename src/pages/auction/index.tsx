@@ -1,27 +1,16 @@
-import { useHistory } from 'umi';
-import bidContract from '@/contracts/bid';
-import bidTokenContract from '@/contracts/bid-token';
 import BidCardItem from '@/components/bid-card-item';
 import styles from './styles.less';
-import useAuction from '@/hooks/useAuction';
-import useBidderPrice from '@/hooks/useBidderPrice';
-
-const TOKEN_1_ID = 17;
+import useAuctonData from '@/hooks/useAuctionData';
+import useMetadata from '@/hooks/useMetadata';
 
 export default () => {
-  const auction1: any = useAuction({
-    id: TOKEN_1_ID,
-    bidContract: process.env.BID_CONTRACT as string,
-    tokenContract: process.env.TOKEN_CONTRACT as string,
-  });
+  const auction: any = useAuctonData({ id: 17, contract: process.env.BID_CONTRACT as string }) || {};
+  const metadata: any = useMetadata({ id: 17, contract: process.env.TOKEN_CONTRACT as string }) || {};
 
-  const bidderPrice_1 = useBidderPrice(process.env.BID_CONTRACT as string);
-
-  console.log('auction1', auction1);
   return (
     <div className={styles.bid}>
       <div className={styles.wrapList}>
-        <BidCardItem auction={auction1} bidderPrice={bidderPrice_1} />
+        <BidCardItem auction={auction} bidderPrice={auction.highestPrice} image={metadata.image} />
       </div>
     </div>
   );

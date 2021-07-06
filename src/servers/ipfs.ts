@@ -1,5 +1,16 @@
 import Axios from 'axios';
-import { notification } from 'antd';
+
+export interface IAttribute {
+  trait_type: string;
+  value: string;
+}
+
+export interface IMetadata {
+  name: string;
+  description: string;
+  attributes: IAttribute[];
+  image: string;
+}
 
 const axios = Axios.create({
   baseURL: 'https://ipfs.io/ipfs',
@@ -15,6 +26,6 @@ axios.interceptors.response.use(
   },
 );
 
-const fetchIpfs = (path: string): Promise<any[]> => axios.get(path);
+const fetchIpfs = (path: string): Promise<IMetadata> => axios.get(path);
 
 export { fetchIpfs };

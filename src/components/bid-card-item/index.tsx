@@ -9,14 +9,12 @@ import { ArrowRightOutlined } from '@ant-design/icons';
 import styles from './styles.less';
 
 const renderer = (props: any) => {
-  const { days, hours, minutes, seconds, formatted } = props;
+  const { days, hours, formatted } = props;
   const daysInHours = hours + days * 24;
 
   return (
     <span className={styles.countdown}>
-      <span className={styles.item}>
-        {daysInHours < 10 ? '0' + daysInHours : daysInHours}
-      </span>
+      <span className={styles.item}>{daysInHours < 10 ? '0' + daysInHours : daysInHours}</span>
       <span>:</span>
       <span className={styles.item}>{formatted.minutes}</span>
       <span>:</span>
@@ -29,33 +27,17 @@ const imageType = 'image';
 export default (props: any) => {
   const intl = useIntl();
   const history = useHistory();
-  const { auction, bidderPrice = '0' } = props;
-  const { tokenMetadata = {} } = auction || {};
-  const { image = '' } = tokenMetadata;
-  const {
-    id,
-    bidContract,
-    name,
-    owner,
-    startTime,
-    isStart,
-    isFinish,
-    endTime,
-    highestBidder = '0',
-  } = auction || {};
+  const { auction, bidderPrice = '0', image = '' } = props;
+  const { id, auctionContract, name, highestBidder, startTime, isStart, isEnd, endTime, highestPrice = '0' } = auction || {};
 
   const renderPreview = () => {
     if (imageType === 'image') {
       return (
-        <div
-          className={`${styles.wrapImage} ${
-            isFinish ? styles.isFinishImage : null
-          }`}
-        >
+        <div className={`${styles.wrapImage} ${isEnd ? styles.isFinishImage : null}`}>
           <img src={transIpfsUrl(image)} alt="" className={styles.image} />
 
           {/* 已结束 */}
-          {isFinish && (
+          {isEnd && (
             <span className={styles.auctionClosed}>
               {intl.formatMessage({
                 id: 'bidCardItem_auctionClosed',
@@ -81,23 +63,14 @@ export default (props: any) => {
   };
 
   const onClick = () => {
-    if (!bidContract || !id) return;
+    if (!auctionContract || !id) return;
 
-    history.push(`/auction/${bidContract}/${id}`);
+    history.push(`/auction/${auctionContract}/${id}`);
   };
 
   return (
     <div className={styles.bidCardItem} onClick={onClick}>
-      <div
-        className={[
-          styles.imgBox,
-          bidderPrice !== '0'
-            ? getLocale() === 'zh-CN'
-              ? styles.imageBoxOnSaleCN
-              : styles.imageBoxOnSale
-            : null,
-        ].join(' ')}
-      >
+      <div className={[styles.imgBox, bidderPrice !== '0' ? (getLocale() === 'zh-CN' ? styles.imageBoxOnSaleCN : styles.imageBoxOnSale) : null].join(' ')}>
         {renderPreview()}
 
         {/* 未开始 */}
@@ -109,25 +82,12 @@ export default (props: any) => {
                 defaultMessage: 'Coming soon',
               })}
             </span>
-            <BidCountdown
-              size="small"
-              countdown={startTime * 1000}
-            ></BidCountdown>
+            <BidCountdown size="small" countdown={startTime * 1000}></BidCountdown>
           </span>
         )}
 
-        {/* 已结束 */}
-        {/* {isFinish && (
-          <span className={styles.auctionClosed}>
-            {intl.formatMessage({
-              id: 'bidCardItem_auctionClosed',
-              defaultMessage: 'Auction closed',
-            })}
-          </span>
-        )} */}
-
         {/* 进行中 */}
-        {isStart && !isFinish && (
+        {isStart && !isEnd && (
           <span className={styles.auctioning}>
             <span className={styles.text}>
               {intl.formatMessage({
@@ -145,22 +105,16 @@ export default (props: any) => {
 
         <div className={styles.buyWrap}>
           <div className={styles.wrapOwner}>
-            <span className={styles.owner}>{transAddressShort(owner)}</span>
-            {!!isStart && !isFinish && (
+            <span className={styles.owner}>{transAddressShort(highestBidder)}</span>
+            {!!isStart && !isEnd && (
               <span className={styles.time}>
                 <span className={styles.label}>Time Left</span>
-                <Countdown
-                  key={endTime}
-                  date={endTime * 1000}
-                  renderer={renderer}
-                />
+                <Countdown key={endTime} date={endTime * 1000} renderer={renderer} />
               </span>
             )}
           </div>
 
-          <button className={styles.buyBtn}>
-            {parseFloat(Web3.utils.fromWei(highestBidder)).toFixed(5)} BNB
-          </button>
+          <button className={styles.buyBtn}>{parseFloat(Web3.utils.fromWei(highestPrice)).toFixed(5)} BNB</button>
         </div>
       </div>
     </div>

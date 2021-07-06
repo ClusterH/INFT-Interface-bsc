@@ -14,13 +14,14 @@ export interface IAssetInfoProps {
   name: string;
   description: string;
   owner: string;
+  highestBidder: string;
   account?: string | null;
   collectName: string;
   countdown: number;
   priceSymbol?: string;
-  highestBidder: string;
+  highestPrice: string;
   bidderPrice: string;
-  isFinish: boolean;
+  isEnd: boolean;
   isStart: boolean;
   startTime: string;
   onPlaceBid?: () => void;
@@ -29,26 +30,15 @@ export interface IAssetInfoProps {
 
 const PlaceBidPanel = (props: any) => {
   const intl = useIntl();
-  const {
-    owner,
-    account,
-    onPlaceBid,
-    countdown,
-    bidderPrice,
-    highestBidder,
-    isFinish,
-    isStart,
-    startTime,
-    onWithdraw,
-  } = props;
+  const { highestBidder = '', account = '', onPlaceBid, countdown, bidderPrice, highestPrice, isEnd, isStart, startTime, onWithdraw } = props;
   // const bnbusd = useBnbusd();
 
   const renderButton = () => {
     // 拍卖已结束
-    if (isFinish) {
+    if (isEnd) {
       // 未参与
       // 或者中拍
-      if (bidderPrice === '0' || owner === account) {
+      if (bidderPrice === '0' || highestBidder.toUpperCase() === account.toUpperCase()) {
         return (
           <Button type="primary" size="large" block disabled>
             {intl.formatMessage({
@@ -72,14 +62,7 @@ const PlaceBidPanel = (props: any) => {
 
     // 拍卖中
     return (
-      <Button
-        className={styles.btnPlaceBid}
-        type="primary"
-        block
-        size="large"
-        onClick={onPlaceBid}
-        disabled={!isStart}
-      >
+      <Button className={styles.btnPlaceBid} type="primary" block size="large" onClick={onPlaceBid} disabled={!isStart}>
         {intl.formatMessage({
           id: 'assetInfoBid_placeBid',
           defaultMessage: 'Place Bid',
@@ -104,16 +87,11 @@ const PlaceBidPanel = (props: any) => {
         </span>
         <span className={styles.wrapCountdown}>
           {!!isStart && <Countdown key={countdown} countdown={countdown} />}
-          {!isStart && (
-            <Countdown key={startTime} countdown={startTime * 1000} />
-          )}
+          {!isStart && <Countdown key={startTime} countdown={startTime * 1000} />}
         </span>
 
         <div className={styles.myLastBid}>
-          <span className={styles.bnbPrice}>
-            {Math.floor(Number(Web3.utils.fromWei(bidderPrice)) * 1e5) / 1e5}{' '}
-            BNB
-          </span>
+          <span className={styles.bnbPrice}>{Math.floor(Number(Web3.utils.fromWei(bidderPrice)) * 1e5) / 1e5} BNB</span>
           <span className={styles.text}>
             {intl.formatMessage({
               id: 'assetInfoBid_myLastBid',
@@ -123,18 +101,12 @@ const PlaceBidPanel = (props: any) => {
         </div>
       </div>
 
-      <div
-        className={`${styles.wrapBidPrice} ${
-          isFinish ? styles.wrapBidPriceFinished : ''
-        }`}
-      >
+      <div className={`${styles.wrapBidPrice} ${isEnd ? styles.wrapBidPriceFinished : ''}`}>
         <div className={styles.wrapPriceValue}>
-          <span className={styles.bnbPrice}>
-            {Math.floor(Number(Web3.utils.fromWei(highestBidder)) * 1e5) / 1e5}
-          </span>
+          <span className={styles.bnbPrice}>{Math.floor(Number(Web3.utils.fromWei(highestPrice)) * 1e5) / 1e5}</span>
           <span className={styles.symbol}>BNB</span>
           {/* <span className={styles.usdPrice}>
-            /${parseFloat(Web3.utils.fromWei(highestBidder)) * bnbusd}
+            /${parseFloat(Web3.utils.fromWei(highestPrice)) * bnbusd}
           </span> */}
         </div>
         <div className={styles.text}>
@@ -157,14 +129,15 @@ export default (props: IAssetInfoProps) => {
     imageType,
     collectName,
     owner,
+    highestBidder,
     account,
     name,
     description,
     priceSymbol,
     countdown,
-    highestBidder,
+    highestPrice,
     bidderPrice,
-    isFinish,
+    isEnd,
     isStart,
     startTime,
 
@@ -175,17 +148,13 @@ export default (props: IAssetInfoProps) => {
   return (
     <div className={styles.assetInfo}>
       <div className={styles.imgBox}>
-        {imageType === 'image' && !!img && (
-          <img src={img} alt="img" className={styles.img} />
-        )}
+        {imageType === 'image' && !!img && <img src={img} alt="img" className={styles.img} />}
         {imageType === 'video' && (
           <video controls className={styles.video}>
             <source src={img} type="video/mp4"></source>
           </video>
         )}
-        {imageType === 'audio' && (
-          <audio src={img} controls className={styles.audio}></audio>
-        )}
+        {imageType === 'audio' && <audio src={img} controls className={styles.audio}></audio>}
       </div>
       <div className={styles.content}>
         <div className={styles.name}>{name}</div>
@@ -197,9 +166,7 @@ export default (props: IAssetInfoProps) => {
             <IconFont type="icon-bsc" />
             {priceSymbol || 'BSC'}
           </span>
-          {!!collectName && (
-            <span className={styles.collectName}>#{collectName}#</span>
-          )}
+          {!!collectName && <span className={styles.collectName}>#{collectName}#</span>}
         </div>
 
         <div className={styles.ownerWrap}>
@@ -214,11 +181,12 @@ export default (props: IAssetInfoProps) => {
 
         <PlaceBidPanel
           owner={owner}
+          highestBidder={highestBidder}
           account={account}
           countdown={countdown}
-          highestBidder={highestBidder}
+          highestPrice={highestPrice}
           bidderPrice={bidderPrice}
-          isFinish={isFinish}
+          isEnd={isEnd}
           isStart={isStart}
           startTime={startTime}
           onPlaceBid={onPlaceBid}
