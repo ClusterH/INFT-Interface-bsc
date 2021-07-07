@@ -8,7 +8,7 @@ import Idolbox from '@/components/idolbox/idolbox';
 import demoSan1 from '@/assets/images/demo-san.jpeg';
 import demoSan2 from '@/assets/images/demo-san2.png';
 
-const web3 = new Web3(process.env.rpcURL);
+const web3 = new Web3(Web3.givenProvider);
 // const idolboxContract = new web3.eth.Contract(
 //   abi,
 //   '0x12afF846ce762D5632Db36F2161a08fB2bdA5a8C',

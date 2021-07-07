@@ -11,7 +11,7 @@ import DrawNav from '@/components-mobile/drawer-nav';
 import Web3 from 'web3';
 
 import styles from './styles.less';
-const web3 = new Web3(process.env.rpcURL);
+const web3 = new Web3(Web3.givenProvider);
 
 export default () => {
   const intl = useIntl();

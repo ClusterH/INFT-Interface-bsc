@@ -9,7 +9,7 @@ export interface IUseAuctionInfoParams {
 }
 
 export interface IAuctionData {
-  id: string;
+  id: string | number;
   auctionContract: string;
   nftContract: string;
   name: string;
@@ -76,7 +76,7 @@ export default (params: IUseAuctionInfoParams) => {
 
     if (_auction) {
       return {
-        id: id,
+        id,
         auctionContract: contract,
         nftContract: _auction.nftContract,
         name: _auction.name,
@@ -111,8 +111,8 @@ export default (params: IUseAuctionInfoParams) => {
         description: _description,
         startTime: _startTime,
         endTime: _endTime,
-        isStart: true,
-        isEnd: true,
+        isStart: isStart(_startTime),
+        isEnd: getIsEnd(_endTime),
         highestPrice: _highestPrice,
         highestBidder: _highestBidder,
       };
@@ -131,8 +131,14 @@ export default (params: IUseAuctionInfoParams) => {
     }
   };
   /** 拍卖是否已结束 */
-  const getIsEnd = async (_endTime: string) => {
-    return Date.now() > parseInt(_endTime) * 1000;
+  const getIsEnd = (_endTime: string) => {
+    console.log(Date.now(), Number(_endTime) * 1000);
+    console.log('isEnd', Date.now() > Number(_endTime) * 1000);
+    return Date.now() > Number(_endTime) * 1000;
+  };
+
+  const isStart = (_startTime: string) => {
+    return Date.now() > Number(_startTime) * 1000;
   };
 
   return auction;

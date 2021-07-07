@@ -5,7 +5,7 @@ import { fetchInftIpfs } from '@/servers';
 import bidFactory from '@/contracts/bid-factory';
 import bidTokenFactory from '@/contracts/bid-token-factory';
 
-const web3 = new Web3(process.env.rpcURL);
+const web3 = new Web3(Web3.givenProvider);
 
 interface IUseAuctionParams {
   id: string | number;

@@ -18,15 +18,15 @@ import useMetadata from '@/hooks/useMetadata';
 import useBidHistory from '@/hooks/useBidHistory';
 import styles from './styles.less';
 
-const web3 = new Web3(process.env.rpcURL);
+const web3 = new Web3(process.env.rpcURL as string);
 const PRICE_STEP_PERCENT = 0.05; // 百分比
 let tokenContract = erc721Factory(process.env.TOKEN_CONTRACT as string);
 export default () => {
   const intl = useIntl();
   const wallet = useWallet();
   const { id, contract } = useParams<{ id: string; contract: string }>();
-  const auction: any = useAuctonData({ id: 17, contract }) || {};
-  const tokenMetadata: any = useMetadata({ id: 17, contract: process.env.TOKEN_CONTRACT as string }) || {};
+  const auction: any = useAuctonData({ id: 1, contract: '0x2172BF05dB5529d33424bDDFDD7499f86C33AE6d' }) || {};
+  const tokenMetadata: any = useMetadata({ id: 1, contract: '0xE0bB6f87CF28E1cE325a0F6AC8a4f91A228Df433', useGateway: true }) || {};
   const bidEvents: any = useBidHistory({ auction });
 
   const myBidderPrice = useBidderPrice(contract);
@@ -57,10 +57,11 @@ export default () => {
       const highest = Number(Web3.utils.fromWei(highestBidder));
       const _priceStep = Number(highest * PRICE_STEP_PERCENT);
       const _minPriceLimit = Math.ceil((_priceStep + highest) * 1e5) / 1e5;
+      console.log('_minPriceLimit', _minPriceLimit);
 
       setPriceStep(_priceStep);
       setMinPriceLimit(_minPriceLimit);
-      setInputPrice(_minPriceLimit);
+      // setInputPrice(_minPriceLimit);
     } catch (error) {}
   }, [auction]);
 
@@ -111,6 +112,7 @@ export default () => {
       // const gas = await bidContract.methods.bid().estimateGas();
       // console.log('gas', gas);
 
+      console.log('wallet.account', wallet.account);
       const ret = await bidContract.methods.bid().send({
         from: wallet.account,
         value: Web3.utils.toWei(String(payAmount)),
@@ -123,6 +125,7 @@ export default () => {
         }),
       });
     } catch (error) {
+      console.log('error', error);
       notification.error({
         message: error.message,
       });
@@ -226,7 +229,7 @@ export default () => {
             })}
           </span>
           <Input type="number" size="large" addonAfter="BNB" value={inputPrice} step={priceStep} onChange={(e) => setInputPrice(e.target.value)} />
-          <div className={styles.tip}>
+          {/* <div className={styles.tip}>
             {intl.formatMessage(
               {
                 id: 'auction_priceTip',
@@ -236,7 +239,7 @@ export default () => {
                 minPriceLimit,
               },
             )}
-          </div>
+          </div> */}
 
           <div className={styles.message}>
             {intl.formatMessage({

@@ -17,7 +17,7 @@ import { Button, Input, Form } from 'antd';
 import Web3 from 'web3';
 import abi from '@/abis/treasureland-proxy-registry.json';
 const address = '0xaD3eB5b1A9a5729f08C0A623c8EeacFb43Fb6B54';
-const web3 = new Web3(process.env.rpcURL);
+const web3 = new Web3(Web3.givenProvider);
 const tlProxyContract = new web3.eth.Contract(abi, address);
 
 const layout = {
@@ -72,7 +72,7 @@ import { Button, Input, Form } from 'antd';
 import Web3 from 'web3';
 import abi from '@/abis/treasureland-proxy-registry.json';
 const contractAddress = '0xaD3eB5b1A9a5729f08C0A623c8EeacFb43Fb6B54';
-const web3 = new Web3(process.env.rpcURL);
+const web3 = new Web3(Web3.givenProvider);
 const tlProxyContract = new web3.eth.Contract(abi as any, contractAddress);
 
 const layout = {
@@ -140,7 +140,7 @@ import { Button, Input, Form } from 'antd';
 import Web3 from 'web3';
 import abi from '@/abis/cryptoz.json';
 const contractAddress = '0x8a0C542bA7bBBab7cF3551fFcc546CdC5362d2a1';
-const web3 = new Web3(process.env.rpcURL);
+const web3 = new Web3(Web3.givenProvider);
 const cryptozContract = new web3.eth.Contract(abi as any, contractAddress);
 
 const layout = {
@@ -231,7 +231,7 @@ import { Button, Input, Form } from 'antd';
 import Web3 from 'web3';
 import abi from '@/abis/treasureland-proxy-registry.json';
 const contractAddress = '0xaD3eB5b1A9a5729f08C0A623c8EeacFb43Fb6B54';
-const web3 = new Web3(process.env.rpcURL);
+const web3 = new Web3(Web3.givenProvider);
 const tlProxyContract = new web3.eth.Contract(abi as any, contractAddress);
 
 const layout = {

@@ -19,11 +19,13 @@ export interface IUseMetadataParams {
   id: string | number;
   /** Token 合约地址 */
   contract: string;
+  /** 是否启用专属网关 */
+  useGateway?: boolean;
 }
 
 let erc721Contract = null;
 export default (params: IUseMetadataParams) => {
-  const { id, contract } = params;
+  const { id, contract, useGateway } = params;
   const [metadata, setMetadata] = useState<IMetadata | null>(null);
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export default (params: IUseMetadataParams) => {
     try {
       erc721Contract = erc721Factory(contract);
       const tokenURI = await erc721Contract.methods.tokenURI(id).call();
-      const _metadata = await getMetadata(tokenURI);
+      const _metadata = await getMetadata(tokenURI, useGateway);
 
       setMetadata(_metadata);
     } catch (error) {
@@ -42,17 +44,17 @@ export default (params: IUseMetadataParams) => {
     }
   };
 
-  const getMetadata = async (tokenURI: string, inftGateway?: boolean): Promise<IMetadata | null> => {
+  const getMetadata = async (tokenURI: string, _useGateway?: boolean): Promise<IMetadata | null> => {
     if (!tokenURI || !tokenURI.startsWith('ipfs://')) return null;
 
     try {
       const path = tokenURI.split('ipfs://').pop() || '';
-      const _metadata: IMetadata = inftGateway ? await fetchInftIpfs(path) : await fetchIpfs(path);
+      const _metadata: IMetadata = _useGateway ? await fetchInftIpfs(path) : await fetchIpfs(path);
 
       return _metadata;
     } catch (error) {
       console.log(error.message);
-      return await getMetadata(tokenURI, inftGateway);
+      return await getMetadata(tokenURI, _useGateway);
     }
   };
 

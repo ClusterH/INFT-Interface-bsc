@@ -7,6 +7,7 @@ import BidCountdown from '../bid-countdown';
 import { ArrowRightOutlined } from '@ant-design/icons';
 
 import styles from './styles.less';
+import { useEffect } from 'react';
 
 const renderer = (props: any) => {
   const { days, hours, formatted } = props;
@@ -29,6 +30,10 @@ export default (props: any) => {
   const history = useHistory();
   const { auction, bidderPrice = '0', image = '' } = props;
   const { id, auctionContract, name, highestBidder, startTime, isStart, isEnd, endTime, highestPrice = '0' } = auction || {};
+
+  useEffect(() => {
+    console.log('id', id, name);
+  }, [id]);
 
   const renderPreview = () => {
     if (imageType === 'image') {
