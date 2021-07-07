@@ -20,7 +20,7 @@ import styles from './styles.less';
 
 const web3 = new Web3(process.env.rpcURL as string);
 const PRICE_STEP_PERCENT = 0.05; // 百分比
-let tokenContract = erc721Factory(process.env.TOKEN_CONTRACT as string);
+let tokenContract = erc721Factory('0xE0bB6f87CF28E1cE325a0F6AC8a4f91A228Df433');
 export default () => {
   const intl = useIntl();
   const wallet = useWallet();
