@@ -11,7 +11,7 @@ import DrawNav from '@/components-mobile/drawer-nav';
 import Web3 from 'web3';
 
 import styles from './styles.less';
-const web3 = new Web3(Web3.givenProvider);
+const web3 = new Web3(process.env.rpcURL);
 
 export default () => {
   const intl = useIntl();
@@ -23,24 +23,12 @@ export default () => {
   const menu = (
     <Menu>
       <Menu.Item key="en-US">
-        <span
-          className={[
-            styles.langItem,
-            getLocale() === 'en-US' ? styles.langItemActive : null,
-          ].join(' ')}
-          onClick={() => changeLang('en-US')}
-        >
+        <span className={[styles.langItem, getLocale() === 'en-US' ? styles.langItemActive : null].join(' ')} onClick={() => changeLang('en-US')}>
           English
         </span>
       </Menu.Item>
       <Menu.Item key="zh-CN">
-        <span
-          className={[
-            styles.langItem,
-            getLocale() === 'zh-CN' ? styles.langItemActive : null,
-          ].join(' ')}
-          onClick={() => changeLang('zh-CN')}
-        >
+        <span className={[styles.langItem, getLocale() === 'zh-CN' ? styles.langItemActive : null].join(' ')} onClick={() => changeLang('zh-CN')}>
           中 文
         </span>
       </Menu.Item>
@@ -51,10 +39,7 @@ export default () => {
   useEffect(() => {
     if (wallet.status === 'connected') {
       console.log('ChainId: ', wallet.chainId);
-      console.log(
-        'Network: ',
-        wallet.chainId === 56 ? 'BSC Mainnet' : 'BSC Testnet',
-      );
+      console.log('Network: ', wallet.chainId === 56 ? 'BSC Mainnet' : 'BSC Testnet');
     }
   }, [wallet.status]);
 
@@ -100,11 +85,7 @@ export default () => {
   return (
     <div className={styles.header}>
       <div className={styles.content}>
-        <IconFont
-          type="icon-menu"
-          className={styles.iconMenu}
-          onClick={() => setDrawNavVisible(true)}
-        />
+        <IconFont type="icon-menu" className={styles.iconMenu} onClick={() => setDrawNavVisible(true)} />
 
         <Link to="/">
           <img src={logo} alt="iNFT" className={styles.logo} />
@@ -156,22 +137,13 @@ export default () => {
           onClick={navtoHelp}
         />
 
-        <Dropdown
-          overlay={menu}
-          placement="bottomCenter"
-          trigger={['click']}
-          overlayClassName={styles.dropdown}
-        >
+        <Dropdown overlay={menu} placement="bottomCenter" trigger={['click']} overlayClassName={styles.dropdown}>
           <IconFont
             type="icon-global"
             style={{
               fontSize: 26,
             }}
-            className={
-              wallet.status === 'connected'
-                ? styles.langIconConnected
-                : styles.langIconDisconnect
-            }
+            className={wallet.status === 'connected' ? styles.langIconConnected : styles.langIconDisconnect}
           />
         </Dropdown>
 
@@ -181,30 +153,15 @@ export default () => {
               {formatAccount(wallet.account as string)}
             </span>
           )}
-          <img
-            src={walletIcon}
-            alt=""
-            className={styles.walletIcon}
-            onClick={connectWallet}
-          />
+          <img src={walletIcon} alt="" className={styles.walletIcon} onClick={connectWallet} />
         </div>
       </div>
 
       {wallet.status === 'connected' && (
-        <ModalAccount
-          visible={visible}
-          address={wallet.account}
-          onOk={() => setVisible(false)}
-          onCancel={() => setVisible(false)}
-          onDisconnect={onDisconnect}
-        />
+        <ModalAccount visible={visible} address={wallet.account} onOk={() => setVisible(false)} onCancel={() => setVisible(false)} onDisconnect={onDisconnect} />
       )}
 
-      <DrawNav
-        visible={drawNavVisible}
-        onClose={() => setDrawNavVisible(false)}
-        onOk={() => setDrawNavVisible(false)}
-      />
+      <DrawNav visible={drawNavVisible} onClose={() => setDrawNavVisible(false)} onOk={() => setDrawNavVisible(false)} />
     </div>
   );
 };

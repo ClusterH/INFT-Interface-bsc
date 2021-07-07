@@ -18,7 +18,7 @@ import useMetadata from '@/hooks/useMetadata';
 import useBidHistory from '@/hooks/useBidHistory';
 import styles from './styles.less';
 
-const web3 = new Web3(Web3.givenProvider);
+const web3 = new Web3(process.env.rpcURL);
 const PRICE_STEP_PERCENT = 0.05; // 百分比
 let tokenContract = erc721Factory(process.env.TOKEN_CONTRACT as string);
 export default () => {

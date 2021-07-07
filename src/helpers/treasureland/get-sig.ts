@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-const web3 = new Web3(Web3.givenProvider);
+const web3 = new Web3(process.env.rpcURL);
 
 function signHandler(signature: string) {
   signature = signature.substr(2);

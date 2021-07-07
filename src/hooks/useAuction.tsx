@@ -5,7 +5,7 @@ import { fetchInftIpfs } from '@/servers';
 import bidFactory from '@/contracts/bid-factory';
 import bidTokenFactory from '@/contracts/bid-token-factory';
 
-const web3 = new Web3(Web3.givenProvider);
+const web3 = new Web3(process.env.rpcURL);
 
 interface IUseAuctionParams {
   id: string | number;
@@ -37,11 +37,7 @@ export default (params: IUseAuctionParams) => {
     });
   };
 
-  const setup = async (
-    _id: string | number,
-    bidContract: any,
-    bidTokenContract: any,
-  ) => {
+  const setup = async (_id: string | number, bidContract: any, bidTokenContract: any) => {
     const bidEvents = await getBidRecords(bidContract);
     const highestBidder = await getHighestBidder(bidContract);
     const endTime = await getEndTime(bidContract);
@@ -99,11 +95,7 @@ export default (params: IUseAuctionParams) => {
     return events;
   };
 
-  const _getNewBid = async (
-    fromBlock: number,
-    toBlock: number,
-    bidContract: any,
-  ) => {
+  const _getNewBid = async (fromBlock: number, toBlock: number, bidContract: any) => {
     try {
       const events = await bidContract.getPastEvents('NewBid', {
         fromBlock,
@@ -129,9 +121,7 @@ export default (params: IUseAuctionParams) => {
   };
 
   /** 获取区块时间 */
-  const _getBlockTimestamp = async (
-    blockNumber: string | number,
-  ): Promise<number | string> => {
+  const _getBlockTimestamp = async (blockNumber: string | number): Promise<number | string> => {
     try {
       const { timestamp } = await web3.eth.getBlock(blockNumber);
       console.log(timestamp);

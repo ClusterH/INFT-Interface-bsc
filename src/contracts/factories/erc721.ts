@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import abi from './abis/erc721.json';
 
-const web3 = new Web3(Web3.givenProvider);
+const web3 = new Web3(process.env.rpcURL);
 const contractMap = new Map();
 
 export default (address: string) => {
