@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import auctionFactory from '@/contracts/bid-factory';
 
 export interface IUseAuctionInfoParams {
-  /** NFT tokenId */
-  id: string | number;
   /** 拍卖合约地址 */
   contract: string;
 }
@@ -22,10 +20,23 @@ export interface IAuctionData {
   highestBidder: string;
 }
 
-let auctionContract: any = null;
+const defaultAuction = {
+  id: '',
+  auctionContract: '',
+  nftContract: '',
+  name: '',
+  description: '',
+  startTime: '',
+  isStart: false,
+  endTime: '',
+  isEnd: false,
+  highestPrice: '',
+  highestBidder: '',
+};
+
 export default (params: IUseAuctionInfoParams) => {
-  const { id, contract } = params;
-  const [auction, setAuction] = useState<IAuctionData | null>(null);
+  const { contract } = params;
+  const [auction, setAuction] = useState<IAuctionData>(defaultAuction);
 
   useEffect(() => {
     setup();
@@ -39,16 +50,52 @@ export default (params: IUseAuctionInfoParams) => {
   }, [auction]);
 
   const setup = async () => {
-    auctionContract = auctionFactory(contract);
-    const endTime = await getEndTime();
-    const isEnd = await getIsEnd(endTime);
-    const _auction = await getAuctionData(isEnd);
-
-    setAuction(_auction);
+    const dataItems = await getAuctionDataItems();
+    if (dataItems) {
+      setAuction({
+        ...auction,
+        ...dataItems,
+        auctionContract: contract,
+      });
+    }
   };
+
+  // /** 用户钱包账户、用户最新出价 */
+  // const initAccountInfo = async () => {
+  //   if (!account) {
+  //     setAuction({
+  //       ...auction,
+  //       account: '',
+  //       accountPrice: '0',
+  //     });
+
+  //     return;
+  //   }
+
+  //   try {
+  //     const auctionContract = auctionFactory(contract);
+  //     // const accountPrice = await auctionContract.methods.getBidderPrice(account).call();
+  //     const accountPrice = '100000000000000000';
+
+  //     console.log('accountPrice', account, accountPrice);
+  //     setAuction({
+  //       ...auction,
+  //       account,
+  //       accountPrice,
+  //     });
+  //   } catch (error) {
+  //     setAuction({
+  //       ...auction,
+  //       account: '',
+  //       accountPrice: '0',
+  //     });
+  //   }
+  // };
 
   /** 监听竞拍事件-更新数据 */
   const listenerNewBid = () => {
+    const auctionContract = auctionFactory(contract);
+
     auctionContract.events.NewBid(function (error: Error, event: any) {
       if (error) {
         console.error(error);
@@ -59,43 +106,12 @@ export default (params: IUseAuctionInfoParams) => {
     });
   };
 
-  /** 获取拍卖信息 */
-  const getAuctionData = async (isEnd: boolean): Promise<IAuctionData | null> => {
-    let _auction = null;
-
-    // if (!isEnd) {
-    //   try {
-    //     _auction = await auctionContract.methods.getAuctions(); // todo
-    //   } catch (error) {
-    //     _auction = await getAuctionDataItems();
-    //   }
-    // } else {
-    //   _auction = await getAuctionDataItems();
-    // }
-    _auction = await getAuctionDataItems();
-
-    if (_auction) {
-      return {
-        id,
-        auctionContract: contract,
-        nftContract: _auction.nftContract,
-        name: _auction.name,
-        description: _auction.description,
-        startTime: _auction.startTime,
-        isStart: _auction.isStart,
-        endTime: _auction.endTime,
-        isEnd: _auction.isEnd,
-        highestPrice: _auction.highestPrice,
-        highestBidder: _auction.highestBidder,
-      };
-    }
-    return null;
-  };
-
   /** 活动结束后，无法直接查询合约信息,需要逐项查询合约信息 */
   const getAuctionDataItems = async () => {
     try {
-      const [_nftContract, _name, _description, _startTime, _endTime, _highestPrice, _highestBidder] = await Promise.all([
+      const auctionContract = auctionFactory(contract);
+
+      const [nftContract, name, description, startTime, endTime, highestPrice, highestBidder, id] = await Promise.all([
         await auctionContract.methods.NFTContractAddress().call(),
         await auctionContract.methods.name().call(),
         await auctionContract.methods.ItemDescription().call(),
@@ -103,18 +119,20 @@ export default (params: IUseAuctionInfoParams) => {
         await auctionContract.methods.endTime().call(),
         await auctionContract.methods.highestPrice().call(),
         await auctionContract.methods.highestBidder().call(),
+        await auctionContract.methods.tokenId().call(),
       ]);
 
       return {
-        nftContract: _nftContract,
-        name: _name,
-        description: _description,
-        startTime: _startTime,
-        endTime: _endTime,
-        isStart: isStart(_startTime),
-        isEnd: getIsEnd(_endTime),
-        highestPrice: _highestPrice,
-        highestBidder: _highestBidder,
+        id,
+        nftContract,
+        name,
+        description,
+        startTime,
+        endTime,
+        highestPrice,
+        highestBidder,
+        isStart: isStart(startTime),
+        isEnd: getIsEnd(endTime),
       };
     } catch (error) {
       console.error(error);
@@ -122,18 +140,8 @@ export default (params: IUseAuctionInfoParams) => {
     }
   };
 
-  /** 结束时间 */
-  const getEndTime = async () => {
-    try {
-      return await auctionContract.methods.endTime().call();
-    } catch (error) {
-      return '0';
-    }
-  };
   /** 拍卖是否已结束 */
   const getIsEnd = (_endTime: string) => {
-    console.log(Date.now(), Number(_endTime) * 1000);
-    console.log('isEnd', Date.now() > Number(_endTime) * 1000);
     return Date.now() > Number(_endTime) * 1000;
   };
 

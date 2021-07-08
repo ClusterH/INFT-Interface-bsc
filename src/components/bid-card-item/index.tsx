@@ -5,9 +5,9 @@ import transAddressShort from '@/helpers/trans-address-short';
 import transIpfsUrl from '@/helpers/trans-ipfs-url';
 import BidCountdown from '../bid-countdown';
 import { ArrowRightOutlined } from '@ant-design/icons';
+import useBidderPrice from '@/hooks/useBidderPrice';
 
 import styles from './styles.less';
-import { useEffect } from 'react';
 
 const renderer = (props: any) => {
   const { days, hours, formatted } = props;
@@ -28,12 +28,9 @@ const imageType = 'image';
 export default (props: any) => {
   const intl = useIntl();
   const history = useHistory();
-  const { auction, bidderPrice = '0', image = '' } = props;
-  const { id, auctionContract, name, highestBidder, startTime, isStart, isEnd, endTime, highestPrice = '0' } = auction || {};
-
-  useEffect(() => {
-    console.log('id', id, name);
-  }, [id]);
+  const { auction, image = '' } = props;
+  const { id, auctionContract, nftContract, name, highestBidder, startTime, isStart, isEnd, endTime, highestPrice = '0' } = auction || {};
+  const myBidderPrice = useBidderPrice(auctionContract);
 
   const renderPreview = () => {
     if (imageType === 'image') {
@@ -70,12 +67,12 @@ export default (props: any) => {
   const onClick = () => {
     if (!auctionContract || !id) return;
 
-    history.push(`/auction/${auctionContract}/${id}`);
+    history.push(`/auction/${auctionContract}/${nftContract}/${id}`);
   };
 
   return (
     <div className={styles.bidCardItem} onClick={onClick}>
-      <div className={[styles.imgBox, bidderPrice !== '0' ? (getLocale() === 'zh-CN' ? styles.imageBoxOnSaleCN : styles.imageBoxOnSale) : null].join(' ')}>
+      <div className={[styles.imgBox, myBidderPrice !== '0' ? (getLocale() === 'zh-CN' ? styles.imageBoxOnSaleCN : styles.imageBoxOnSale) : null].join(' ')}>
         {renderPreview()}
 
         {/* 未开始 */}

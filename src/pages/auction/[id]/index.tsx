@@ -20,13 +20,13 @@ import styles from './styles.less';
 
 const web3 = new Web3(process.env.rpcURL as string);
 const PRICE_STEP_PERCENT = 0.05; // 百分比
-let tokenContract = erc721Factory('0xE0bB6f87CF28E1cE325a0F6AC8a4f91A228Df433');
+
 export default () => {
   const intl = useIntl();
   const wallet = useWallet();
-  const { id, contract } = useParams<{ id: string; contract: string }>();
-  const auction: any = useAuctonData({ id: 1, contract: '0x2172BF05dB5529d33424bDDFDD7499f86C33AE6d' }) || {};
-  const tokenMetadata: any = useMetadata({ id: 1, contract: '0xE0bB6f87CF28E1cE325a0F6AC8a4f91A228Df433', useGateway: true }) || {};
+  const { id, contract, tokenContract } = useParams<{ id: string; contract: string; tokenContract: string }>();
+  const auction: any = useAuctonData({ contract }) || {};
+  const tokenMetadata: any = useMetadata({ id, contract: tokenContract, useGateway: true }) || {};
   const bidEvents: any = useBidHistory({ auction });
 
   const myBidderPrice = useBidderPrice(contract);
@@ -58,7 +58,6 @@ export default () => {
 
       const _priceStep = Number(highest * PRICE_STEP_PERCENT);
       const _minPriceLimit = Math.ceil((_priceStep + highest) * 1e5) / 1e5;
-      console.log('_minPriceLimit', _minPriceLimit);
 
       setPriceStep(_priceStep);
       setMinPriceLimit(_minPriceLimit);
@@ -77,7 +76,7 @@ export default () => {
       for (const event of events) {
         const { blockNumber, returnValues = {} } = event;
         const { timestamp } = await web3.eth.getBlock(blockNumber);
-        console.log('timestamp', timestamp);
+
         _history.push({
           timestamp: timestamp,
           bidder: returnValues.bidder || '',
@@ -95,7 +94,8 @@ export default () => {
   /** token owner */
   const getTokenOwner = async () => {
     try {
-      return await tokenContract.methods.ownerOf(id).call();
+      const contract = erc721Factory(tokenContract);
+      return await contract.methods.ownerOf(id).call();
     } catch (error) {
       console.log('getTokenOwner error:', error);
       return '';

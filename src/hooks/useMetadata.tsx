@@ -30,9 +30,11 @@ export default (params: IUseMetadataParams) => {
 
   useEffect(() => {
     setup();
-  }, []);
+  }, [id]);
 
   const setup = async () => {
+    if (!id) return;
+
     try {
       erc721Contract = erc721Factory(contract);
       const tokenURI = await erc721Contract.methods.tokenURI(id).call();

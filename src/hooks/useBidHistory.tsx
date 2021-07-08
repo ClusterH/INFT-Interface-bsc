@@ -8,7 +8,11 @@ export interface IUseBidHistoryParams {
 }
 
 const step = 5000;
-const createdBlockNumber = process.env.BID_CONTRACT_CREATED_BLOCK;
+// console.log(process.env[`BID_CONTRACT_CREATED_BLOCK_${}`])
+const BID_CONTRACT_CREATED_BLOCK: any = {
+  '0XC14D3CDCD7291BD6B464F1A9052CBD0A3404F9B8': 8792612,
+  '0X2172BF05DB5529D33424BDDFDD7499F86C33AE6D': 8945512,
+};
 let auctionContract: any | null = null;
 export default (params: IUseBidHistoryParams): any[] => {
   const { auction } = params;
@@ -43,8 +47,9 @@ export default (params: IUseBidHistoryParams): any[] => {
 
   /** 获取竞拍记录 */
   const getBidHistory = async () => {
+    const createdBlockNumber = Number(BID_CONTRACT_CREATED_BLOCK[auction.auctionContract.toUpperCase()]);
+
     const latest = await getLatestBlockNumber(auction.startTime, auction.endTime);
-    // console.log('latest', latest);
     let from = Number(createdBlockNumber);
     let to = from + step;
 
@@ -84,6 +89,8 @@ export default (params: IUseBidHistoryParams): any[] => {
    * 结束时区块高度：(结束时间 - 开始时间) / 2.5 + 开始时区块高度
    * */
   const getLatestBlockNumber = (startTime: string, endTime: string): number => {
+    const createdBlockNumber = Number(BID_CONTRACT_CREATED_BLOCK[auction.auctionContract.toUpperCase()]);
+
     return Math.ceil((Number(endTime) - Number(startTime)) / 2.5 + Number(createdBlockNumber));
   };
 

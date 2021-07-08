@@ -2,19 +2,26 @@ import { useEffect, useState } from 'react';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import bidFactory from '@/contracts/bid-factory';
 
-export default (contractAddress: string) => {
+export interface IUseBidderPrice {
+  /** 拍卖合约地址 */
+  contract: string;
+}
+
+export default (contract: string): string => {
   const wallet = useWallet();
   const [bidderPrice, setBidderPrice] = useState('0');
-  const bidContract = bidFactory(contractAddress);
+  const bidContract = bidFactory(contract);
 
   useEffect(() => {
+    if (!contract) return;
+
     if (wallet.status === 'connected') {
       (async () => {
         const _bidderPrice = await getBidderPrice(wallet.account as string);
         setBidderPrice(_bidderPrice);
       })();
     }
-  }, [wallet]);
+  }, [contract, wallet]);
 
   /** 我的出价 */
   const getBidderPrice = async (address: string) => {
