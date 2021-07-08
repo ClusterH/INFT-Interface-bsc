@@ -53,15 +53,16 @@ export default () => {
   // 设置推荐竞拍价
   useEffect(() => {
     try {
-      const { highestBidder = '0' } = auction;
-      const highest = Number(Web3.utils.fromWei(highestBidder));
+      const { highestPrice = '0' } = auction;
+      const highest = Number(Web3.utils.fromWei(highestPrice));
+
       const _priceStep = Number(highest * PRICE_STEP_PERCENT);
       const _minPriceLimit = Math.ceil((_priceStep + highest) * 1e5) / 1e5;
       console.log('_minPriceLimit', _minPriceLimit);
 
       setPriceStep(_priceStep);
       setMinPriceLimit(_minPriceLimit);
-      // setInputPrice(_minPriceLimit);
+      setInputPrice(_minPriceLimit);
     } catch (error) {}
   }, [auction]);
 
@@ -229,7 +230,7 @@ export default () => {
             })}
           </span>
           <Input type="number" size="large" addonAfter="BNB" value={inputPrice} step={priceStep} onChange={(e) => setInputPrice(e.target.value)} />
-          {/* <div className={styles.tip}>
+          <div className={styles.tip}>
             {intl.formatMessage(
               {
                 id: 'auction_priceTip',
@@ -239,7 +240,7 @@ export default () => {
                 minPriceLimit,
               },
             )}
-          </div> */}
+          </div>
 
           <div className={styles.message}>
             {intl.formatMessage({
