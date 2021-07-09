@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import erc721Factory from '@/contracts/factories/erc721';
 import { fetchIpfs, fetchInftIpfs } from '@/servers';
+import web3 from '@/helpers/web3';
+import abi from '@/contracts/factories/abis/erc721.json';
 
 export interface IAttribute {
   trait_type: string;
@@ -23,7 +25,6 @@ export interface IUseMetadataParams {
   useGateway?: boolean;
 }
 
-let erc721Contract = null;
 export default (params: IUseMetadataParams) => {
   const { id, contract, useGateway } = params;
   const [metadata, setMetadata] = useState<IMetadata | null>(null);
@@ -36,7 +37,7 @@ export default (params: IUseMetadataParams) => {
     if (!id) return;
 
     try {
-      erc721Contract = erc721Factory(contract);
+      const erc721Contract = new web3.eth.Contract(abi as any, contract);
       const tokenURI = await erc721Contract.methods.tokenURI(id).call();
       const _metadata = await getMetadata(tokenURI, useGateway);
 

@@ -2,23 +2,19 @@ import { useState, useEffect } from 'react';
 import { useParams, useIntl } from 'umi';
 import { Button, Input, Modal, notification } from 'antd';
 import Web3 from 'web3';
-// import bidContract from '@/contracts/bid';
 import bidFactory from '@/contracts/bid-factory';
-import bidTokenContract from '@/contracts/bid-token';
-import erc721Factory from '@/contracts/factories/erc721';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import AssetInfo from '@/components/asset-info-bid';
 import Properties from '@/components/properties';
 import transIpfsUrl from '@/helpers/trans-ipfs-url';
 import BidHistory from '@/components/bid-history';
-import useAuction from '@/hooks/useAuction';
 import useBidderPrice from '@/hooks/useBidderPrice';
 import useAuctonData from '@/hooks/useAuctionData';
 import useMetadata from '@/hooks/useMetadata';
 import useBidHistory from '@/hooks/useBidHistory';
 import styles from './styles.less';
-
-const web3 = new Web3(process.env.rpcURL as string);
+import abi from '@/contracts/factories/abis/erc721.json';
+import web3 from '@/helpers/web3';
 const PRICE_STEP_PERCENT = 0.05; // 百分比
 
 export default () => {
@@ -94,7 +90,7 @@ export default () => {
   /** token owner */
   const getTokenOwner = async () => {
     try {
-      const contract = erc721Factory(tokenContract);
+      const contract = new web3.eth.Contract(abi as any, tokenContract);
       return await contract.methods.ownerOf(id).call();
     } catch (error) {
       console.log('getTokenOwner error:', error);

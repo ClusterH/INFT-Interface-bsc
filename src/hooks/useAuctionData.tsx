@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import auctionFactory from '@/contracts/bid-factory';
+import abi from '@/abis/bid.json';
+import web3 from '@/helpers/web3';
 
 export interface IUseAuctionInfoParams {
   /** 拍卖合约地址 */
@@ -94,7 +95,7 @@ export default (params: IUseAuctionInfoParams) => {
 
   /** 监听竞拍事件-更新数据 */
   const listenerNewBid = () => {
-    const auctionContract = auctionFactory(contract);
+    const auctionContract = new web3.eth.Contract(abi as any, contract);
 
     auctionContract.events.NewBid(function (error: Error, event: any) {
       if (error) {
@@ -109,7 +110,7 @@ export default (params: IUseAuctionInfoParams) => {
   /** 活动结束后，无法直接查询合约信息,需要逐项查询合约信息 */
   const getAuctionDataItems = async () => {
     try {
-      const auctionContract = auctionFactory(contract);
+      const auctionContract = new web3.eth.Contract(abi as any, contract);
 
       const [nftContract, name, description, startTime, endTime, highestPrice, highestBidder, id] = await Promise.all([
         await auctionContract.methods.NFTContractAddress().call(),

@@ -15,6 +15,7 @@ export default {
   notify_createSuccess: '铸造成功',
   notify_disAllowShowDetail: '等待审核',
   notify_success: '成功',
+  notify_connect_appropriate_network: '请切换到BSC网络',
 
   /** Header */
   header_home: '首页',
@@ -69,8 +70,7 @@ export default {
 
   /** community */
   community_title: '全球社区',
-  community_intro:
-    '了解更多关于iNFT的信息，与团队、社区中的其他人聊天，并就iNFT的未来发展发表您的看法。',
+  community_intro: '了解更多关于iNFT的信息，与团队、社区中的其他人聊天，并就iNFT的未来发展发表您的看法。',
   community_telegram: '电报',
   community_tg_intro: '加入我们的社区与大家畅聊',
   community_twitter: '推特',

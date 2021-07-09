@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useHistory, getLocale, setLocale, useIntl } from 'umi';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown, notification } from 'antd';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import logo from '@/assets/images/logo-inft.svg';
 import walletIcon from '@/assets/images/wallet.png';
@@ -40,6 +40,15 @@ export default () => {
     if (wallet.status === 'connected') {
       console.log('ChainId: ', wallet.chainId);
       console.log('Network: ', wallet.chainId === 56 ? 'BSC Mainnet' : 'BSC Testnet');
+    }
+
+    if (wallet.status === 'error') {
+      notification.info({
+        message: intl.formatMessage({
+          id: 'notify_connect_appropriate_network',
+          defaultMessage: 'Please connect to the appropriate BSC network.',
+        }),
+      });
     }
   }, [wallet.status]);
 

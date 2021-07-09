@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import bidFactory from '@/contracts/bid-factory';
 import { IAuctionData } from '@/hooks/useAuctionData';
+import abi from '@/abis/bid.json';
+import web3 from '@/helpers/web3';
 
 export interface IUseBidHistoryParams {
   /** 合约信息-useAuctionData的返回值 */
@@ -27,7 +28,7 @@ export default (params: IUseBidHistoryParams): any[] => {
 
   const setup = async () => {
     const { auctionContract: contract } = auction;
-    auctionContract = bidFactory(contract);
+    auctionContract = new web3.eth.Contract(abi as any, contract);
     const _events = await getBidHistory();
 
     setEvents(_events);

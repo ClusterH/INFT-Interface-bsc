@@ -15,6 +15,7 @@ export default {
   notify_createSuccess: 'Create success',
   notify_disAllowShowDetail: 'Waiting for approval',
   notify_success: 'Success',
+  notify_connect_appropriate_network: 'Please connect to the appropriate BSC network.',
 
   /** Header */
   header_home: 'Home',
@@ -30,8 +31,7 @@ export default {
   buyConfirm_totalPayment: 'Total Payment',
   buyConfirm_checkout: 'Checkout',
   buyConfirm_completing: 'Completing the trade',
-  buyConfirm_desc:
-    'To purchase this item for {amount} {symbol} , complete this finaltransaction !',
+  buyConfirm_desc: 'To purchase this item for {amount} {symbol} , complete this finaltransaction !',
   buyConfirm_footer: 'WAITING FOR BLOCKCHAIN CONFIRMATION',
 
   /** category-home */
@@ -70,8 +70,7 @@ export default {
 
   /** community */
   community_title: 'Global Community',
-  community_intro:
-    'Learn more about iNFT, chat with the team, other people in the community,and express your opinion on the future development of iNFT.',
+  community_intro: 'Learn more about iNFT, chat with the team, other people in the community,and express your opinion on the future development of iNFT.',
   community_telegram: 'Telegram',
   community_tg_intro: 'Join out community and chat with everyone',
   community_twitter: 'Twitter',

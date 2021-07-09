@@ -9,6 +9,8 @@ export default defineConfig({
     // Testnet
     // 'process.env.chainId': 97,
     // 'process.env.rpcURL': 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+
+    'process.env.bscRpcURL': 'wss://bsc-ws-node.nariox.org:443',
   },
   proxy: {
     '/inft/api/v1/': {
