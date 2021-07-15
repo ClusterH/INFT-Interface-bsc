@@ -35,11 +35,11 @@ export default () => {
   const [assets, setAssets] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const { collections } = useCollections(queryCollections, 0);
-  // const tokens = useMyInftTokens();
+  const tokens = useMyInftTokens();
   const ownerBids = useOwnerBid(wallet);
 
   console.log('assets', assets);
-  // console.log('myInftTokens', tokens);
+  console.log('myInftTokens', tokens);
   console.log('ownerBids', ownerBids);
 
   useEffect(() => {
@@ -120,28 +120,13 @@ export default () => {
 
       <div className={styles.content}>
         <div className={styles.wrapFilterCollection}>
-          <FilterCollection
-            collections={collections}
-            onClick={onChangeCollection}
-            onCancel={onCancelFilter}
-          />
+          <FilterCollection collections={collections} onClick={onChangeCollection} onCancel={onCancelFilter} />
         </div>
 
         <div className={styles.wrapCardList}>
-          <CardList
-            loading={loading}
-            data={transItems(assets)}
-            onClick={showDetail}
-            total={assets.length}
-          />
+          <CardList loading={loading} data={transItems(assets)} onClick={showDetail} total={assets.length} />
 
-          {/* {!!tokens.length && (
-            <CardList
-              data={transItems(tokens)}
-              onClick={disAllowShowDetail}
-              total={tokens.length}
-            />
-          )} */}
+          {!!tokens.length && <CardList data={transItems(tokens)} onClick={disAllowShowDetail} total={tokens.length} />}
 
           {/* {!!ownerBids.length && (
             <CardList
