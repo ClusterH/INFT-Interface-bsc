@@ -29,7 +29,42 @@
     width: 313px;
     height: 313px;
     text-align: center;
+
+    .sendMask {
+      display: none;
+    }
   }
+
+  .withSendMask:hover {
+    .image {
+      filter: blur(8px);
+    }
+    .sendMask {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0%;
+      left: 0;
+    }
+    .sendButton {
+      display: inline-block;
+      width: 200px;
+      height: 60px;
+      line-height: 60px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 6px;
+      border: 2px solid;
+
+      font-size: 18px;
+      font-weight: 500;
+      color: #ffffff;
+      text-align: center;
+    }
+  }
+
   .imageBoxOnSale::after {
     content: url(~@/assets/images/on-sale.svg);
     position: absolute;
@@ -206,6 +241,7 @@
     margin-right: 0;
 
     .imgBox {
+      position: relative;
       width: 157px;
       height: 157px;
       border-radius: 12px 12px 0 0;

@@ -31,12 +31,13 @@ export interface IMarketCardList {
   loading?: boolean;
   data: ICardBaseProps[];
   total?: number;
+  withSendMask?: boolean;
   onClick: (params: IHandleBuyParams) => void;
 }
 
 export default (props: IMarketCardList) => {
   const intl = useIntl();
-  const { loading, hideTotal, data, total, onClick } = props;
+  const { loading, hideTotal, data, total, withSendMask, onClick } = props;
 
   if (loading) {
     return (
@@ -89,6 +90,7 @@ export default (props: IMarketCardList) => {
             contract={item.contract}
             showFooter={item.showFooter}
             onClick={onClick}
+            withSendMask={withSendMask}
           />
         ))}
       </div>

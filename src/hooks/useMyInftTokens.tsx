@@ -44,7 +44,7 @@ function useMyInftTokens() {
               amount: '1',
               chain_id: 56,
               collect_name: 'iNFT',
-              contract: '0x3B6eB9fE7817130cb33E5Dd29aF2E50e83F72fd4',
+              contract: '0x52b29289DF14c9Ee2c135378c8c9Cd4eDA867BA8',
               erc_type: 'erc721',
               name: tokenMeta.name,
               on_sale: false,
@@ -53,7 +53,7 @@ function useMyInftTokens() {
               price: '-1',
               resource: '',
               resource_type: 'image',
-              token_id: '-1',
+              token_id: tokenId,
               token_uri: '',
               imageUrl,
             });

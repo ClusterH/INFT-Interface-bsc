@@ -126,7 +126,7 @@ export default () => {
         <div className={styles.wrapCardList}>
           <CardList loading={loading} data={transItems(assets)} onClick={showDetail} total={assets.length} />
 
-          {!!tokens.length && <CardList data={transItems(tokens)} onClick={disAllowShowDetail} total={tokens.length} />}
+          {!!tokens.length && <CardList data={transItems(tokens)} onClick={() => {}} total={tokens.length} withSendMask={true} />}
 
           {/* {!!ownerBids.length && (
             <CardList
