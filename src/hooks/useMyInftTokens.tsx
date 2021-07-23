@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
-import { inftCreateNftContract } from '@/contracts';
+// import { inftCreateNftContract } from '@/contracts';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import axios from 'axios';
+import Web3 from 'web3';
+import abi from '@/abis/inft-create-nft.json';
 
-function useMyInftTokens() {
+const web3 = new Web3(Web3.givenProvider);
+function useMyInftTokens(contractAddress: string) {
   const [tokens, setTokens] = useState<any[]>([]);
   const wallet = useWallet();
+  const inftCreateNftContract = new web3.eth.Contract(abi as any, contractAddress);
 
   useEffect(() => {
     if (wallet.status === 'connected') {
@@ -44,7 +48,7 @@ function useMyInftTokens() {
               amount: '1',
               chain_id: 56,
               collect_name: 'iNFT',
-              contract: '0x52b29289DF14c9Ee2c135378c8c9Cd4eDA867BA8',
+              contract: contractAddress,
               erc_type: 'erc721',
               name: tokenMeta.name,
               on_sale: false,

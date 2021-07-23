@@ -35,7 +35,9 @@ export default () => {
   const [assets, setAssets] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const { collections } = useCollections(queryCollections, 0);
-  const tokens = useMyInftTokens();
+  const tokens = useMyInftTokens('0x52b29289DF14c9Ee2c135378c8c9Cd4eDA867BA8');
+  const tokens2 = useMyInftTokens('0xEc0cc2F23DFe6b2A22e6EFA06092549c995773DA');
+  const tokens3 = useMyInftTokens('0x3058AB097a7b7D190819BdC08c7fc59Cf5218C3d');
   const ownerBids = useOwnerBid(wallet);
 
   console.log('assets', assets);
@@ -124,9 +126,11 @@ export default () => {
         </div>
 
         <div className={styles.wrapCardList}>
-          <CardList loading={loading} data={transItems(assets)} onClick={showDetail} total={assets.length} />
+          {!!assets.length && <CardList loading={loading} data={transItems(assets)} onClick={showDetail} total={assets.length} />}
 
           {!!tokens.length && <CardList data={transItems(tokens)} onClick={() => {}} total={tokens.length} withSendMask={true} />}
+          {!!tokens2.length && <CardList data={transItems(tokens2)} onClick={() => {}} total={tokens.length} withSendMask={true} />}
+          {!!tokens3.length && <CardList data={transItems(tokens3)} onClick={() => {}} total={tokens.length} withSendMask={true} />}
 
           {/* {!!ownerBids.length && (
             <CardList
