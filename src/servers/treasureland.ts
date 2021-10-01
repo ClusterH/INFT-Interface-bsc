@@ -122,6 +122,15 @@ const queryCategories = () => axios.get('/categories');
 
 const queryMintToken = (id: string) => axios.get(`/lazy/mint/token/${id}`);
 
+const erc1155Owner = ({ contract, tokenId }: any) =>
+  axios.get('/erc1155/owner/list', {
+    params: {
+      contract: contract,
+      token_id: tokenId,
+      chain_id: 56,
+    },
+  });
+
 export {
   itemsRecommend,
   queryItems,
@@ -135,4 +144,5 @@ export {
   queryCategories,
   recentlyListed,
   queryMintToken,
+  erc1155Owner,
 };

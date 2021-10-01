@@ -4,10 +4,16 @@ import { notification } from 'antd';
 import { useWallet } from '@binance-chain/bsc-use-wallet';
 import AssetInfo from '@/components/asset-info';
 import OffersTable from '@/components/offers-table';
-import { queryDetail, queryOrder, queryMintToken } from '@/servers';
+import {
+  queryDetail,
+  queryOrder,
+  queryMintToken,
+  erc1155Owner,
+} from '@/servers';
 import { dataToDetailProps, transResource } from '@/helpers/data-to-props';
 import BuyConfirm from '@/components/buy-confirm';
 import SendAddress from '@/components/send-address';
+import erc721 from '@/contracts/factories/erc721';
 
 import {
   buyToken,
@@ -18,11 +24,13 @@ import {
 import SellConfirm from '@/components/sell-confirm';
 import Web3 from 'web3';
 import contractFactory, {
+  tresrnftContract,
   treasurelandProxyRegistryContract,
 } from '@/contracts';
 
 // const approvedAddress = '0x2011e906491500a69c8f83ebe0cbebf4126bb536'; // proxies 返回的代理者
 const tlContract = '0xf7a21ffb762ef2c14d8713b18f5596b4b0b0490a';
+const tlFeeRecipient = '0x4c9f5e85Dd88cd06015d791479a6a478c3D27B6B'; // 接收手续费的地址
 
 export default () => {
   const intl = useIntl();
@@ -30,13 +38,14 @@ export default () => {
   const wallet = useWallet();
   const history = useHistory();
   const [detail, setDetail] = useState<any>(null);
-  const [order, setOrder] = useState(null);
+  const [order, setOrder] = useState<any>(null);
   const [sellLoading, setSellLoading] = useState(false);
   const [cancelSellLoading, setCancelSellLoading] = useState(false);
   const [visible, setVisivle] = useState(false);
   const [price, setPrice] = useState(0);
   const [isMyOrder, setIsMyOrder] = useState(false);
   const [isOnSale, setIsOnSale] = useState(false);
+  const [owner, setOwner] = useState('');
   const [buyConfirm, setBuyConfirm] = useState({
     visible: false,
     isCompleting: false,
@@ -50,6 +59,8 @@ export default () => {
 
   useEffect(() => {
     initDetailData(tokenId, contract);
+    initOwner();
+    console.log('tokenId', tokenId);
     if (orderId) {
       initOrderData(orderId);
     }
@@ -74,33 +85,39 @@ export default () => {
    * @param tokenId
    */
   const ownerOfme = async (tokenId: string) => {
-    if (wallet.status === 'connected') {
-      if (order as any) {
-        const maker = order.maker || '';
-        const account = wallet.account || '';
-        const _isMyOrder =
-          maker.toLocaleLowerCase() === account.toLocaleLowerCase();
-        setIsMyOrder(_isMyOrder);
+    try {
+      if (wallet.status === 'connected') {
+        if (order) {
+          const maker = order ? order.maker : '';
+          const account = wallet.account || '';
+          const _isMyOrder =
+            maker.toLocaleLowerCase() === account.toLocaleLowerCase();
+          setIsMyOrder(_isMyOrder);
 
-        return;
-      } else if (detail && detail.is_mint === 0) {
-        setIsMyOrder(
-          wallet.account?.toLocaleLowerCase() ===
-            detail.creator?.toLocaleLowerCase(),
-        );
-        return;
-      } else {
-        // 没有order 即没有挂单
-        // 认为只有所有者才可以查看未出售中的卡片
-        setIsMyOrder(true);
+          return;
+        } else if (detail && detail.is_mint === 0) {
+          setIsMyOrder(
+            wallet.account?.toLocaleLowerCase() ===
+              detail.creator?.toLocaleLowerCase(),
+          );
+          return;
+        } else {
+          // 没有order 即没有挂单
+          // 认为只有所有者才可以查看未出售中的卡片
+          setIsMyOrder(true);
+        }
       }
+    } catch (error) {
+      console.error(error);
     }
   };
 
   const initDetailData = async (id: string, contract: string) => {
+    console.log('initDetailData', id);
     try {
       if (contract === tlContract) {
         const data: any = await queryMintToken(id);
+
         setDetail(data);
       } else {
         const data: any = await queryDetail(id, contract);
@@ -111,7 +128,20 @@ export default () => {
     }
   };
 
+  /** 查询并设置拥有者 */
+  const initOwner = async () => {
+    try {
+      const erc721Contract = erc721(contract);
+      const _owner = await erc721Contract.methods.ownerOf(tokenId).call();
+
+      setOwner(_owner);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const initOrderData = async (id: string) => {
+    console.log('initOrderData', id);
     try {
       const data: any = await queryOrder(id);
       setOrder(data);
@@ -165,13 +195,44 @@ export default () => {
       const _tokenId = detail.token_id || (tokenId as string);
       const target = detail.contract || tlContract;
 
+      // 先查 royaltyInfo
+      // 没查到 就是默认的 tl接收手续费地址
+      // 查到了，就用owners
+      let feeRecipient = tlFeeRecipient;
+
+      try {
+        const { amount, receiver } = await tresrnftContract.methods
+          .royaltyInfo(tokenId)
+          .call();
+
+        if (receiver !== '0x0000000000000000000000000000000000000000') {
+          feeRecipient = receiver;
+        }
+
+        console.log({ amount, receiver });
+      } catch (error) {
+        feeRecipient = tlFeeRecipient;
+        console.log('error', error);
+      }
+
+      const { owners }: any = await erc1155Owner({ contract, tokenId });
+
+      // if (contract === tlContract) {
+      //   feeRecipient = tlFeeRecipient;
+      // } else if (owners && owners.length) {
+      //   const ownersAddr = owners.map((owner: any) => owner.owner);
+      //   feeRecipient = ownersAddr.join(',');
+      // }
+      console.log('owners', owners);
       console.log({ maker, price, _tokenId, amount: 1, target });
+
       const res = await sellToken({
         maker,
         price,
         tokenId: _tokenId,
         amount: 1,
         target,
+        feeRecipient: feeRecipient,
       });
 
       notification.success({
@@ -268,10 +329,10 @@ export default () => {
     });
 
   const handleSendAddressOk = async () => {
-    setSendAddress({
-      ...sendAddress,
-      visible: false,
-    });
+    // setSendAddress({
+    //   ...sendAddress,
+    //   visible: false,
+    // });
 
     if (!detail || !wallet.account) return;
 
@@ -374,6 +435,7 @@ export default () => {
       {!!detail && (
         <AssetInfo
           {...dataToDetailProps(detail, tokenId)}
+          owner={owner}
           buyLoading={buyConfirm.isCompleting}
           sendLoading={sendAddress.sendLoading}
           sellLoading={sellLoading}

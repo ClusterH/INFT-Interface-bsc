@@ -6,7 +6,8 @@ import styles from './styles.less';
 import iconHome from '@/assets/images/icon-home.svg';
 import iconMarket from '@/assets/images/icon-market.svg';
 import iconSubmit from '@/assets/images/icon-submit.svg';
-import iconAccount from '@/assets/images/icon-Account.svg';
+import iconAccount from '@/assets/images/icon-account.svg';
+import iconAuction from '@/assets/images/icon-auction.svg';
 
 export default (props: any) => {
   const intl = useIntl();
@@ -37,6 +38,15 @@ export default (props: any) => {
             {intl.formatMessage({
               id: 'header_market',
               defaultMessage: 'NFT Market',
+            })}
+          </NavLink>
+        </span>
+        <span className={styles.navItem} onClick={onOk}>
+          <NavLink exact to="/auction" activeClassName={styles.active}>
+            <img src={iconAuction} alt="icon" />
+            {intl.formatMessage({
+              id: 'header_auction',
+              defaultMessage: 'Auction',
             })}
           </NavLink>
         </span>

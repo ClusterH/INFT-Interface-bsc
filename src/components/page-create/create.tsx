@@ -25,11 +25,7 @@ const Preview = (props: any) => {
       </div>
       <div className={styles.wrapImage}>
         <div className={styles.imageBox}>
-          <img
-            src={file ? URL.createObjectURL(file) : previewPlacehold}
-            alt="previews"
-            className={styles.preImage}
-          />
+          <img src={file ? URL.createObjectURL(file) : previewPlacehold} alt="previews" className={styles.preImage} />
         </div>
         <div className={styles.previewText}>
           {intl.formatMessage({
@@ -44,13 +40,12 @@ const Preview = (props: any) => {
 
 export default (props: any) => {
   const intl = useIntl();
-  const { formRef, form, setForm, customRequest, removeImage, onCreate } =
-    props;
+  const { formRef, form, setForm, customRequest, removeImage, onCreate } = props;
   const { file } = form;
 
   const beforeUpload = (_file: any) => {
-    const isLt4M = _file.size / 1024 / 1024 < 4;
-    if (!isLt4M) {
+    const isLt10M = _file.size / 1024 / 1024 < 10;
+    if (!isLt10M) {
       notification.error({
         message: 'Image must smaller than 4MB!',
       });
@@ -111,8 +106,7 @@ export default (props: any) => {
                       <span>
                         {intl.formatMessage({
                           id: 'create_uploadText',
-                          defaultMessage:
-                            'Document only support JPG, PNG, GIF, and maximum for 4MB',
+                          defaultMessage: 'Document only support JPG, PNG, GIF, and maximum for 4MB',
                         })}
                       </span>
                     </>
@@ -129,14 +123,7 @@ export default (props: any) => {
                   )}
                 </div>
 
-                {!!file && (
-                  <img
-                    className={styles.iconClose}
-                    src={iconClose}
-                    alt="close"
-                    onClick={removeImage}
-                  />
-                )}
+                {!!file && <img className={styles.iconClose} src={iconClose} alt="close" onClick={removeImage} />}
               </Upload>
             </div>
           </div>
@@ -205,16 +192,8 @@ export default (props: any) => {
                   {(fields, { add, remove }) => (
                     <>
                       {fields.map(({ key, name, fieldKey, ...restField }) => (
-                        <Space
-                          key={key}
-                          style={{ display: 'flex', marginBottom: 8 }}
-                          align="baseline"
-                        >
-                          <Form.Item
-                            {...restField}
-                            name={[name, 'trait_type']}
-                            fieldKey={[fieldKey, 'trait_type']}
-                          >
+                        <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+                          <Form.Item {...restField} name={[name, 'trait_type']} fieldKey={[fieldKey, 'trait_type']}>
                             <Input
                               size="large"
                               placeholder={intl.formatMessage({
@@ -223,11 +202,7 @@ export default (props: any) => {
                               })}
                             />
                           </Form.Item>
-                          <Form.Item
-                            {...restField}
-                            name={[name, 'value']}
-                            fieldKey={[fieldKey, 'value']}
-                          >
+                          <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']}>
                             <Input
                               size="large"
                               placeholder={intl.formatMessage({
@@ -240,13 +215,7 @@ export default (props: any) => {
                         </Space>
                       ))}
                       <Form.Item>
-                        <Button
-                          size="large"
-                          type="dashed"
-                          onClick={() => add()}
-                          block
-                          icon={<PlusOutlined />}
-                        >
+                        <Button size="large" type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
                           {intl.formatMessage({
                             id: 'create_formAddField',
                             defaultMessage: 'Add field',
@@ -259,7 +228,7 @@ export default (props: any) => {
               </Form>
             </div>
           </div>
-          <div className={styles.formItem}>
+          {/* <div className={styles.formItem}>
             <div className={styles.label}>
               {intl.formatMessage({
                 id: 'create_formRoyalties',
@@ -269,16 +238,9 @@ export default (props: any) => {
             <div className={styles.box}>
               <Input value="10%" disabled size="large" />
             </div>
-          </div>
+          </div> */}
 
-          <Button
-            type="primary"
-            block
-            size="large"
-            onClick={onCreate}
-            loading={form.submiting}
-            disabled={form.submiting}
-          >
+          <Button type="primary" block size="large" onClick={onCreate} loading={form.submiting} disabled={form.submiting}>
             {intl.formatMessage({
               id: 'create_formCreate',
               defaultMessage: 'Create NFT',

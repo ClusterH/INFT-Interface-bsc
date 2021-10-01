@@ -9,17 +9,6 @@ export default defineConfig({
     // inft: '@/components',
   },
 
-  define: {
-    // 'process.env.inftBASE': 'http://8.214.29.180:8008/api/v1/',
-    'process.env.inftBASE': '/inft/api/v1/',
-    // Mainnet
-    'process.env.chainId': 56,
-    'process.env.rpcURL': 'https://bsc-dataseed1.binance.org/',
-    // Testnet
-    // 'process.env.chainId': 97,
-    // 'process.env.rpcURL': 'https://data-seed-prebsc-1-s1.binance.org:8545/',
-  },
-
   locale: {
     default: 'en-US',
     antd: true,
@@ -84,6 +73,16 @@ export default defineConfig({
           path: '/create-preview',
           component: '@/pages/create/create-preview',
           title: 'title_create_preview',
+        },
+        {
+          path: '/auction',
+          component: '@/pages/auction',
+          title: 'title_auction',
+        },
+        {
+          path: '/auction/:contract/:tokenContract/:id',
+          component: '@/pages/auction/[id]',
+          title: 'title_auction_info',
         },
       ],
     },

@@ -25,7 +25,7 @@ function Xt(e: any) {
     },
     {
       type: 'uint',
-      value: String(e.takerProtocolFee),
+      value: String(e.makerProtocolFee),
     },
     {
       type: 'uint',

@@ -17,9 +17,7 @@ const web3 = new Web3(Web3.givenProvider);
 const chainId = 97; // taste-frontend-farms
 const rpcUrl = 'https://data-seed-prebsc-1-s1.binance.org:8545/';
 
-const defaultContractAddress =
-  localStorage.getItem('contract-address') ||
-  '0x12afF846ce762D5632Db36F2161a08fB2bdA5a8C';
+const defaultContractAddress = localStorage.getItem('contract-address') || '0x12afF846ce762D5632Db36F2161a08fB2bdA5a8C';
 
 let defaultContract = null;
 try {
@@ -60,18 +58,13 @@ const App = () => {
     if (wallet.status === 'error') {
       notification.error({
         message: '钱包关联失败',
-        description: `ChainId: ${wallet.chainId}, Network: ${
-          wallet.chainId === 56 ? 'Testnet' : 'Mainnet'
-        }`,
+        description: `ChainId: ${wallet.chainId}, Network: ${wallet.chainId === 56 ? 'Testnet' : 'Mainnet'}`,
       });
     }
 
     if (wallet.status === 'connected') {
       console.log('ChainId: ', wallet.chainId);
-      console.log(
-        'Network: ',
-        wallet.chainId === 56 ? 'BSC Testnet' : 'BSC Mainnet',
-      );
+      console.log('Network: ', wallet.chainId === 56 ? 'BSC Testnet' : 'BSC Mainnet');
       balanceOf();
     }
   }, [wallet.status]);
@@ -240,9 +233,7 @@ const App = () => {
 
   return (
     <Idolbox
-      balance={
-        wallet.status === 'connected' ? web3.utils.fromWei(wallet.balance) : ''
-      }
+      balance={wallet.status === 'connected' ? web3.utils.fromWei(wallet.balance) : ''}
       amount={data.buyAmount}
       onConnect={handleConnect}
       onChange={handleChangeAmount}

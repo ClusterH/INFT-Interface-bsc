@@ -11,3 +11,5 @@
 
 export * from './treasureland';
 export * from './inft';
+export * from './ipfs';
+export * from './inft-ipfs';

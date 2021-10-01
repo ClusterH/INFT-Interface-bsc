@@ -1,10 +1,12 @@
 export default {
   /** Title */
-  title_home: '首页',
+  title_home: 'iNFT',
   title_market: '市场',
   title_detail: '详情',
   title_account: '账户',
   title_create: '铸造',
+  title_auction: '拍卖',
+  title_auction_info: '拍卖',
 
   /** notification */
   notify_connectWallet: '请先连接钱包',
@@ -12,12 +14,15 @@ export default {
   notify_cancelSellSuccess: '取消出售',
   notify_createSuccess: '铸造成功',
   notify_disAllowShowDetail: '等待审核',
+  notify_success: '成功',
+  notify_connect_appropriate_network: '请切换到BSC网络',
 
   /** Header */
   header_home: '首页',
   header_market: '市场',
   header_submit: '铸造',
   header_account: '账户',
+  header_auction: '拍卖',
 
   /** buy-confirm */
   buyConfirm_title: '确认',
@@ -65,8 +70,7 @@ export default {
 
   /** community */
   community_title: '全球社区',
-  community_intro:
-    '了解更多关于iNFT的信息，与团队、社区中的其他人聊天，并就iNFT的未来发展发表您的看法。',
+  community_intro: '了解更多关于iNFT的信息，与团队、社区中的其他人聊天，并就iNFT的未来发展发表您的看法。',
   community_telegram: '电报',
   community_tg_intro: '加入我们的社区与大家畅聊',
   community_twitter: '推特',
@@ -109,10 +113,38 @@ export default {
   create_formProperties: '属性',
   create_formPropertieName: '输入属性名',
   create_formPropertieValue: '输入属性值',
-  create_formAddField: '增加字段',
+  create_formAddField: '增加属性',
   create_formRoyalties: '铸造费',
   create_formCreate: '创建NFT',
 
   /** createPreview */
   createPreview_message: `您的NFT已经提交! 请耐心等待审核。 如果一个工作日还没有通过，请联系我们`,
+
+  /** bid-card-item */
+  bidCardItem_auctionComing: '即将开始',
+  bidCardItem_auctionClosed: '拍卖结束',
+  bidCardItem_auctionGo: '参与竞拍',
+
+  /** asset-info-bid */
+  assetInfoBid_placeBid: '竞拍',
+  assetInfoBid_retrieve: '退款',
+  assetInfoBid_myLastBid: '我的出价',
+  assetInfoBid_highest: '当前最高出价',
+  assetInfoBid_timeLeft: '剩余时间',
+  assetInfoBid_coming: '即将开始',
+
+  /** properties */
+  properties_title: '属性',
+
+  /** bid-history */
+  bidHistory_title: '出价历史',
+  bidHistory_price: '价格',
+  bidHistory_from: '来自',
+  bidHistory_date: '日期',
+
+  /** auction */
+  auction_price: '价格',
+  auction_priceTip: '本次竞拍金额不可低于 : {minPriceLimit} BNB',
+  auction_message: `每轮溢价为5%，如果您已经投过标了，下次投标只需支付差价即可。拍卖时间截止后，若您竞标失败，则需要您在拍卖页面手动取回您的竞标资产；若您竞标成功，NFT将自动发送至您账户，请注意查收。`,
+  auction_confirm: '确认',
 };

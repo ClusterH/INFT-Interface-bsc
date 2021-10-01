@@ -5,6 +5,7 @@ import treasurelandProxyRegistryContract from './treasureland-proxy-registry';
 import idolboxContract from './idolbox';
 import inftCreateNftContract from './inft-create-nft';
 import bnbusdContract from './bnbusd';
+import tresrnftContract from './tresrnft';
 
 export {
   cryptozContract,
@@ -13,5 +14,6 @@ export {
   idolboxContract,
   inftCreateNftContract,
   bnbusdContract,
+  tresrnftContract,
 };
 export default factory;

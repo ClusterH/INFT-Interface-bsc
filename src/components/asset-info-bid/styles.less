@@ -1,0 +1,433 @@
+.assetInfo {
+  :global {
+    .ant-btn-primary {
+      color: #333333;
+      background: #fed835;
+      border-color: #fed835;
+      text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+      // box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+    }
+  }
+
+  width: 1257px;
+  margin: 45px auto 40px;
+
+  // display: flex;
+  // flex-direction: row;
+  // justify-content: space-between;
+
+  .imgBox {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 540px;
+    height: 540px;
+    border: 1px solid #d2d2d1;
+    margin-right: 27px;
+    // background: linear-gradient(270deg, #fafafa 0%, #ebebeb 100%);
+    background: #fafafa;
+    text-align: center;
+    // display: inline-block;
+    vertical-align: top;
+    border-radius: 8px;
+  }
+
+  .img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+  }
+  .video {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+  }
+  .audio {
+    width: 100%;
+    height: 100%;
+    background: url(https://d1iep3ievzy2jq.cloudfront.net/static/audio_bg.07a8d7d6.jpg);
+    background-size: cover;
+    border-radius: 8px;
+  }
+
+  .content {
+    display: inline-block;
+  }
+  .name {
+    font-size: 18px;
+    font-weight: 500;
+    color: #333333;
+    margin-bottom: 15px;
+  }
+
+  .description {
+    width: 100%;
+    max-width: 689px;
+    height: 60px;
+    font-weight: 400;
+    color: #a19d9d;
+    line-height: 20px;
+    white-space: wrap;
+  }
+
+  .tagsWrap {
+    margin-bottom: 14px;
+
+    .chainTag,
+    .collectName {
+      display: inline-block;
+      height: 25px;
+      background: rgba(240, 185, 11, 0.08);
+      border-radius: 4px;
+      border: 1px solid rgba(240, 185, 11, 0.22);
+      font-size: 14px;
+      font-weight: 500;
+      color: #f0b90b;
+      padding-left: 16px;
+      padding-right: 16px;
+      margin-right: 25px;
+    }
+    .collectName {
+      color: #fed835;
+      background: rgba(254, 216, 53, 0.08);
+    }
+  }
+
+  .ownerWrap {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 33px;
+    background: #ebebeb;
+    border-radius: 4px;
+    border: 1px solid #ebebeb;
+    background: url(~@/assets/images/icon-inft.png) no-repeat;
+    background-size: 20px 20px;
+    background-position: left 20px center;
+    padding-left: 34px;
+    margin-bottom: 18px;
+
+    .text {
+      font-size: 15px;
+      font-weight: 400;
+      color: #a19d9d;
+      margin-left: 14px;
+      margin-right: 10px;
+    }
+    // .owner {
+    //   font-size: 14px;
+    //   line-height: 30px;
+    //   font-weight: 400;
+    //   color: #fed835;
+    //   cursor: pointer;
+    // }
+  }
+
+  .textBox {
+    width: 689px;
+    height: 173px;
+    background: #fbfbfb;
+    border-radius: 3px;
+    border: 1px solid #ebebeb;
+    padding: 21px 18px 21px 26px;
+    margin-bottom: 16px;
+  }
+  .infoItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .label {
+    font-size: 15px;
+    font-weight: 400;
+    color: #a19d9d;
+  }
+}
+
+.placeBidPanel {
+  :global {
+    .ant-btn-primary[disabled],
+    .ant-btn-primary[disabled]:hover,
+    .ant-btn-primary[disabled]:focus,
+    .ant-btn-primary[disabled]:active {
+      background: #d9d9d9;
+      font-weight: 500;
+      color: #333333;
+      border: none;
+    }
+  }
+  width: 689px;
+  // height: 327px;
+  background: #fbfbfb;
+  border-radius: 4px;
+  border: 1px solid #ebebeb;
+  padding: 36px 16px 17px 16px;
+
+  .header {
+    height: 48px;
+    display: flex;
+    align-items: center;
+
+    .timeLeftLabel {
+      display: inline-block;
+      width: 101px;
+      height: 33px;
+      line-height: 33px;
+      padding-left: 10px;
+      background: linear-gradient(270deg, #ffee65 0%, #fed835 100%);
+      border-radius: 0px 100px 100px 0px;
+      margin-right: 21px;
+
+      font-size: 15px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #595959;
+    }
+
+    .wrapCountdown {
+    }
+
+    .myLastBid {
+      display: flex;
+      flex-direction: column;
+      padding-left: 27px;
+      border-left: 1px solid #e0e0e0;
+      margin-left: auto;
+
+      .bnbPrice {
+        font-size: 15px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        font-weight: 500;
+        color: #333333;
+      }
+      .text {
+        font-size: 15px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #595959;
+      }
+    }
+  }
+
+  .wrapBidPrice.wrapBidPriceFinished {
+    background: #eee;
+  }
+  .wrapBidPrice {
+    background: rgba(254, 216, 53, 0.1);
+    border-radius: 4px;
+    padding-left: 34px;
+    padding-top: 23px;
+    margin-top: 38px;
+
+    .bnbPrice {
+      font-size: 50px;
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 500;
+      color: #000000;
+      letter-spacing: 2px;
+    }
+    .symbol {
+      font-size: 20px;
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 500;
+      color: #000000;
+    }
+    .usdPrice {
+      font-size: 18px;
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 500;
+      color: #595959;
+    }
+    .text {
+      display: inline-block;
+      font-size: 15px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #595959;
+      margin-bottom: 29px;
+    }
+  }
+
+  .btnPlaceBid {
+    font-size: 22px;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: #333333;
+    letter-spacing: 1px;
+  }
+}
+
+@media (max-width: 768px) {
+  .assetInfo {
+    width: 100%;
+    margin: 0 auto;
+    // background: #f9f9f9;
+    background: #fafafa;
+
+    .imgBox {
+      width: 100vmin;
+      height: 100vmin;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      border-radius: 0;
+
+      .img {
+        border-radius: 0;
+      }
+    }
+
+    .content {
+      position: relative;
+      width: 100%;
+      border-radius: 17px 17px 0 0;
+      background: #fff;
+      // transform: translateY(-20px);
+      padding: 17px 12px;
+
+      // &::after {
+      //   content: '';
+      //   position: absolute;
+      //   bottom: -79px;
+      //   left: 0;
+      //   right: 0;
+      //   height: 80px;
+      //   background: #fff;
+      // }
+
+      .description {
+        height: auto;
+        min-height: 60px;
+        margin-bottom: 12px;
+      }
+    }
+
+    .tagsWrap {
+      .chainTag,
+      .collectName {
+        margin-right: 15px;
+      }
+    }
+
+    .textBox {
+      width: 100%;
+    }
+
+    .buyPanel {
+      width: 100%;
+    }
+    .wrapContract {
+      display: none;
+    }
+    .wrapContractShort {
+      display: inline-block;
+    }
+  }
+
+  .buyPanel {
+    height: 56px;
+    background: #fff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px 0 17px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+
+    .priceText {
+      display: none;
+    }
+    .priceWrap {
+      margin: 0;
+    }
+
+    .button {
+      width: 107px;
+      height: 37px;
+      border-radius: 8px;
+      font-size: 17px;
+      background: #fed835;
+      font-weight: 500;
+      color: #333333;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .sellPanel {
+    width: 100%;
+    height: 56px;
+    background: #fff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px 0 17px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+
+    .btnWrap {
+      margin: 0;
+      margin-left: auto;
+    }
+
+    .sendBtn,
+    .sellBtn {
+      width: 107px;
+      height: 37px;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: 500;
+      color: #333333;
+      margin: 0;
+      padding: 0;
+    }
+    .sellBtn {
+      background: #fed835;
+      margin-left: 11px;
+    }
+  }
+
+  .placeBidPanel {
+    width: 100%;
+
+    .header {
+      flex-wrap: wrap;
+      height: auto;
+      .myLastBid {
+        margin-left: 0;
+        border-left: none;
+        padding-left: 0;
+        margin-top: 20px;
+
+        display: flex;
+        flex-direction: row-reverse;
+        width: 100%;
+        justify-content: flex-end;
+      }
+
+      .bnbPrice {
+        margin-left: 12px;
+      }
+
+      .timeLeftLabel {
+        margin-bottom: 12px;
+      }
+    }
+
+    .wrapBidPrice {
+      padding-left: 12px;
+      padding-top: 12px;
+    }
+  }
+}

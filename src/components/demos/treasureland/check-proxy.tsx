@@ -15,9 +15,7 @@ const tailLayout = {
 };
 
 export default () => {
-  const [account, setAccount] = useState(
-    '0x8b7A9d07e34712F8473BeB95Cd85420ee25A600C',
-  );
+  const [account, setAccount] = useState('0x8b7A9d07e34712F8473BeB95Cd85420ee25A600C');
   const [proxies, setProxies] = useState('');
   const getProxies = async (_account: string) => {
     const _proxies = await tlProxyContract.methods.proxies(_account).call();
@@ -28,11 +26,7 @@ export default () => {
     <>
       <Form {...layout}>
         <Form.Item label="Account">
-          <Input
-            style={{ width: 420 }}
-            value={account}
-            onChange={(e) => setAccount(e.target.value)}
-          />
+          <Input style={{ width: 420 }} value={account} onChange={(e) => setAccount(e.target.value)} />
         </Form.Item>
         <Form.Item label="Proxies">
           <Input style={{ width: 420 }} value={proxies} readOnly />

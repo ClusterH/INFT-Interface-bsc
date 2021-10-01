@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "start": "cross-env UMI_ENV=dev umi dev",
-    "build": "umi build",
+    "build": "cross-env UMI_ENV=prod umi build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "test": "umi-test",
@@ -29,6 +29,9 @@
     "ethers": "^5.2.0",
     "ipfs": "^0.55.4",
     "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "numbro": "^2.3.2",
+    "react-countdown": "^2.3.2",
     "react-infinite-scroller": "^1.2.4",
     "react-sticky": "^6.0.3",
     "react-use": "^17.2.4",

@@ -9,6 +9,7 @@ export interface ISellTokenParam {
   tokenId: string;
   amount: number;
   target: string;
+  feeRecipient?: string;
 }
 
 const sellToken = async ({
@@ -17,15 +18,30 @@ const sellToken = async ({
   tokenId,
   amount,
   target,
+  feeRecipient,
 }: ISellTokenParam): Promise<any> => {
   try {
     const basePrice = Web3.utils.toWei(String(price));
 
-    const e = await getE({ maker, basePrice, tokenId, amount, target });
-    const body = await getBody(e, { tokenId, maker, amount, target });
+    const e = await getE({
+      maker,
+      basePrice,
+      tokenId,
+      amount,
+      target,
+      feeRecipient,
+    });
+    console.log('e', e);
+    const body = await getBody(e, {
+      tokenId,
+      maker,
+      amount,
+      target,
+      feeRecipient,
+    });
+    console.log('body', body);
     const res = await makeOrder(body);
-    console.log(e);
-    console.log(body);
+    console.log('res', res);
 
     return res;
   } catch (error) {

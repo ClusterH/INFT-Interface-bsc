@@ -1,0 +1,45 @@
+.bidHistory {
+  border-radius: 4px;
+  border: 1px solid #eaeaea;
+
+  :global {
+    .ant-table-cell:first-child {
+      padding-left: 44px;
+    }
+    .ant-table-thead > tr > th,
+    .ant-table-tbody > tr > td,
+    .ant-table tfoot > tr > th,
+    .ant-table tfoot > tr > td {
+      padding-top: 9px;
+      padding-bottom: 9px;
+    }
+    .ant-table {
+      line-height: 21px;
+    }
+  }
+
+  .header {
+    height: 52px;
+    line-height: 52px;
+
+    font-size: 15px;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: #333333;
+    padding-left: 44px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bidHistory {
+    :global {
+      .ant-table-cell:first-child {
+        padding-left: 16px;
+      }
+    }
+
+    .header {
+      padding-left: 16px;
+    }
+  }
+}

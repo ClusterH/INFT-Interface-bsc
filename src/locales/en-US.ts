@@ -1,10 +1,12 @@
 export default {
   /** Title */
-  title_home: 'Home',
+  title_home: 'iNFT',
   title_market: 'Market',
   title_detail: 'Detail',
   title_account: 'Account',
   title_create: 'Create',
+  title_auction: 'Auction',
+  title_auction_info: 'Auction',
 
   /** notification */
   notify_connectWallet: 'Connect wallet',
@@ -12,12 +14,15 @@ export default {
   notify_cancelSellSuccess: 'Cancel Sell success',
   notify_createSuccess: 'Create success',
   notify_disAllowShowDetail: 'Waiting for approval',
+  notify_success: 'Success',
+  notify_connect_appropriate_network: 'Please connect to the appropriate BSC network.',
 
   /** Header */
   header_home: 'Home',
   header_market: 'NFT Market',
   header_submit: 'Create',
   header_account: 'Account',
+  header_auction: 'Auction',
 
   /** buy-confirm */
   buyConfirm_title: 'Checkout',
@@ -26,8 +31,7 @@ export default {
   buyConfirm_totalPayment: 'Total Payment',
   buyConfirm_checkout: 'Checkout',
   buyConfirm_completing: 'Completing the trade',
-  buyConfirm_desc:
-    'To purchase this item for {amount} {symbol} , complete this finaltransaction !',
+  buyConfirm_desc: 'To purchase this item for {amount} {symbol} , complete this finaltransaction !',
   buyConfirm_footer: 'WAITING FOR BLOCKCHAIN CONFIRMATION',
 
   /** category-home */
@@ -66,8 +70,7 @@ export default {
 
   /** community */
   community_title: 'Global Community',
-  community_intro:
-    'Learn more about iNFT, chat with the team, other people in the community,and express your opinion on the future development of iNFT.',
+  community_intro: 'Learn more about iNFT, chat with the team, other people in the community,and express your opinion on the future development of iNFT.',
   community_telegram: 'Telegram',
   community_tg_intro: 'Join out community and chat with everyone',
   community_twitter: 'Twitter',
@@ -118,4 +121,32 @@ export default {
   createPreview_message: `Your NFT has been submitted! Please wait with patient. If there is no
   response after a working day, please don’t feel hesitate to contact
   our staff`,
+
+  /** bid-card-item */
+  bidCardItem_auctionComing: 'Coming soon',
+  bidCardItem_auctionClosed: 'Auction closed',
+  bidCardItem_auctionGo: 'Go to auction',
+
+  /** asset-info-bid */
+  assetInfoBid_placeBid: 'Place Bid',
+  assetInfoBid_retrieve: 'Retrieve the tender amoun',
+  assetInfoBid_myLastBid: 'My last bid',
+  assetInfoBid_highest: 'Current high price',
+  assetInfoBid_timeLeft: 'Time left',
+  assetInfoBid_coming: 'Coming',
+
+  /** properties */
+  properties_title: 'Properties',
+
+  /** bid-history */
+  bidHistory_title: 'Bid history',
+  bidHistory_price: 'Price',
+  bidHistory_from: 'From',
+  bidHistory_date: 'Date',
+
+  /** auction */
+  auction_price: 'PRICE',
+  auction_priceTip: 'This bidding requires payment of : {minPriceLimit} BNB',
+  auction_message: `The premium for each round is 5%. If you have already bid, you only need to pay the difference in the next bid. After the auction time expires, if your bid fails, you need to manually retrieve your bid assets on the auction page; if your bid is successful, the NFT will be automatically sent to your account, please pay attention to check.`,
+  auction_confirm: 'Confirm',
 };
