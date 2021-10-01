@@ -1,4 +1,6 @@
-# umi project
+# NFT Marketplace
+
+[Link to Live](https://inft.io/)
 
 ## Getting Started
 
